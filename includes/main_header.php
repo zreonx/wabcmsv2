@@ -16,7 +16,7 @@
 
     <script src="https://bootswatch.com/_vendor/jquery/dist/jquery.min.js"></script>
     <script src="../js/all.min.js"></script>
-    <script src="../js/custom-category.js"></script>
+    <script src="../js/main.js"></script>
 </head>
 <body>
 
