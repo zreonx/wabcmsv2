@@ -1,0 +1,149 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+:root {
+    --text-orage: #ff8303;
+
+    --shadow-2xs: 0 1px 2px rgba(134, 144, 162, 0.1);
+    --shadow-xs: 0 2px 4px rgba(134, 144, 162, 0.15);
+    --shadow-sm: 0 3px 6px rgba(134, 144, 162, 0.2);
+    --shadow-md: 0 4px 8px rgba(134, 144, 162, 0.25);
+    --shadow-lg: 0 6px 12px rgba(134, 144, 162, 0.3);
+    --shadow-xl: 0 12px 24px rgba(134, 144, 162, 0.35);
+    --shadow-2xl: 0 24px 48px rgba(134, 144, 162, 0.4);
+    
+    --shadow-focus: 0 0 0 4px rgba(0, 84, 203, 0.2);
+    --shadow-success: 0 0 0 4px rgba(18, 181, 57, 0.2);
+    --shadow-warning: 0 0 0 4px rgba(210, 127, 0, 0.2);
+    --shadow-danger: 0 0 0 4px rgba(203, 18, 0, 0.2);
+    --shadow-info: 0 0 0 4px rgba(0, 200, 177, 0.2);
+}
+
+/* Ready to call CSS */
+
+
+.default-shadow {
+    box-shadow: var(--shadow-md);
+}
+
+.ficon {
+    color: #646165;
+    padding: 2px;
+    font-size: 18px;
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+/* Global CSS */
+body {
+    /* background-color: #e5e5e5; */
+    font-family: 'Roboto', sans-serif;
+}
+
+/* Side Navigation CSS */
+
+.sidenav {
+    width: 280px;
+    position: fixed;
+    top: 0;
+    left: -280px;
+    bottom: 0;
+    background-color: #ffffff;
+    transition: 0.1s all;
+    overflow-y: auto;
+    border-right: 1px solid #f6f6f6;
+}
+
+.sidebar-open{
+    left: 0;
+}
+.sidebar-open ~ .main-content {
+    margin-left: 280px; 
+}
+
+.sidenav-category {
+    width: 100% !important;
+    padding: 5px;
+}
+.category-btn {
+    padding: 12px;
+    color: #4f4f4f;
+    border-radius: 5px;
+    cursor: pointer;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.category-text {
+    font-size: 14px;
+    font-weight: 400;
+}
+
+.clink-text {
+    text-decoration: none;
+    color: #4f4f4f;
+}
+
+.category-item {
+    display: none;
+}
+
+.custom-category.active .category-item {
+    display: block !important;
+}
+
+.custom-category.active #chevron {
+    transform: rotate(-180deg) !important;
+}
+
+.category-item li {
+    list-style: none;   
+    padding: .6rem 3rem; 
+    border-radius: 5px;
+    font-size: 12px;
+    font-weight: 400;
+    cursor: pointer;
+}
+
+.category-btn:hover, .category-item li:hover {
+    background: #f5f8fc;
+}
+
+/* Main Content Style */
+
+
+
+.main-content {
+    transition: 0.1s all;
+}
+
+.side-header {
+    height: 50px;
+    background: #fff;
+    border-bottom: 1px solid #f6f6f6;
+}
+
+.btn-menu {
+    padding: 10px;
+    margin-left: 8px;
+    outline: none;
+    border: none;
+    border-radius: 50%;
+
+    color: #747474;
+    font-size: 16px;
+    background: none;
+}
+
+.btn-menu:hover {
+    box-shadow: var(--shadow-sm);
+}
+
+
+
