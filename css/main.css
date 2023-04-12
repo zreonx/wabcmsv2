@@ -4,8 +4,13 @@
     box-sizing: border-box;
 }
 
+@import url("https://fonts.googleapis.com/css?family=Open+Sans:400,400i,600,700");
+
 
 :root {
+    --normal-font-size: 1rem;
+    --small-font-size: .75rem;
+
     --text-orage: #ff8303;
 
     --shadow-2xs: 0 1px 2px rgba(134, 144, 162, 0.1);
@@ -25,6 +30,10 @@
 
 /* Ready to call CSS */
 
+.default-height-overflow {
+    height: 75vh;
+    overflow: auto;
+}
 
 .default-shadow {
     box-shadow: var(--shadow-md);
@@ -88,6 +97,17 @@ body {
 .clink-text {
     text-decoration: none;
     color: #4f4f4f;
+
+    padding: .6rem 3rem; 
+    border-radius: 5px;
+    font-size: 14px;
+    font-weight: 400;
+    cursor: pointer;
+}
+
+.clink-text-single {
+    text-decoration: none;
+    color: #4f4f4f;
 }
 
 .category-item {
@@ -104,20 +124,56 @@ body {
 
 .category-item li {
     list-style: none;   
-    padding: .6rem 3rem; 
-    border-radius: 5px;
-    font-size: 12px;
-    font-weight: 400;
-    cursor: pointer;
+    padding: 10px 0;
 }
 
 .category-btn:hover, .category-item li:hover {
     background: #f5f8fc;
 }
 
+/* Input Custom CSS */
+.input-cont {
+    position: relative;   
+    width: auto;
+}
+
+.input-box {    
+    width: 100%;
+    padding: .8rem 1rem;
+    font-size: var(--small-font-size);
+    border: 1px solid #d8d8d8;
+    border-radius: 5px;
+    outline: none;
+}
+
+.input-label {
+    font-size: 14px;
+    color: #747474;
+    position: absolute;
+    top: 13px;
+    left: 16px;
+    pointer-events: none;
+    transition: 0.2s;
+    background-color: #fff;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;   
+}
+
+.input-cont .input-box:focus ~ label, .input-cont .input-box:valid ~ label {
+    font-size: 12px;
+    top: -8px;
+}
+/* Custom Table Style */
+
+.custom-table{
+    width: 100%;
+    border: 1px solid #d8d8d8;
+    padding: 5px 8px;
+    border-radius: 5px;
+}
+
 /* Main Content Style */
-
-
 
 .main-content {
     transition: 0.1s all;
@@ -146,4 +202,13 @@ body {
 }
 
 
+
+/* Organization Management Style */
+
+.page{
+    padding: 12px;
+}
+.page-content {
+    border: 1px solid #f6f6f6;
+}
 
