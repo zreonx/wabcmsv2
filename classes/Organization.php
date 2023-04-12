@@ -12,6 +12,20 @@ class Organization {
             $sql = "SELECT * FROM organizations";
             $result = $this->conn->query($sql);
             return $result;
+     
+        }catch(PDOException $e) {
+            echo "ERROR: " . $e->getMessage();
+            return false;
+        }
+    }
+    
+
+    public function getOrganization($id) {
+        try {
+
+            $sql = "SELECT * FROM organizations WHERE id = $id";
+            $result = $this->conn->query($sql);
+            return $result;
             
         }catch(PDOException $e) {
             echo "ERROR: " . $e->getMessage();
@@ -36,5 +50,43 @@ class Organization {
             return false;
         }
     }
+
+    public function updateOrganization($id, $organization_code, $organization_name) {
+        try {
+
+            $sql = "UPDATE organizations SET organization_code = :org_code, organization_name = :org_name WHERE id = :id ; ";
+            $stmt = $this->conn->prepare($sql);
+            $stmt->bindparam(':org_code', $organization_code);
+            $stmt->bindparam(':org_name', $organization_name);
+            $stmt->bindparam(':id', $id);
+
+            $stmt->execute();
+
+            return true;
+
+        }catch(PDOException $e) {
+            echo "ERROR: " . $e->getMessage();
+            return false;
+        }
+    }
+
+    public function deleteOrg($id) {
+        try {
+
+            $sql = "DELETE FROM organizations WHERE id = :id";
+            $stmt = $this->conn->prepare($sql);
+            $stmt->bindparam(':id', $id);
+
+            $stmt->execute();
+
+            return true;
+
+        }catch(PDOException $e) {
+            echo "ERROR: " . $e->getMessage();
+            return false;
+        }
+    }
+    
+    
     
 }

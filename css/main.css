@@ -157,13 +157,19 @@ body {
     background-color: #fff;
     white-space: nowrap;
     overflow: hidden;
-    text-overflow: ellipsis;   
+    text-overflow: ellipsis;  
 }
 
 .input-cont .input-box:focus ~ label, .input-cont .input-box:valid ~ label {
-    font-size: 12px;
+    font-size: 12px;    
     top: -8px;
 }
+/* Custom Button */
+
+.btnsm {
+    
+}
+
 /* Custom Table Style */
 
 .custom-table{
@@ -212,3 +218,14 @@ body {
     border: 1px solid #f6f6f6;
 }
 
+
+/* Media Queries */
+
+@media only screen and (max-width: 540px) {
+    .input-cont .input-box:focus ~ label, .input-cont .input-box:valid ~ label {
+    }
+    .btnsm {
+        width: 50px !important;
+        margin-bottom: 5px;
+    }
+}
