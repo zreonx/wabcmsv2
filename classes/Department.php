@@ -1,15 +1,15 @@
 <?php
 
-class Organization {
+class Department {
     private $conn;
 
     public function __construct($conn) {
         $this->conn = $conn;
     }
-    public function getOrganizations() {
+    public function getDepartments() {
         try {
 
-            $sql = "SELECT * FROM organizations WHERE status != 'inactive'";
+            $sql = "SELECT * FROM departments WHERE status !=  'inactive'";
             $result = $this->conn->query($sql);
             return $result;
      
@@ -20,10 +20,10 @@ class Organization {
     }
     
 
-    public function getOrganization($id) {
+    public function getDepartment($id) {
         try {
 
-            $sql = "SELECT * FROM organizations WHERE id = $id";
+            $sql = "SELECT * FROM departments WHERE id = $id";
             $result = $this->conn->query($sql);
             return $result;
             
@@ -33,13 +33,13 @@ class Organization {
         }
     }
 
-    public function addOrganization($organization_code, $organization_name) {
+    public function addDepartment($department_code, $department_name) {
         try {
 
-            $sql = "INSERT INTO organizations (organization_code, organization_name) VALUES (:organization_code, :organization_name); ";
+            $sql = "INSERT INTO departments (department_code, department_name) VALUES (:dept_code, :dept_name); ";
             $stmt = $this->conn->prepare($sql);
-            $stmt->bindparam(':organization_code', $organization_code);
-            $stmt->bindparam(':organization_name', $organization_name);
+            $stmt->bindparam(':dept_code', $department_code);
+            $stmt->bindparam(':dept_name', $department_name);
 
             $stmt->execute();
 
@@ -51,13 +51,13 @@ class Organization {
         }
     }
 
-    public function updateOrganization($id, $organization_code, $organization_name) {
+    public function updateDepartment($id, $department_code, $department_name) {
         try {
 
-            $sql = "UPDATE organizations SET organization_code = :org_code, organization_name = :org_name WHERE id = :id ; ";
+            $sql = "UPDATE departments SET department_code = :dept_code, department_name = :dept_name WHERE id = :id ; ";
             $stmt = $this->conn->prepare($sql);
-            $stmt->bindparam(':org_code', $organization_code);
-            $stmt->bindparam(':org_name', $organization_name);
+            $stmt->bindparam(':dept_code', $department_code);
+            $stmt->bindparam(':dept_name', $department_name);
             $stmt->bindparam(':id', $id);
 
             $stmt->execute();
@@ -70,10 +70,10 @@ class Organization {
         }
     }
 
-    public function deleteOrg($id) {
+    public function deleteDepartment($id) {
         try {
 
-            $sql = "UPDATE organizations SET status = 'inactive' WHERE id = :id ; ";
+            $sql = "UPDATE departments SET status = 'inactive' WHERE id = :id ; ";
             $stmt = $this->conn->prepare($sql);
             $stmt->bindparam(':id', $id);
 

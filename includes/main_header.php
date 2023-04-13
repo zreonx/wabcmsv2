@@ -60,7 +60,19 @@
                 <i class='bx bx-chevron-down' id="chevron"></i>
             </div>
             <ul class="category-item p-0">
-                <li class="category-link"><a class="clink-text">Departments</a></li>
+                <li class="category-link"><a class="clink-text" href="add_department.php">Departments</a></li>
+            </ul>
+        </div>
+        <div class="custom-category">
+            <div class="category-btn">
+                <div>
+                    <i class="fas fa-chair-office mx-2"></i>
+                    <span class="category-text">Designation Management</span>
+                </div>
+                <i class='bx bx-chevron-down' id="chevron"></i>
+            </div>
+            <ul class="category-item p-0">
+                <li class="category-link"><a class="clink-text" href="#">Designations</a></li>
             </ul>
         </div>
         <div class="custom-category">

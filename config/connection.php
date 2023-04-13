@@ -19,6 +19,7 @@
     $conn = $db->Conn();
 
     $organization = new Organization($conn);
+    $department = new Department($conn);
 
 
     // $clearance = new Clearance($conn);
