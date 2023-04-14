@@ -29,6 +29,12 @@
 }
 
 /* Ready to call CSS */
+.f-d {
+    font-size: var(--normal-font-size);
+}
+.f-s {
+    font-size: var(--small-font-size);
+}
 
 .default-height-overflow {
     height: 75vh;

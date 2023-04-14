@@ -6,7 +6,7 @@
     <title>WABCMS V2</title>
 
     <link rel="stylesheet" href="../css/bootstrap.min.css">
-    <link rel="stylesheet" href="../css/main.css?v1.1">
+    <link rel="stylesheet" href="../css/main.css?v1.2">
     <link rel="stylesheet" href="../css/all.min.css">
     
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
@@ -72,7 +72,7 @@
                 <i class='bx bx-chevron-down' id="chevron"></i>
             </div>
             <ul class="category-item p-0">
-                <li class="category-link"><a class="clink-text" href="#">Designations</a></li>
+                <li class="category-link"><a class="clink-text" href="add_designation_information.php">Designations</a></li>
             </ul>
         </div>
         <div class="custom-category">

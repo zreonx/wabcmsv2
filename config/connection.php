@@ -20,6 +20,7 @@
 
     $organization = new Organization($conn);
     $department = new Department($conn);
+    $designation = new Designation($conn);
 
 
     // $clearance = new Clearance($conn);

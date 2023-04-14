@@ -1,4 +1,4 @@
-window.onload = function() {
+$(document).ready(function() {
     
     //Custom Sidebar Category Links
     const customCategories = document.querySelectorAll('.custom-category');
@@ -37,4 +37,4 @@ window.onload = function() {
     // Listen for the window resize event
     window.addEventListener('resize', handleResize);
     
-}
+})
