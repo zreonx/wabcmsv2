@@ -6,7 +6,7 @@
     <title>WABCMS V2</title>
 
     <link rel="stylesheet" href="../css/bootstrap.min.css">
-    <link rel="stylesheet" href="../css/main.css?v1.2">
+    <link rel="stylesheet" href="../css/main.css?v1.1">
     <link rel="stylesheet" href="../css/all.min.css">
     
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
