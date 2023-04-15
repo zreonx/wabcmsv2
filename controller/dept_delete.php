@@ -8,7 +8,7 @@
         $result = $department->deleteDepartment($id);
 
         if($result) {
-            header("location: ../admin/add_department.php?delete=success");
+            header("location: ../admin/dept_management.php?delete=success");
         }
 
     }

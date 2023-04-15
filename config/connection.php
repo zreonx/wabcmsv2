@@ -21,6 +21,8 @@
     $organization = new Organization($conn);
     $department = new Department($conn);
     $designation = new Designation($conn);
+    $office = new Offices($conn);
+    $shs = new Shs($conn);
 
 
     // $clearance = new Clearance($conn);

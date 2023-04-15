@@ -117,7 +117,7 @@
                                     organization_name: orgName,
                                 },
                                 success: function(result) {
-                                    window.location.replace('add_organization.php?update=success');
+                                    window.location.replace('org_management.php?update=success');
                                 }
                             })
                         }else {

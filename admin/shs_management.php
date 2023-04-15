@@ -1,52 +1,53 @@
 <?php 
     require_once '../includes/main_header.php'; 
     require_once '../config/connection.php';
-    $departments = $department->getDepartments();
+    $allStrands = $shs->getStrands();
 ?>
     <div class="page">
-        <?php if(isset($_GET['success'])){ echo '<div class="alert alert-success" id="err">Department has been added.</div>'; } ?>
-        <?php if(isset($_GET['delete'])){ echo '<div class="alert alert-success" id="err">Department has been deleted.</div>'; } ?>
-        <h1 class="page-title fs-5 display-6">Department Management</h1>
+        <?php if(isset($_GET['success'])){ echo '<div class="alert alert-success" id="err">Strand has been added.</div>'; } ?>
+        <?php if(isset($_GET['update'])){ echo '<div class="alert alert-success" id="err">Strand information has been update.</div>'; } ?>
+        <?php if(isset($_GET['delete'])){ echo '<div class="alert alert-success" id="err">Strand has been deleted.</div>'; } ?>
+        <h1 class="page-title fs-5 display-6">SHS Management</h1>
         <div class="page-content p-2 rounded ">
             <div class="row">
                 
 
                 <div class="col-lg-5 pt-2 px-4">
-                    <form action="../controller/dept_add.php" method="POST">
-                        <label class="form-label">Manage Department</label>
+                    <form action="../controller/shs_add.php" method="POST">
+                        <label class="form-label">Manage SHS Strand</label>
                         <div class="p-1 px-3">
                             <div class="input-cont mb-3">
-                                <input type="text" id="department_code" name="department_code" class="input-box" required>
-                                <label class="input-label">Department Acronym</label>
+                                <input type="text" id="strand" name="strand" class="input-box" required>
+                                <label class="input-label">Strand</label>
                             </div>
                             <div class="input-cont">
-                                <input type="text" id="department_name" name="department_name" class="input-box" required>
-                                <label class="input-label">Department Description</label>
+                                <input type="text" id="description" name="description" class="input-box" required>
+                                <label class="input-label">Academic Track</label>
                             </div>
-                            <button type="submit" name="submit" class="btn btn-success rounded mt-3" id="addDeptBtn">Add Department</button>
+                            <button type="submit" name="submit" class="btn btn-success rounded mt-3" id="addStrandBtn">Add Strand</button>
                         </div>
                     </form>
                 </div>
 
                
                 <div class="col-lg-7 pt-2 px-4">
-                    <label class="form-label">List of Departments</label>
+                    <label class="form-label">SHS Strand</label>
                     <div class="custom-table default-height-overflow">
                         <table class="table text-center">
                             <thead>
                                 <tr>
-                                    <th>Department</th>
-                                    <th>Description</th>
+                                    <th>Strand</th>
+                                    <th>Academic Track</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
-                            <?php while($dept_row = $departments->fetch(PDO::FETCH_ASSOC)):  ?>
+                            <?php while($shs_row = $allStrands->fetch(PDO::FETCH_ASSOC)):  ?>
                                 <tr>
-                                    <th><?php echo $dept_row['department_code'] ?></th>
-                                    <td><?php echo $dept_row['department_name'] ?></td>
+                                    <th><?php echo $shs_row['strand'] ?></th>
+                                    <td><?php echo $shs_row['description'] ?></td>
                                     <td>
-                                        <button data-id="<?php echo $dept_row['id'] ?>" class="btn btn-sm btn-success rounded btnsm edit-btn">Edit</button>
-                                        <button data-id="<?php echo $dept_row['id']?>" class="btn btn-delete btn-sm btn-success rounded btnsm" data-bs-toggle="modal" data-bs-target="#deleteModal">Delete</button>
+                                        <button data-id="<?php echo $shs_row['id'] ?>" class="btn btn-sm btn-success rounded btnsm edit-btn">Edit</button>
+                                        <button data-id="<?php echo $shs_row['id']?>" class="btn btn-delete btn-sm btn-success rounded btnsm" data-bs-toggle="modal" data-bs-target="#deleteModal">Delete</button>
                                     </td>
                                 </tr>
 
@@ -61,7 +62,7 @@
                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body">
-                                        Are you sure you want to delete this department?
+                                        Are you sure you want to delete this office?
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
@@ -86,42 +87,41 @@
                     id = $(this).attr('data-id')
                     $.ajax({
                         type: "GET",
-                        url: "../controller/dept_edit.php",
+                        url: "../controller/shs_edit.php",
                         data: {
                             id : id,
                         },
                         success: function(result) {
-                            $('#addDeptBtn').text("Save Changes");
-                            let dept_info = JSON.parse(result);
-                            
-                            $('#department_code').val(dept_info.department_code)
-                            $('#department_name').val(dept_info.department_name)
-                            $('#addDeptBtn').attr('type', 'button')
+                            $('#addStrandBtn').text("Save Changes");
+                            let shs_info = JSON.parse(result);
+                            $('#strand').val(shs_info.strand)
+                            $('#description').val(shs_info.description)
+                            $('#addStrandBtn').attr('type', 'button')
                         }
                     })
                 })
 
-                $('#addDeptBtn').click(function(){
+                $('#addStrandBtn').click(function(){
                     if($(this).attr('type') === 'button') {
                         saveChanges();
                     }
                 })
 
                 function saveChanges() {
-                    let deptCode = $('#department_code').val()
-                    let deptName = $('#department_name').val()
+                    let strand = $('#strand').val()
+                    let description = $('#description').val()
                     
-                    if(deptCode.length !== 0 || deptName.length !== 0) {
+                    if(strand.length !== 0 || description.length !== 0) {
                         $.ajax({
                             method : "POST",
-                            url: "../controller/dept_update.php",
+                            url: "../controller/shs_update.php",
                             data: {
                                 id : id,
-                                department_code: deptCode,
-                                department_name: deptName,
+                                strand: strand,
+                                description: description,
                             },
                             success: function(result) {
-                                window.location.replace('add_department.php?update=success');
+                                window.location.replace('shs_management.php?update=success');
                             }
                         })
                     }else {
@@ -143,7 +143,7 @@
                 $('.confirm-delete').click(function() {
                     let id = $(this).attr('data-id');
                     $('#deleteModal').modal('hide');
-                    window.location.replace("../controller/dept_delete.php?id="+id);
+                    window.location.replace("../controller/office_delete.php?id="+id);
                 });
                 
 

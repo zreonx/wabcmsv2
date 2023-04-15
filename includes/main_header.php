@@ -6,21 +6,27 @@
     <title>WABCMS V2</title>
 
     <link rel="stylesheet" href="../css/bootstrap.min.css">
-    <link rel="stylesheet" href="../css/main.css?v1.1">
+    <link rel="stylesheet" href="../css/main.css?v1.2">
     <link rel="stylesheet" href="../css/all.min.css">
     
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
-    
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.css"></link>
+
     <script src="https://bootswatch.com/_vendor/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://bootswatch.com/_vendor/jquery/dist/jquery.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-dateFormat/1.0/jquery.dateFormat.min.js"></script>
+    <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
+   
 
     <script src="../js/all.min.js"></script>
-    <script src="../js/main.js"></script>
+   
+    <script src="../js/main.js?v.1"></script>
 </head>
 <body>
 
@@ -42,27 +48,19 @@
         <div class="custom-category">
             <div class="category-btn">
                 <div>
-                    <i class="fas fa-user-tie mx-2"></i>
-                    <span class="category-text">Organization Management</span>
-                </div>
-                <i class='bx bx-chevron-down' id="chevron"></i>
-            </div>
-            <ul class="category-item p-0">
-                <li class="category-link"><a class="clink-text" href="add_organization.php">Organizations</a></li>
-            </ul>
-        </div>
-        <div class="custom-category">
-            <div class="category-btn">
-                <div>
                     <i class="fas fa-building mx-2"></i>
-                    <span class="category-text">Department Management</span>
+                    <span class="category-text">Workplace Management</span>
                 </div>
                 <i class='bx bx-chevron-down' id="chevron"></i>
             </div>
             <ul class="category-item p-0">
-                <li class="category-link"><a class="clink-text" href="add_department.php">Departments</a></li>
+                <li class="category-link"><span class="chev"></span><a class="clink-text" href="org_management.php">Organizations</a></li>
+                <li class="category-link"><a class="clink-text" href="dept_management.php">Departments</a></li>
+                <li class="category-link"><a class="clink-text" href="office_management.php">Offices</a></li>
+                <li class="category-link"><a class="clink-text" href="shs_management.php">SHS</a></li>
             </ul>
         </div>
+
         <div class="custom-category">
             <div class="category-btn">
                 <div>

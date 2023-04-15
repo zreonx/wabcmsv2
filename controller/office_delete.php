@@ -5,10 +5,10 @@
 
         require_once '../config/connection.php';
 
-        $result = $organization->deleteOrg($id);
+        $result = $office->deleteOffice($id);
 
         if($result) {
-            header("location: ../admin/org_management.php?delete=success");
+            header("location: ../admin/office_management.php?delete=success");
         }
 
     }

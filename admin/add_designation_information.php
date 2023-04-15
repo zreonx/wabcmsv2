@@ -8,12 +8,17 @@
     //Select Options
 
     $categories = $designation->getCategory();
+
     $organizations = $organization->getOrganizations();
     $departments = $department->getDepartments();
+    $offices = $office->getOffices();
+    $shschools = $shs->getStrands();
 
 
     $dept_json = json_encode($departments->fetchAll(PDO::FETCH_ASSOC));
+    $office_json = json_encode($offices->fetchAll(PDO::FETCH_ASSOC));
     $org_json = json_encode($organizations->fetchAll(PDO::FETCH_ASSOC));
+    $shs_json = json_encode($shschools->fetchAll(PDO::FETCH_ASSOC));
 ?>
     <div class="page">
         <?php if(isset($_GET['success'])){ echo '<div class="alert alert-success" id="err">Department has been added.</div>'; } ?>
@@ -28,17 +33,31 @@
                         <label class="form-label">Manage Designation</label>
                         <div class="p-1 px-3">
                            <div class="mb-2">
-                                <select class="f-d form-select" name="category" id="category">
-                                    <option value="0">Select Category</option>
-                                    <?php while($row_cat = $categories->fetch(PDO::FETCH_ASSOC)): ?>
-                                        <option value="<?php echo $row_cat['id']; ?>"> <?php echo $row_cat['category']; ?></option>
-                                    <?php endwhile; ?>
-                                </select>
+                                <div class="custom-select select-category">
+                                    <input type="hidden" class="select-name" name="category" id="category">
+                                    <button type="button" class="select-btn categoryBtn"> 
+                                        <span class="sbtn-text">Select Category</span>
+                                        <i class="bx bx-chevron-down"></i>
+                                    </button>
+                                    <ul class="select-menu">
+                                        <li data-value="0">Select Category</li>
+                                        <?php while($row_cat = $categories->fetch(PDO::FETCH_ASSOC)): ?>
+                                            <li data-value="<?php echo $row_cat['id']; ?>"><?php echo $row_cat['category']; ?></li>
+                                        <?php endwhile; ?>
+                                    </ul>
+                                </div>
                            </div>
                            <div class="mb-2">
-                                <select class="f-d form-select" name="workplace" id="workplace">
-                                    <option value="0">Select Workplace</option>
-                                </select>
+                                <div class="custom-select select-workplace">
+                                    <input type="hidden" class="select-name" name="workplace" id="workplace">
+                                    <button type="button" class="select-btn categoryBtn"> 
+                                        <span class="sbtn-text">Select Workplace</span>
+                                        <i class="bx bx-chevron-down"></i>
+                                    </button>
+                                    <ul class="select-menu">
+                                        <li data-value="0">Select Workplace</li>
+                                    </ul>
+                                </div>
                            </div>
                            
                             <div class="input-cont">
@@ -52,7 +71,7 @@
 
                
                 <div class="col-lg-7 pt-2 px-4">
-                    <label class="form-label">List of Departments</label>
+                    <label class="form-label">Signatory Designations</label>
                     <div class="custom-table default-height-overflow">
                         <table class="table table-hover">
                             <thead>
@@ -80,53 +99,107 @@
                 </div>
             </div>
 
-            <script>
-                $(document).ready(function() {
-                
+            <script>      
+
+                $(document).ready(function(){
+
                     var department = <?php echo $dept_json ; ?>;
                     var organization = <?php echo $org_json ; ?>;
+                    var office = <?php echo $office_json ; ?>;
+                    var shs = <?php echo $shs_json ; ?>;
 
-                    console.log(department);
-
-                    $('#category').on('change', function() {
-                        let categoryValue = $(this).val();
-
-                        switch(categoryValue) {
-                            case "1":
-                                $('.input-cont').hide();
-                                $('#workplace').html('');
-                                $("#workplace").append("<option value='0'>Select Workplace</option>");
-                                 for(let i = 0; i < department.length; i++) {
-                                    var newOption = $("<option></option>");
-                                    newOption.val(department[i].id);
-                                    newOption.text(department[i].department_code);
-                                    $("#workplace").append(newOption);
+                    const selectCategoryOptions = document.querySelectorAll('.select-category .select-menu li');
+                    $('.categoryBtn').click(function(){
+                        selectCategoryOptions.forEach(function(option){
+                            option.addEventListener('click', function(){
+                                let selectedValue = option.dataset.value;
+                                $('.select-workplace .select-btn .sbtn-text').text("Select Workplace")
+                                switch(selectedValue) {
+                                    case "1":
+                                        //Program Head
+                                        $('.input-cont').hide();
+                                        $('.select-workplace .select-menu').html('');
+                                        $(".select-workplace .select-menu").append("<li data-value='0'>Select Workplace</li>");
+                                        for(let i = 0; i < department.length; i++) {
+                                            var newOption = $("<li></li>");
+                                            newOption.attr('data-value', department[i].id);
+                                            newOption.text(department[i].department_code + " - " + department[i].department_name);
+                                            $(".select-workplace .select-menu").append(newOption);
+                                        }
+                                        initializeCustomSelect();
+                                    break;
+                                    case "2":
+                                        //Offices
+                                        $('.input-cont').show();
+                                        $('.select-workplace .select-menu').html('');
+                                        $(".select-workplace .select-menu").append("<li data-value='0'>Select Workplace</li>");
+                                        for(let i = 0; i < office.length; i++) {
+                                            var newOption = $("<li></li>");
+                                            newOption.attr('data-value', office[i].id);
+                                            newOption.text(office[i].office_name);
+                                            $(".select-workplace .select-menu").append(newOption);
+                                        }
+                                        initializeCustomSelect();
+                                        
+                                    break;
+                                    case "3":
+                                        //SHS
+                                        $('.input-cont').show();
+                                        $('.select-workplace .select-menu').html('');
+                                        $(".select-workplace .select-menu").append("<li data-value='0'>Select Workplace</li>");
+                                        for(let i = 0; i < shs.length; i++) {
+                                            var newOption = $("<li></li>");
+                                            newOption.attr('data-value', shs[i].id);
+                                            newOption.text(shs[i].strand);
+                                            $(".select-workplace .select-menu").append(newOption);
+                                        }
+                                        initializeCustomSelect();
+                                    break;
+                                    case "4":
+                                        //Organization
+                                        $('.input-cont').show();
+                                        $('.select-workplace .select-menu').html('');
+                                        $(".select-workplace .select-menu").append("<li data-value='0'>Select Workplace</li>");
+                                        for(let i = 0; i < organization.length; i++) {
+                                            var newOption = $("<li></li>");
+                                            newOption.attr('data-value', organization[i].id);
+                                            newOption.text(organization[i].organization_code + " - " + organization[i].organization_name);
+                                            $(".select-workplace .select-menu").append(newOption);
+                                        }
+                                        initializeCustomSelect();
+                                    break;
+                                    default:
+                                        $('.select-workplace .select-menu').html('');
+                                        $(".select-workplace .select-menu").append("<li data-value='0'>Select Workplace</li>");
+                                    break;
                                 }
-                            break;
-                            case "2":
-                                //Offices
-                            break;
-                            case "3":
-                                //SHS
-                            break;
-                            case "4":
-                                //Organization
-                                $('.input-cont').show();
-                                $('#workplace').html('');
-                                $("#workplace").append("<option value='0'>Select Workplace</option>");
-                                 for(let i = 0; i < organization.length; i++) {
-                                    var newOption = $("<option></option>");
-                                    newOption.val(organization[i].id);
-                                    newOption.text(organization[i].organization_code + " - " + organization[i].organization_name);
-                                    $("#workplace").append(newOption);
-                                }
-                            break;
-                            default:
-                                 $('#workplace').html('');
-                                 $("#workplace").append("<option value='0'>Select Workplace</option>");
-                            break;
-                        }
+                            }); 
+                        });
                     });
+
+                    //reinitiallized of custom-select
+                    var customSelectList = document.querySelectorAll(".custom-select");
+                    function initializeCustomSelect() {
+                        
+                        // Re-initialize the custom-select plugin for all dropdowns on the page
+                        customSelectList.forEach(function(customSelect) {
+                        const selectOptions = customSelect.querySelectorAll(".select-menu li");
+                        const hiddenInput = customSelect.querySelector('.select-name');
+                        const selectBtnText = customSelect.querySelector(".sbtn-text");
+                    
+                        selectOptions.forEach(function(option) {
+                            option.addEventListener("click", function() {
+                            const selectValue = option.dataset.value;
+                            const selectedText = option.textContent;
+                    
+                            hiddenInput.value = selectValue;
+                            selectBtnText.textContent = selectedText;
+                            customSelect.classList.remove("active");
+                            });
+                        });
+                        });
+                    } 
+                  
                 });
             </script>
         

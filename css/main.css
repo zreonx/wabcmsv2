@@ -136,11 +136,33 @@ body {
 .category-item li {
     list-style: none;   
     padding: 10px 0;
+    transition: .1s all ease-in
 }
 
 .category-btn:hover, .category-item li:hover {
     background: #f5f8fc;
+    
 }
+.category-item li:hover {
+    padding-left: .3rem; 
+}
+
+
+
+/* .category-item li::before {
+    content: "-";
+    padding-left: 1.8rem;
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
+}
+
+.category-item li:hover::before {
+    opacity: 1;
+} */
+
+
+
+
 
 /* Input Custom CSS */
 .input-cont {
@@ -175,6 +197,68 @@ body {
     font-size: 12px;    
     top: -8px;
 }
+
+/* Custom Select Style */
+
+.custom-select {
+    position: relative;   
+    width: auto;
+}
+
+.select-btn {
+    width: 100%;
+    cursor: pointer;
+    padding: .8rem .95rem;
+    font-size: 14px;
+    color: #333;
+    background-color: #fff;
+    border: 1px solid #d8d8d8;
+    border-radius: 5px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.select-btn i {
+    font-size: 20px;
+}
+
+.sbtn-text {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.select-menu {
+    display: none;
+    width: 100%;
+    position: absolute;
+    z-index: 999;
+    padding: 0;
+    margin-top: 10px;
+    padding: 5px 0;
+    background-color: #fff;
+    box-shadow: 0 0 3px rgba(0,0,0,0.1);
+}
+.select-menu li {
+    font-size: 14px;
+    display: flex;
+    cursor: pointer;
+    padding: 5px 18px;
+    border-radius: 3px;
+}
+.select-menu li:hover {
+    background: #029c63;
+    color: #fff;
+}
+
+.custom-select.active .select-menu {
+    display: block;
+}
+.custom-select.active .select-btn i {
+     transform: rotate(-180deg) ;
+}
+
 /* Custom Button */
 
 .btnsm {

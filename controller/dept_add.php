@@ -8,9 +8,9 @@
 
         $result = $department->addDepartment($department_code, $department_name);
         if($result) {
-            header('location: ../admin/add_department.php?success');
+            header('location: ../admin/dept_management.php?success');
         }else {
-            header('location: ../admin/add_department.php?failed');
+            header('location: ../admin/dept_management.php?failed');
         }
     }
 ?>
