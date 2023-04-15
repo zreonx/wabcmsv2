@@ -233,6 +233,8 @@ body {
 .select-menu {
     display: none;
     width: 100%;
+    height: auto;
+    max-height: 320px;
     position: absolute;
     z-index: 999;
     padding: 0;
@@ -240,6 +242,8 @@ body {
     padding: 5px 0;
     background-color: #fff;
     box-shadow: 0 0 3px rgba(0,0,0,0.1);
+    overflow: auto;
+
 }
 .select-menu li {
     font-size: 14px;
