@@ -45,13 +45,16 @@ class Designation {
         }
     }
 
-    public function addOrganization($organization_code, $organization_name) {
+    public function addDesignation($category, $designation, $signatory_workplace) {
         try {
-
-            $sql = "INSERT INTO organizations (organization_code, organization_name) VALUES (:organization_code, :organization_name); ";
+            $status = "active";
+            
+            $sql = "INSERT INTO designation_meta (category, designation, signatory_id, signatory_workplace, status) VALUES (:category, :designation, '', :signatory_workplace, :status); ";
             $stmt = $this->conn->prepare($sql);
-            $stmt->bindparam(':organization_code', $organization_code);
-            $stmt->bindparam(':organization_name', $organization_name);
+            $stmt->bindparam(':category', $category);
+            $stmt->bindparam(':designation', $designation);
+            $stmt->bindparam(':signatory_workplace', $signatory_workplace);
+            $stmt->bindparam(':status', $status);
 
             $stmt->execute();
 
@@ -99,6 +102,66 @@ class Designation {
         }
     }
     
+
+    public function getWorkplace($category) {
+
+        $designation_category = new DesignationCategory($this->conn);
+
+        $categories = $designation_category->getDesignationCategories();
+        while($cat_row = $categories->fetch(PDO::FETCH_ASSOC)) {
+           switch($category) {
+                case "1": 
+                    //Program Head
+                break;
+                case "2": 
+                    $office = $this->signatoryWorkplace($category, "offices", "office_name");
+                    return $office['workplace'];
+                break;
+                case "3": 
+                    //SHS
+                    $office = $this->signatoryWorkplace($category, "shs", "strand");
+                    return $office['workplace'];
+                break;
+                case "4": 
+                    //Org
+                    $office = $this->signatoryWorkplace($category, "organizations", "organization_code");
+                    return $office['workplace'];
+                break;
+                default: 
+                    //
+                break;
+           }
+        }
+
+    }
+
+    public function officeWorkplace() {
+        try {
+
+            $sql = "SELECT *, (SELECT offices.office_name FROM offices WHERE offices.id = DM.signatory_workplace) AS 'workplace' FROM designation_meta DM";
+            $result = $this->conn->query($sql);
+            $data = $result->fetch(PDO::FETCH_ASSOC);
+            return $data;
+     
+        }catch(PDOException $e) {
+            echo "ERROR: " . $e->getMessage();
+            return false;
+        }
+    }
+
+    public function signatoryWorkplace($category, $workplace_table, $column) {
+        try {
+
+            $sql = "SELECT *, (SELECT $workplace_table.$column FROM $workplace_table WHERE $workplace_table.id = DM.signatory_workplace) AS 'workplace' FROM designation_meta DM WHERE DM.category = '$category'";
+            $result = $this->conn->query($sql);
+            $data = $result->fetch(PDO::FETCH_ASSOC);
+            return $data;
+     
+        }catch(PDOException $e) {
+            echo "ERROR: " . $e->getMessage();
+            return false;
+        }
+    }
     
     
 }
