@@ -41,7 +41,7 @@
                 <div class="col-lg-7 pt-2 px-4">
                     <label class="form-label">List of Signatories</label>
                     <div class="custom-table default-height-overflow">
-                        <table class="table text-center">
+                        <table class="table">
                             <thead>
                                 <tr>
                                     <th>Fullname</th>

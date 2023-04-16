@@ -87,11 +87,15 @@
                             <?php while($d_row = $designations->fetch(PDO::FETCH_ASSOC)): ?>
                                 <tr>
                                     <td>
-                                        <?php echo ($d_row['signatory_id'] != "") ? '<span class="badge bg-success">Occupied</span>' : '<span class="badge bg-secondary">Unassigned</span>' ; ?>
-                                        <button class="btn btn-sm btn-add btn-success" data-bs-toggle="modal" data-bs-target="#assignModal"><i class="fas fa-user-plus"></i></button>
+                                        <div class="d-flex gap-2">
+                                            <?php echo ($d_row['signatory_id'] != "") ? '<span class="badge bg-success">Occupied</span>' : '<span class="badge bg-secondary">Unassigned</span>' ; ?>
+                                            <button class="btn btn-sm btn-add btn-success" data-bs-toggle="modal" data-bs-target="#assignModal"><i class="fas fa-user-plus"></i></button>
+                                        </div>
                                     </td>
-                                    <td><?php echo $designation->getWorkplace($d_row['category']);  ?></td>
-                                    <td><?php echo $d_row['designation'] ?></td>
+                                    <td>
+                                        <div class="p-1"><?php echo $designation->getWorkplace($d_row['category']);  ?></div>
+                                    </td>
+                                    <td><div class="p-1"><?php echo $d_row['designation'] ?></td></div>
                                     <td>
                                         <button data-id="<?php echo $d_row['id'] ?>" class="btn btn-sm btn-success rounded btnsm edit-btn">Edit</button>
                                         <button data-id="<?php echo $d_row['id']?>" class="btn btn-delete btn-sm btn-success rounded btnsm" data-bs-toggle="modal" data-bs-target="#deleteModal">Delete</button>
@@ -129,18 +133,12 @@
                                     <div class="modal-body x-border py-0">
                                         
                                         <div class="search-signatory d-flex gap-1 mb-2 w-50">
-                                            <input class="form-control form-control-sm" type="text" placeholder="Search...">
+                                            <input class="form-control form-control-sm" type="text" id="searchSignatory" placeholder="Search...">
                                             <button class="btn btn-search btn-success btn-sm rounded">SEARCH</button>
                                         </div>
-                                        <ul class="list-group ">
-                                            <?php while($sig_row = $signatories->fetch(PDO::FETCH_ASSOC)): ?>
-                                                <li class="list-group-item d-flex justify-content-between align-items-center">
-                                                    <button data-id="<?php echo $sig_row['id']?>" class="btn btn-delete btn-sm btn-success rounded btnsm">Assign</button>
-                                                    <span><?php echo $sig_row['last_name'] . " " . $sig_row['first_name'] . " " . strtoupper(substr($sig_row['middle_name'], 0, 1)) ."." ?></span>
-                                                    <span><?php echo ($sig_row['workplace'] != "") ? '<span class="badge bg-success">Occupied</span>' : '<span class="badge bg-secondary">Unassigned</span>' ; ?></span>
-                                                </li>
-                                            <?php endwhile; ?>
-                                        </ul>
+                                        <div id="search-list">
+                                            
+                                        </div>
                                         <div class="d-flex justify-content-between my-2 mb-3 gap-2">
                                             <a href="signatory_management.php" class="btn btn-outline-success rounded">Create New Signatory</a>
                                             <button type="button" class="btn btn-outline-secondary rounded" data-bs-dismiss="modal">Cancel</button>
@@ -240,6 +238,47 @@
                             }); 
                         });
                     });
+
+
+                    let searchTimeout;
+                    $('.btn-add').click(function(){
+                        $('#search-list').html('');
+                        $('#searchSignatory').val("");
+                    });
+
+                    $('#searchSignatory').on('input', function() {
+                        clearTimeout(searchTimeout);
+                        searchTimeout = setTimeout(function() {
+                            let searchValue = $('#searchSignatory').val();
+                            $.ajax({
+                                type: "POST",
+                                url: "../controller/designation_search.php",
+                                data: {
+                                    search_data: searchValue,
+                                },
+                                success: function(response) {
+                                    $('#search-list').html(loadinAnimation());
+                                    setTimeout(function() {
+                                        if(searchValue.length !== 0) {
+                                            $('#search-list').html(response);
+                                        }else {
+                                            $('#search-list').html('<h1 class="display-6 fs-6 text-center text-success">    Signatory does not exist.</h1>');
+                                        }
+                                    },3000)
+                                }
+                            }) 
+                        }, 1000);
+                    });
+
+                    function loadinAnimation() {
+                        let html = "";
+                        
+                        html += "<div class='d-flex justify-content-center align-items-center gap-2'>"
+                        html += '<div class="spinner-border spinner-border-sm text-success text-center" role="status"><span class="visually-hidden"></span></div><div><span class="text-success">Loading...</span></div>';
+                        html += "</div>"
+                        return html;
+                       
+                    }
 
                     //reinitiallized of custom-select
                     var customSelectList = document.querySelectorAll(".custom-select");

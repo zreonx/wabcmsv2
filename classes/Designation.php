@@ -167,6 +167,16 @@ class Designation {
             return false;
         }
     }
+
+    public function searchSignatory($searchData) {
+        try {
+            $sql = "SELECT *, (SELECT signatory_workplace FROM designation_meta WHERE signatory_id = signatories.id) as 'workplace' FROM signatories WHERE id LIKE '%$searchData%' OR first_name LIKE '%$searchData%' OR last_name LIKE '%$searchData%' OR middle_name LIKE '%$searchData%' OR email LIKE '%$searchData%' AND status = 'active' ;";
+            $result = $this->conn->query($sql);
+            return $result;
+        }catch (PDOException $e) {
+            echo "ERROR: " . $e->getMessage();
+        }
+    }
     
     
 }
