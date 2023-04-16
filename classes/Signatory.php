@@ -6,10 +6,11 @@ class Signatory {
     public function __construct($conn) {
         $this->conn = $conn;
     }
+    
     public function getSignatories() {
         try {
 
-            $sql = "SELECT *, (SELECT signatory_workplace FROM designation_meta WHERE signatory_id = signatories.id) AS 'workplace' FROM signatories WHERE status !=  'inactive'";
+            $sql = "SELECT * FROM signatories WHERE status !=  'inactive'";
             $result = $this->conn->query($sql);
             return $result;
      
@@ -19,10 +20,10 @@ class Signatory {
         }
     }
 
-    public function getSignatoryWorkplace() {
+    public function getSignatoryDesignations($id) {
         try {
 
-            $sql = "SELECT * FROM signatories WHERE status !=  'inactive'";
+            $sql = "SELECT *, (SELECT dm.category FROM designation_meta dm WHERE dm.id = ds.designation_id) as 'category' FROM designation_signatory ds WHERE status !=  'inactive' AND signatory_id = '$id';";
             $result = $this->conn->query($sql);
             return $result;
      

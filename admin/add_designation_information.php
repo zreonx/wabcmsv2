@@ -88,8 +88,8 @@
                                 <tr>
                                     <td>
                                         <div class="d-flex gap-2">
-                                            <?php echo ($d_row['signatory_id'] != "") ? '<span class="badge bg-success">Occupied</span>' : '<span class="badge bg-secondary">Unassigned</span>' ; ?>
-                                            <button class="btn btn-sm btn-add btn-success" data-bs-toggle="modal" data-bs-target="#assignModal"><i class="fas fa-user-plus"></i></button>
+                                            <?php //echo ($d_row['signatory_id'] != "") ? '<span class="badge bg-success">Occupied</span>' : '<span class="badge bg-secondary">Unassigned</span>' ; ?>
+                                            <button data-id="<?php echo $d_row['id'] ?>" class="btn btn-sm btn-add btn-success" data-bs-toggle="modal" data-bs-target="#assignModal"><i class="fas fa-user-plus"></i></button>
                                         </div>
                                     </td>
                                     <td>
@@ -241,9 +241,13 @@
 
 
                     let searchTimeout;
+                    var assignedSignatoryId;
+                    var designationId;
+
                     $('.btn-add').click(function(){
                         $('#search-list').html('');
                         $('#searchSignatory').val("");
+                        designationId = $(this).attr('data-id')
                     });
 
                     $('#searchSignatory').on('input', function() {
@@ -269,6 +273,29 @@
                             }) 
                         }, 1000);
                     });
+
+
+                   
+                    $(document).on('click', '.assign-btn', function(){
+                        assignedSignatoryId = $('.assign-btn').attr('data-id');
+                        $.ajax({
+                            type: "POST",
+                            url: "../controller/designation_assign.php",
+                            data: {
+                                designation_id: designationId,
+                                assigned_signatory: assignedSignatoryId,
+                            },
+                            success: function(response){
+                                $('.page-title').before(response);
+                                $('#assignModal').modal('hide');
+                                setTimeout(function(){
+                                    $('#err').remove();
+                                },3000);
+                            }
+                        });
+                    });
+
+
 
                     function loadinAnimation() {
                         let html = "";

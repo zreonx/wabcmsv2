@@ -52,7 +52,24 @@
                             <?php while($sig_row = $signatories->fetch(PDO::FETCH_ASSOC)):  ?>
                                 <tr>
                                     <th><?php echo $sig_row['last_name'] . " " . $sig_row['first_name'] . " " . strtoupper(substr($sig_row['middle_name'], 0, 1)) ."." ?></th>
-                                    <td><?php echo ($sig_row['workplace'] != "") ? '<span class="badge bg-success">Occupied</span>' : '<span class="badge bg-secondary">Unassigned</span>' ; ?></td>
+                                    <td>
+                                        <?php 
+                                            //Get all the designation_id of certain signatory
+                                            $signatoryDesignation = $signatory->getSignatoryDesignations($sig_row['id']);
+                                            $signatoryDesignationCheck = $signatoryDesignation->fetch(PDO::FETCH_ASSOC);
+                                            $signatoryDesignationData = $signatory->getSignatoryDesignations($sig_row['id']);
+                                            
+                                            if(!empty($signatoryDesignationCheck)){
+                                                while($des_id = $signatoryDesignationData->fetch(PDO::FETCH_ASSOC)) {
+                                                    echo $designation->getWorkplace($des_id['category']);
+                                               }
+                                            }else {
+                                                echo '<span class="badge bg-secondary">Unassigned</span>';
+                                            }
+                                            
+                                        ?>
+                                        <?php //echo ($sig_row['workplace'] != "") ? '<span class="badge bg-success">Occupied</span>' : '<span class="badge bg-secondary">Unassigned</span>' ; ?>
+                                    </td>
                                     <td>
                                         <button data-id="<?php echo $sig_row['id'] ?>" class="btn btn-sm btn-success rounded btnsm edit-btn">Edit</button>
                                         <button data-id="<?php echo $sig_row['id']?>" class="btn btn-delete btn-sm btn-success rounded btnsm" data-bs-toggle="modal" data-bs-target="#deleteModal">Delete</button>
