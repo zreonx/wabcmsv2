@@ -24,6 +24,7 @@
     $shs = new Shs($conn);
     $designation_category = new DesignationCategory($conn);
     $designation = new Designation($conn);
+    $signatory = new Signatory($conn);
 
 
     // $clearance = new Clearance($conn);

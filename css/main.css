@@ -29,6 +29,9 @@
 }
 
 /* Ready to call CSS */
+.x-border {
+    border: none;
+}
 .f-d {
     font-size: var(--normal-font-size);
 }

@@ -6,7 +6,7 @@
     <title>WABCMS V2</title>
 
     <link rel="stylesheet" href="../css/bootstrap.min.css">
-    <link rel="stylesheet" href="../css/main.css?v1.2">
+    <link rel="stylesheet" href="../css/main.css?v1.1">
     <link rel="stylesheet" href="../css/all.min.css">
     
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
@@ -97,8 +97,7 @@
                 <i class='bx bx-chevron-down' id="chevron"></i>
             </div>
             <ul class="category-item p-0">
-                <li class="category-link"><a class="clink-text">Signatory Information</a></li>
-                <li class="category-link"><a class="clink-text">Add Signatory</a></li>                
+                <li class="category-link"><a href="signatory_management.php" class="clink-text">Signatories</a></li>                
             </ul>
         </div>
         <div class="custom-category">

@@ -101,8 +101,11 @@ class Designation {
             return false;
         }
     }
+
     
 
+    
+    //Getting the dessingation category
     public function getWorkplace($category) {
 
         $designation_category = new DesignationCategory($this->conn);
@@ -112,6 +115,8 @@ class Designation {
            switch($category) {
                 case "1": 
                     //Program Head
+                    $office = $this->signatoryWorkplace($category, "departments", "department_code");
+                    return $office['workplace'];
                 break;
                 case "2": 
                     $office = $this->signatoryWorkplace($category, "offices", "office_name");

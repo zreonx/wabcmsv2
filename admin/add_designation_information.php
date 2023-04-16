@@ -19,6 +19,8 @@
     $office_json = json_encode($offices->fetchAll(PDO::FETCH_ASSOC));
     $org_json = json_encode($organizations->fetchAll(PDO::FETCH_ASSOC));
     $shs_json = json_encode($shschools->fetchAll(PDO::FETCH_ASSOC));
+
+    $signatories = $signatory->getSignatories();
 ?>
     <div class="page">
         <?php if(isset($_GET['success'])){ echo '<div class="alert alert-success" id="err">Designation has been added.</div>'; } ?>
@@ -76,7 +78,7 @@
                         <table class="table table-hover">
                             <thead>
                                 <tr>
-                                    <th>Assigned Signatory</th>
+                                    <th>Signatory</th>
                                     <th>Workplace</th>
                                     <th>Designation</th>
                                     <th>Action</th>
@@ -84,7 +86,10 @@
                             </thead>
                             <?php while($d_row = $designations->fetch(PDO::FETCH_ASSOC)): ?>
                                 <tr>
-                                    <td><?php echo ($d_row['signatory_id'] == "1") ? '<span class="badge bg-success">Occupied</span>' : '<span class="badge bg-secondary">Unassinged</span>' ; ?></td>
+                                    <td>
+                                        <?php echo ($d_row['signatory_id'] != "") ? '<span class="badge bg-success">Occupied</span>' : '<span class="badge bg-secondary">Unassigned</span>' ; ?>
+                                        <button class="btn btn-sm btn-add btn-success" data-bs-toggle="modal" data-bs-target="#assignModal"><i class="fas fa-user-plus"></i></button>
+                                    </td>
                                     <td><?php echo $designation->getWorkplace($d_row['category']);  ?></td>
                                     <td><?php echo $d_row['designation'] ?></td>
                                     <td>
@@ -95,6 +100,55 @@
                             <?php endwhile; ?>
 
                         </table>
+
+                        <div class="modal fade" id="deleteModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="staticBackdropLabel">Delete Confirmation</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        Are you sure you want to delete this designation?
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                        <button data-id="" type="button" class="btn btn-danger confirm-delete">Continue</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="modal fade custom-modal" id="assignModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header x-border py-1 pt-3">
+                                        <h1 class="px-1 display-6 fs-5">Assign Signatory</h1>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body x-border py-0">
+                                        
+                                        <div class="search-signatory d-flex gap-1 mb-2 w-50">
+                                            <input class="form-control form-control-sm" type="text" placeholder="Search...">
+                                            <button class="btn btn-search btn-success btn-sm rounded">SEARCH</button>
+                                        </div>
+                                        <ul class="list-group ">
+                                            <?php while($sig_row = $signatories->fetch(PDO::FETCH_ASSOC)): ?>
+                                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                                    <button data-id="<?php echo $sig_row['id']?>" class="btn btn-delete btn-sm btn-success rounded btnsm">Assign</button>
+                                                    <span><?php echo $sig_row['last_name'] . " " . $sig_row['first_name'] . " " . strtoupper(substr($sig_row['middle_name'], 0, 1)) ."." ?></span>
+                                                    <span><?php echo ($sig_row['workplace'] != "") ? '<span class="badge bg-success">Occupied</span>' : '<span class="badge bg-secondary">Unassigned</span>' ; ?></span>
+                                                </li>
+                                            <?php endwhile; ?>
+                                        </ul>
+                                        <div class="d-flex justify-content-between my-2 mb-3 gap-2">
+                                            <a href="signatory_management.php" class="btn btn-outline-success rounded">Create New Signatory</a>
+                                            <button type="button" class="btn btn-outline-secondary rounded" data-bs-dismiss="modal">Cancel</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     
 
                     </div>
