@@ -88,8 +88,16 @@
                                 <tr>
                                     <td>
                                         <div class="d-flex gap-2">
-                                            <?php //echo ($d_row['signatory_id'] != "") ? '<span class="badge bg-success">Occupied</span>' : '<span class="badge bg-secondary">Unassigned</span>' ; ?>
-                                            <button data-id="<?php echo $d_row['id'] ?>" class="btn btn-sm btn-add btn-success" data-bs-toggle="modal" data-bs-target="#assignModal"><i class="fas fa-user-plus"></i></button>
+                                            <?php 
+                                                $s_info = $designation->getSignatoryInformation($d_row['id']);
+                                               if(!empty($s_info)) {
+                                                   echo $s_info['last_name'] . " " . $s_info['first_name'] . " " . strtoupper(substr($s_info['middle_name'], 0, 1)) ."." ;
+                                                }else {
+                                                    echo '<span class="badge bg-secondary">Unassigned</span>';
+                                                ?>
+                                                <button data-id="<?php echo $d_row['id'] ?>" class="btn btn-sm btn-add btn-success" data-bs-toggle="modal" data-bs-target="#assignModal"><i class="fas fa-user-plus"></i></button>
+                                            <?php } ?>
+                                            
                                         </div>
                                     </td>
                                     <td>

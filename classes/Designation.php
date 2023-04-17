@@ -215,6 +215,22 @@ class Designation {
         }
     }
 
+    //Getting Signatory Information
+
+     public function getSignatoryInformation($ds_id) {
+        try {
+
+            $sql = "SELECT * FROM designation_signatory ds INNER JOIN signatories s ON ds.signatory_id = s.id WHERE ds.designation_id = '$ds_id' AND ds.status = 'active'";
+            $result = $this->conn->query($sql);
+            $data = $result->fetch(PDO::FETCH_ASSOC);
+            return $data;
+     
+        }catch(PDOException $e) {
+            echo "ERROR: " . $e->getMessage();
+            return false;
+        }
+    }
+
 
 
     
