@@ -25,6 +25,8 @@
     $designation_category = new DesignationCategory($conn);
     $designation = new Designation($conn);
     $signatory = new Signatory($conn);
+    $student = new Student($conn);
+    $clearance = new Clearance($conn);
 
 
     // $clearance = new Clearance($conn);

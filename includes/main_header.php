@@ -26,7 +26,7 @@
 
     <script src="../js/all.min.js"></script>
    
-    <script src="../js/main.js?v.1"></script>
+    <script src="../js/main.js?v.3"></script>
 </head>
 <body>
 
@@ -82,8 +82,7 @@
                 <i class='bx bx-chevron-down' id="chevron"></i>
             </div>
             <ul class="category-item p-0">
-                <li class="category-link"><a class="clink-text">Clerance Record</a></li>
-                <li class="category-link"><a class="clink-text">Create Clerance</a></li>
+                <li class="category-link"><a href="clearance_management.php" class="clink-text">Clerance</a></li>
                 <li class="category-link"><a class="clink-text">Clearance Requests</a></li>
                 
             </ul>
@@ -109,7 +108,7 @@
                 <i class='bx bx-chevron-down' id="chevron"></i>
             </div>
             <ul class="category-item p-0">
-                <li class="category-link"><a class="clink-text">Import Students</a></li>
+                <li class="category-link"><a href="student_management.php" class="clink-text">Students</a></li>
                 <li class="category-link"><a class="clink-text">Add Signatory</a></li>                
             </ul>
         </div>

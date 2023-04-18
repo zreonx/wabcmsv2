@@ -23,7 +23,7 @@ class Signatory {
     public function getSignatoryDesignations($id) {
         try {
 
-            $sql = "SELECT *, (SELECT dm.category FROM designation_meta dm WHERE dm.id = ds.designation_id) as 'category' FROM designation_signatory ds WHERE status !=  'inactive' AND signatory_id = '$id';";
+            $sql = "SELECT * FROM designation_signatory ds INNER JOIN designation_meta dm ON ds.designation_id = dm.id WHERE ds.status !=  'inactive' AND ds.id = '$id';";
             $result = $this->conn->query($sql);
             return $result;
      

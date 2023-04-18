@@ -97,11 +97,14 @@
                                                 ?>
                                                 <button data-id="<?php echo $d_row['id'] ?>" class="btn btn-sm btn-add btn-success" data-bs-toggle="modal" data-bs-target="#assignModal"><i class="fas fa-user-plus"></i></button>
                                             <?php } ?>
-                                            
                                         </div>
                                     </td>
                                     <td>
-                                        <div class="p-1"><?php echo $designation->getWorkplace($d_row['category']);  ?></div>
+                                         <div class="p-1">
+                                            <?php
+                                                echo $cats = $designation->getWorkplace($d_row['category'], $d_row['signatory_workplace']); 
+                                            ?>
+                                        </div>
                                     </td>
                                     <td><div class="p-1"><?php echo $d_row['designation'] ?></td></div>
                                     <td>
