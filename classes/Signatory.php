@@ -23,13 +23,25 @@ class Signatory {
     public function getSignatoryDesignations($id) {
         try {
 
-            $sql = "SELECT * FROM designation_signatory ds INNER JOIN designation_meta dm ON ds.designation_id = dm.id WHERE ds.status !=  'inactive' AND ds.id = '$id';";
+            $sql = "SELECT * FROM designation_signatory ds INNER JOIN designation_meta dm ON ds.designation_id = dm.id WHERE ds.status !=  'inactive' AND ds.signatory_id = '$id';";
             $result = $this->conn->query($sql);
-            return $result;
+            $data = $result->fetchAll(PDO::FETCH_ASSOC);
+            return $data;
+
+            // $datas = array();
+            
+            // while($data = $result->fetch(PDO::FETCH_ASSOC)){
+            //     if(!empty($data)){
+            //         return array('category' => $data['category'], 'signatory_workplace' => $data['signatory_workplace']);
+            //     }else {
+            //         return false;
+            //     }
+            // }
+            
+            
      
         }catch(PDOException $e) {
             echo "ERROR: " . $e->getMessage();
-            return false;
         }
     }
     

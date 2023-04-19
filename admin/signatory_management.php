@@ -45,12 +45,29 @@
                             <thead>
                                 <tr>
                                     <th>Fullname</th>
+                                    <th>Workplace</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
                             <?php while($sig_row = $signatories->fetch(PDO::FETCH_ASSOC)):  ?>
                                 <tr>
                                     <th><?php echo $sig_row['last_name'] . ", " . $sig_row['first_name'] . " " . strtoupper(substr($sig_row['middle_name'], 0, 1)) ."." ?></th>
+                                    <td> 
+                                        <?php 
+                                            $category_workplace = $signatory->getSignatoryDesignations($sig_row['id']);
+
+                                            $wp_value = array();
+                                            foreach($category_workplace as $cw){
+                                                $val =  $designation->getWorkplace($cw['category'], $cw['signatory_workplace']);
+                                                array_push($wp_value, $val);
+                                            }
+                                            if(!empty($wp_value)){
+                                                echo implode(', ', $wp_value);
+                                            }else {
+                                                echo "Unassigned";
+                                            }       
+                                        ?>
+                                    </td>
                                     <td>
                                         <button data-id="<?php echo $sig_row['id'] ?>" class="btn btn-sm btn-success rounded btnsm edit-btn">Edit</button>
                                         <button data-id="<?php echo $sig_row['id']?>" class="btn btn-delete btn-sm btn-success rounded btnsm" data-bs-toggle="modal" data-bs-target="#deleteModal">Delete</button>

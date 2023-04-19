@@ -25,6 +25,7 @@
     <div class="page">
         <?php if(isset($_GET['success'])){ echo '<div class="alert alert-success" id="err">Designation has been added.</div>'; } ?>
         <?php if(isset($_GET['delete'])){ echo '<div class="alert alert-success" id="err">Department has been deleted.</div>'; } ?>
+        <?php if(isset($_GET['assign'])){ echo '<div class="alert alert-success" id="err">Designation has been assigned.</div>'; } ?>
         <h1 class="page-title fs-5 display-6">Designation Management</h1>
         <div class="page-content p-2 rounded ">
             <div class="row">
@@ -91,7 +92,7 @@
                                             <?php 
                                                 $s_info = $designation->getSignatoryInformation($d_row['id']);
                                                if(!empty($s_info)) {
-                                                   echo $s_info['last_name'] . " " . $s_info['first_name'] . " " . strtoupper(substr($s_info['middle_name'], 0, 1)) ."." ;
+                                                   echo $s_info['last_name'] . ", " . $s_info['first_name'] . " " . strtoupper(substr($s_info['middle_name'], 0, 1)) ."." ;
                                                 }else {
                                                     echo '<span class="badge bg-secondary">Unassigned</span>';
                                                 ?>
@@ -297,11 +298,7 @@
                                 assigned_signatory: assignedSignatoryId,
                             },
                             success: function(response){
-                                $('.page-title').before(response);
-                                $('#assignModal').modal('hide');
-                                setTimeout(function(){
-                                    $('#err').remove();
-                                },3000);
+                                window.location.replace('add_designation_information.php?assign=success');
                             }
                         });
                     });
