@@ -140,6 +140,8 @@ class Clearance {
             return false;
         }
     }
+
+    //Creating of signatories table for clearance
     
     
     

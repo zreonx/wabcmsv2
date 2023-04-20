@@ -213,7 +213,135 @@ class Designation {
     }
 
 
+    //Fetch all the designations with assigned signatories
+    
+    public function getAllAssignedDesignations() {
+        try {
 
-    
-    
+            $sql = "SELECT * FROM designation_signatory ds INNER JOIN designation_meta dm ON ds.designation_id = dm.id WHERE ds.status = 'active'";
+            $result = $this->conn->query($sql);
+            $data = $result->fetchAll(PDO::FETCH_ASSOC);
+            return $data;
+     
+        }catch(PDOException $e) {
+            echo "ERROR: " . $e->getMessage();
+            return false;
+        }
+    }
+
+    public function ad_tbname() {
+        $allDesignation = $this->getAllAssignedDesignations();
+
+        $result = array();
+
+        foreach($allDesignation as $des_val) {
+            $signatory_worklace_name = $this->getWorkplace($des_val['category'], $des_val['signatory_workplace']);
+            $signatory_id = $des_val['signatory_id'];
+            $signatory_designation = $des_val['designation'];
+            
+            // Define key-value pairs in the associative array
+            $result[] = array(
+                'signatory_workplace_name' => $signatory_worklace_name,
+                'signatory_id' => $signatory_id,
+                'signatory_designation' => $signatory_designation
+            );
+        }
+
+        return $result;
+    }
+
+    public function table_for_program_head() {
+        
+        $department = new Department($this->conn);
+
+        $dept_query= $department->getDepartments();
+
+        $dept_data = $dept_query->fetchAll(PDO::FETCH_ASSOC);
+
+        $tbl_name = $this->ad_tbname();
+
+        $tble_name_array = array();
+
+        foreach($dept_data as $dept_val) {
+            foreach($tbl_name as $phead_tbl) {
+                if($dept_val['department_code'] == $phead_tbl['signatory_workplace_name']){
+                    array_push($tble_name_array, $phead_tbl);
+                }
+            }
+        }
+        return $tble_name_array;
+    }
+
+    public function table_for_offices() {
+        
+        $office = new Offices($this->conn);
+
+        $office_query = $office->getOffices();
+
+        $office_data = $office_query->fetchAll(PDO::FETCH_ASSOC);
+
+        $tbl_name = $this->ad_tbname();
+
+        $tble_name_array = array();
+
+        foreach($office_data as $office_val) {
+            foreach($tbl_name as $office_tbl) {
+                if($office_val['office_name'] == $office_tbl['signatory_workplace_name']){
+                    array_push($tble_name_array, $office_tbl);
+                }
+            }
+        }
+
+
+        return $tble_name_array;
+    }
+
+    public function table_for_org() {
+        
+        $organization = new Organization($this->conn);
+
+        $org_query = $organization->getOrganizations();
+
+        $org_data = $org_query->fetchAll(PDO::FETCH_ASSOC);
+
+        $tbl_name = $this->ad_tbname();
+
+        $tble_name_array = array();
+
+        foreach($org_data as $org_val) {
+            foreach($tbl_name as $org_tbl) {
+                if($org_val['organization_code'] == $org_tbl['signatory_workplace_name']){
+                    array_push($tble_name_array, $org_tbl);
+                }
+            }
+        }
+
+
+        return $tble_name_array;
+    }
+
+    public function table_for_shs() {
+        
+        $shs = new SHS($this->conn);
+
+        $shs_query = $shs->getStrands();
+
+        $shs_data = $shs_query->fetchAll(PDO::FETCH_ASSOC);
+
+        $tbl_name = $this->ad_tbname();
+
+        $tble_name_array = array();
+
+        foreach($shs_data as $shs_val) {
+            foreach($tbl_name as $shs_tbl) {
+                if($shs_val['strand'] == $shs_tbl['signatory_workplace_name']){
+                    array_push($tble_name_array, $shs_tbl);
+                }
+            }
+        }
+
+
+        return $tble_name_array;
+    }
+
 }

@@ -251,7 +251,24 @@
                                 id : clearance_id,
                             },
                             success: function(result) {
-                               
+                                let resultData = JSON.parse(result);
+                                let beneficiary = resultData.clearance_beneficiary;
+                                $.ajax({
+                                    method : "POST",
+                                    url: "../controller/clearance_designation_table.php",
+                                    data: {
+                                        id : clearance_id,
+                                        clearance_beneficiary: resultData.clearance_beneficiary,
+                                        clearance_type: resultData.clearance_type,
+                                        semester: resultData.semester,
+                                        academic_year: resultData.academic_year,
+                                    },
+                                    success: function(response) {
+                                        console.log(response)
+                                    }
+                                });
+
+                               console.log(result);
                             }
                         })
                     });
