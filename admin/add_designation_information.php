@@ -177,6 +177,9 @@
             <script>      
 
                 $(document).ready(function(){
+                    setTimeout(function(){
+                        $('#err').remove();
+                    },3000);
 
                     var department = <?php echo $dept_json ; ?>;
                     var organization = <?php echo $org_json ; ?>;
@@ -323,6 +326,10 @@
                                 let response = JSON.parse(result);
                                 $('.page-content').before(response.message);
                                 //console.log(result);
+                                setTimeout(function(){
+                                    $('#err').remove();
+                                },3000);
+
                             }
                         })
                     });
@@ -337,6 +344,9 @@
                             success: function(result) {
                                 let response = JSON.parse(result);
                                 $('.page-content').before(response.message);
+                                setTimeout(function(){
+                                    $('#err').remove();
+                                },3000);
                             }
                         })
                     });

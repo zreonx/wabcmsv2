@@ -230,6 +230,7 @@ class Designation {
     }
 
     public function ad_tbname() {
+        
         $allDesignation = $this->getAllAssignedDesignations();
 
         $result = array();
@@ -400,12 +401,27 @@ class Designation {
         }
     }
 
-    public function addSignatoryDesignationRecord($signatory_id, $table_name) {
+    public function designationTableRecord() {
+        try {
+
+            $sql = "SELECT * FROM designation_table_record";
+            $result = $this->conn->query($sql);
+            $data = $result->fetchAll(PDO::FETCH_ASSOC);
+            return $data;
+            
+        }catch(PDOException $e) {
+            echo "ERROR: " . $e->getMessage();
+            return false;
+        }
+    }
+
+    public function addSignatoryDesignationRecord($signatory_id, $signatory_workplace_name, $table_name) {
         try {
             $status = "active";
-            $sql = "INSERT INTO designation_table_record (signatory_id, signatory_clearance_table_name, status) VALUES (:signatory_id, :signatory_clearance_table_name, :status); ";
+            $sql = "INSERT INTO designation_table_record (signatory_id, signatory_workplace_name, signatory_clearance_table_name, status) VALUES (:signatory_id, :signatory_workplace_name, :signatory_clearance_table_name, :status); ";
             $stmt = $this->conn->prepare($sql);
             $stmt->bindparam(':signatory_id', $signatory_id);
+            $stmt->bindparam(':signatory_workplace_name', $signatory_workplace_name);
             $stmt->bindparam(':signatory_clearance_table_name', $table_name);
             $stmt->bindparam(':status', $status);
 
@@ -418,6 +434,8 @@ class Designation {
             return false;
         }
     }
+
+
 
 
 }

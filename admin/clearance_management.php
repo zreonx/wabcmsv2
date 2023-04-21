@@ -119,7 +119,7 @@
                                     </div>
                                     <div class="modal-body x-border py-0">
                                     
-                                        <div id="search-list">
+                                        <!-- <div id="search-list">
                                             <table class="table">
                                                 <th>ID</th>
                                                 <th>Recipient</th>
@@ -127,7 +127,7 @@
                                                 <th>Academic Year</th>
                                                 <th>Status</th>
                                             </table>
-                                        </div>
+                                        </div> -->
                                         
                                         <div class="d-flex my-2 mb-3 gap-2">
                                             <button id="deploySignatoryBtn" class="btn btn-success rounded">Deploy to Signatories</button>
@@ -244,6 +244,7 @@
 
                     var clearance_data;
                     var clearance_id;
+                    
                     $('.status-btn').click(function() {
                         clearance_id = $(this).attr('data-id');
                         $.ajax({
@@ -264,7 +265,7 @@
                         let beneficiary = clearance_data.clearance_beneficiary;
                         $.ajax({
                             method : "POST",
-                            url: "../controller/clearance_designation_table.php",
+                            url: "../controller/clearance_deploy_signatories.php",
                             data: {
                                 id : clearance_id,
                                 clearance_beneficiary: clearance_data.clearance_beneficiary,
@@ -274,7 +275,6 @@
                             },
                             success: function(response) {
                                 console.log(response)
-                                clearance_id = null;
                             }
                         });
                     }); 

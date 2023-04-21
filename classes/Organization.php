@@ -6,12 +6,27 @@ class Organization {
     public function __construct($conn) {
         $this->conn = $conn;
     }
+
     public function getOrganizations() {
         try {
 
             $sql = "SELECT * FROM organizations WHERE status != 'inactive'";
             $result = $this->conn->query($sql);
             return $result;
+     
+        }catch(PDOException $e) {
+            echo "ERROR: " . $e->getMessage();
+            return false;
+        }
+    }
+
+    public function getAllOrganizations() {
+        try {
+
+            $sql = "SELECT * FROM organizations WHERE status != 'inactive'";
+            $result = $this->conn->query($sql);
+            $data = $result->fetchAll(PDO::FETCH_ASSOC);
+            return $data;
      
         }catch(PDOException $e) {
             echo "ERROR: " . $e->getMessage();

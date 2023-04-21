@@ -18,6 +18,20 @@ class Offices {
             return false;
         }
     }
+
+    public function getAllOffice() {
+        try {
+
+            $sql = "SELECT * FROM offices WHERE status = 'active'";
+            $result = $this->conn->query($sql);
+            $data = $result->fetchAll(PDO::FETCH_ASSOC);
+            return $data;
+     
+        }catch(PDOException $e) {
+            echo "ERROR: " . $e->getMessage();
+            return false;
+        }
+    }
     
 
     public function getOffice($id) {

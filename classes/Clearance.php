@@ -141,7 +141,41 @@ class Clearance {
         }
     }
 
-    //Creating of signatories table for clearance
+    //Deploying clearance for signatories
+
+    public function selectAllStudents() {
+        try {
+
+            $sql = "SELECT * FROM students WHERE status = 'imported'";
+            $result = $this->conn->query($sql);
+            $data = $result->fetchAll(PDO::FETCH_ASSOC);
+            return $data;
+            
+        }catch(PDOException $e) {
+            echo "ERROR: " . $e->getMessage();
+            return false;
+        }
+    }
+
+    public function insertStudentToTable($table_name, $clearance_id, $semester, $academic_year, $student_id, $date_cleared) {
+        try {
+            $status = "initialized";
+            $sql = "INSERT INTO $table_name (clearance_id, semester, academic_year, student_id, student_clearance_status, date_cleared) VALUES (:clearance_id, :semester, :academic_year, :student_id, '1', :date_cleared); ";
+            $stmt = $this->conn->prepare($sql);
+            $stmt->bindparam(':clearance_id', $clearance_id);
+            $stmt->bindparam(':semester', $semester);
+            $stmt->bindparam(':academic_year', $academic_year);
+            $stmt->bindparam(':student_id', $student_id);
+            $stmt->bindparam(':date_cleared', $date_cleared);
+            $stmt->execute();
+
+            return true;
+
+        }catch(PDOException $e) {
+            echo "ERROR: " . $e->getMessage();
+            return false;
+        }
+    }
     
     
     
