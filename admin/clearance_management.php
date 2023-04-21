@@ -242,8 +242,10 @@
                         window.location.replace("../controller/clearance_delete.php?id=" + idDelete);
                     });
 
+                    var clearance_data;
+                    var clearance_id;
                     $('.status-btn').click(function() {
-                        let clearance_id = $(this).attr('data-id');
+                        clearance_id = $(this).attr('data-id');
                         $.ajax({
                             method : "POST",
                             url: "../controller/clearance_get_info.php",
@@ -251,27 +253,31 @@
                                 id : clearance_id,
                             },
                             success: function(result) {
-                                let resultData = JSON.parse(result);
-                                let beneficiary = resultData.clearance_beneficiary;
-                                $.ajax({
-                                    method : "POST",
-                                    url: "../controller/clearance_designation_table.php",
-                                    data: {
-                                        id : clearance_id,
-                                        clearance_beneficiary: resultData.clearance_beneficiary,
-                                        clearance_type: resultData.clearance_type,
-                                        semester: resultData.semester,
-                                        academic_year: resultData.academic_year,
-                                    },
-                                    success: function(response) {
-                                        console.log(response)
-                                    }
-                                });
-
-                               console.log(result);
+                                clearance_data = JSON.parse(result)
+                                
+                                console.log(result);
                             }
                         })
                     });
+
+                    $('#deploySignatoryBtn').click(function(){
+                        let beneficiary = clearance_data.clearance_beneficiary;
+                        $.ajax({
+                            method : "POST",
+                            url: "../controller/clearance_designation_table.php",
+                            data: {
+                                id : clearance_id,
+                                clearance_beneficiary: clearance_data.clearance_beneficiary,
+                                clearance_type: clearance_data.clearance_type,
+                                semester: clearance_data.semester,
+                                academic_year: clearance_data.academic_year,
+                            },
+                            success: function(response) {
+                                console.log(response)
+                                clearance_id = null;
+                            }
+                        });
+                    }); 
 
                    
 

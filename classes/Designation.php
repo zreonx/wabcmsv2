@@ -344,4 +344,80 @@ class Designation {
         return $tble_name_array;
     }
 
+    
+
+    //Creating table for signatory designation clearance
+    public function createSignatoryDesignationClearance($table_name) {
+        try {
+
+            $sql = "CREATE TABLE $table_name (
+                id int(11) PRIMARY KEY AUTO_INCREMENT NOT NULL,
+                clearance_id varchar(11) NOT NULL,
+                semester varchar(255) NOT NULL,
+                academic_year varchar(255) NOT NULL,
+                student_id varchar(255) NOT NULL,
+                student_clearance_status varchar(255) NOT NULL,
+                date_cleared varchar(255) NULL
+             )";
+
+            $result = $this->conn->exec($sql);
+            return true;
+     
+        }catch(PDOException $e) {
+            echo "ERROR: " . $e->getMessage();
+            return false;
+        }
+    }
+    //Deleting designation development purposes
+    public function deleteDesignationTable($table_name) {
+        try {
+
+            $sql = "DROP TABLE $table_name ; DELETE FROM designation_table_record; ";
+
+            $result = $this->conn->exec($sql);
+            return true;
+     
+        }catch(PDOException $e) {
+            echo "ERROR: " . $e->getMessage();
+            return false;
+        }
+    }
+
+    //Check if the signatory designation already have table
+    public function checkTableNameExist($table_name) {
+        try {
+
+            $sql = "SELECT * FROM designation_table_record WHERE signatory_clearance_table_name = '$table_name';";
+            $result = $this->conn->query($sql);
+            if($result->rowCount() > 0) { 
+                return true;
+            }else {
+                return false;
+            }
+        }catch(PDOException $e) {
+            echo "ERROR: " . $e->getMessage();
+            return false;
+        }
+    }
+
+    public function addSignatoryDesignationRecord($signatory_id, $table_name) {
+        try {
+            $status = "active";
+            $sql = "INSERT INTO designation_table_record (signatory_id, signatory_clearance_table_name, status) VALUES (:signatory_id, :signatory_clearance_table_name, :status); ";
+            $stmt = $this->conn->prepare($sql);
+            $stmt->bindparam(':signatory_id', $signatory_id);
+            $stmt->bindparam(':signatory_clearance_table_name', $table_name);
+            $stmt->bindparam(':status', $status);
+
+            $stmt->execute();
+
+            return true;
+
+        }catch(PDOException $e) {
+            echo "ERROR: " . $e->getMessage();
+            return false;
+        }
+    }
+
+
 }

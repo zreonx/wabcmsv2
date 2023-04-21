@@ -386,6 +386,14 @@ body {
     border: 1px solid #f6f6f6;
 }
 
+/* Designation Managments */
+
+.activate-designations {
+    border: 1px solid #f6f6f6;
+    border-radius: 5px;
+    padding:10px 15px 15px 15px;
+}
+
 
 /* Media Queries */
 

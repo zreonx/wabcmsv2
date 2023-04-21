@@ -70,6 +70,15 @@
                             <button type="submit" name="submit" class="btn btn-success rounded mt-3" id="addDesignation">Add Designation</button>
                         </div>
                     </form>
+
+
+                    <div class="mt-3 activate-designations">
+                        <label class="form-label">Setup Signatory Designations</label>
+                        <div class="">
+                            <button type="button" class="btn btn-success rounded" id="activateDesignations">Setup All Designations</button>
+                            <button type="button" class="btn btn-success rounded" id="deleteDesignations">Delete all table dev</button>
+                        </div>
+                    </div>
                 </div>
 
                
@@ -301,6 +310,35 @@
                                 window.location.replace('add_designation_information.php?assign=success');
                             }
                         });
+                    });
+
+                    $('#activateDesignations').click(function() {
+                        $.ajax({
+                            method : "POST",
+                            url: "../controller/clearance_designation_table.php",
+                            data: {
+                                key : "activate",
+                            },
+                            success: function(result) {
+                                let response = JSON.parse(result);
+                                $('.page-content').before(response.message);
+                                //console.log(result);
+                            }
+                        })
+                    });
+
+                    $('#deleteDesignations').click(function() {
+                        $.ajax({
+                            method : "POST",
+                            url: "../controller/clearance_delete_table.php",
+                            data: {
+                                key : "delete",
+                            },
+                            success: function(result) {
+                                let response = JSON.parse(result);
+                                $('.page-content').before(response.message);
+                            }
+                        })
                     });
 
 
