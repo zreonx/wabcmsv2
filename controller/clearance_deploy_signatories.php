@@ -31,6 +31,8 @@
         //Select all students
 
         $allStudent = $clearance->selectAllStudents();
+        $collegeStudent = $clearance->selectCollegeStudent();
+        $shsStudent = $clearance->selectShsStudent();
         $allsig_data = $designation->ad_tbname();
 
         
@@ -94,10 +96,105 @@
                     }
                 break;
                 case '2': 
-                    echo "all college";
+                    foreach($allsig_data as $sig_des) { 
+                        $activeSig = $designation->designationTableRecord();
+                        foreach($activeSig as $sig) {
+                            if($sig_des['signatory_workplace_name'] == $sig['signatory_workplace_name']) {
+                                $tb_name = $sig['signatory_clearance_table_name'];
+                                foreach($collegeStudent as $stud){
+                                    if($sig_des['signatory_workplace_name'] == $stud['program_course']){
+                                        //function of inserting student 
+                                        $clearance->insertStudentToTable($tb_name, $id, $semester, $academic_year, $stud['student_id'], $date_approval);
+                                    }    
+                                }
+                            }
+                        }
+
+                        //offices
+                        $offices = $office->getAllOffice();
+                         foreach($offices as $ofc) {
+                             if($sig_des['signatory_workplace_name'] == $ofc['office_name']) {
+
+                                 //Get Active Signatories
+                                foreach($activeSig as $sig) {
+
+                                    if($sig_des['signatory_workplace_name'] == $sig['signatory_workplace_name']) {
+                                        $tb_name = $sig['signatory_clearance_table_name'];
+
+                                        if($ofc['office_name'] == "SHS Principal Office"){
+                                            //insert SHS students
+                                            foreach($collegeStudent as $stud){
+                                                //check if the student is SHS
+                                                $shs_strand = array("ABM","STEM");
+                                                if(in_array($stud['program_course'], $shs_strand)){
+                                                    //Insert Nothing
+                                                    //$clearance->insertStudentToTable($tb_name, $id, $semester, $academic_year, $stud['student_id'], $date_approval);
+                                                }
+                                            }
+                                        }else {
+                                            foreach($collegeStudent as $stud){
+                                                //check if the student is SHS
+                                                $clearance->insertStudentToTable($tb_name, $id, $semester, $academic_year, $stud['student_id'], $date_approval);
+                                            }
+                                        }
+                                        
+                                    }
+
+                                }
+                             }           
+                         }
+                        
+                    }
                 break;
                 case '3': 
-                    echo "all shs";
+                    foreach($allsig_data as $sig_des) { 
+                        $activeSig = $designation->designationTableRecord();
+                        foreach($activeSig as $sig) {
+                            if($sig_des['signatory_workplace_name'] == $sig['signatory_workplace_name']) {
+                                $tb_name = $sig['signatory_clearance_table_name'];
+                                foreach($shsStudent as $stud){
+                                    if($sig_des['signatory_workplace_name'] == $stud['program_course']){
+                                        //function of inserting student 
+                                        $clearance->insertStudentToTable($tb_name, $id, $semester, $academic_year, $stud['student_id'], $date_approval);
+                                    }    
+                                }
+                            }
+                        }
+
+                        //offices
+                        $offices = $office->getAllOffice();
+                         foreach($offices as $ofc) {
+                             if($sig_des['signatory_workplace_name'] == $ofc['office_name']) {
+
+                                 //Get Active Signatories
+                                foreach($activeSig as $sig) {
+
+                                    if($sig_des['signatory_workplace_name'] == $sig['signatory_workplace_name']) {
+                                        $tb_name = $sig['signatory_clearance_table_name'];
+
+                                        if($ofc['office_name'] == "SHS Principal Office"){
+                                            //insert SHS students
+                                            foreach($shsStudent as $stud){
+                                                //check if the student is SHS
+                                                $shs_strand = array("ABM","STEM");
+                                                if(in_array($stud['program_course'], $shs_strand)){
+                                                    $clearance->insertStudentToTable($tb_name, $id, $semester, $academic_year, $stud['student_id'], $date_approval);
+                                                }
+                                            }
+                                        }else {
+                                            foreach($shsStudent as $stud){
+                                                //check if the student is SHS
+                                                $clearance->insertStudentToTable($tb_name, $id, $semester, $academic_year, $stud['student_id'], $date_approval);
+                                            }
+                                        }
+                                        
+                                    }
+
+                                }
+                             }           
+                         }
+                        
+                    }
                 break;
 
             }

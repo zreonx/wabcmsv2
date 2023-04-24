@@ -157,6 +157,34 @@ class Clearance {
         }
     }
 
+    public function selectCollegeStudent() {
+        try {
+
+            $sql = "SELECT * FROM students WHERE academic_level = 'college' AND status = 'imported'";
+            $result = $this->conn->query($sql);
+            $data = $result->fetchAll(PDO::FETCH_ASSOC);
+            return $data;
+            
+        }catch(PDOException $e) {
+            echo "ERROR: " . $e->getMessage();
+            return false;
+        }
+    }
+
+    public function selectShsStudent() {
+        try {
+
+            $sql = "SELECT * FROM students WHERE academic_level = 'SHS' AND status = 'imported'";
+            $result = $this->conn->query($sql);
+            $data = $result->fetchAll(PDO::FETCH_ASSOC);
+            return $data;
+            
+        }catch(PDOException $e) {
+            echo "ERROR: " . $e->getMessage();
+            return false;
+        }
+    }
+
     public function insertStudentToTable($table_name, $clearance_id, $semester, $academic_year, $student_id, $date_cleared) {
         try {
             $status = "initialized";

@@ -34,7 +34,6 @@
 
         echo json_encode($response);
         
-
     }else {
         //404
     }
