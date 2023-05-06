@@ -204,6 +204,38 @@ class Clearance {
             return false;
         }
     }
+
+    public function deployClearanceSignatories($clearance_id, $date_deploy) {
+        try {
+            $status = "initialized";
+            $sql = "INSERT INTO clearance_status (clearance_id, date_deploy_signatory, date_deploy_student, date_ended, status) VALUES (:clearance_id, :date_deploy, '', '', 'active'); ";
+            $stmt = $this->conn->prepare($sql);
+            $stmt->bindparam(':clearance_id', $clearance_id);
+            $stmt->bindparam(':date_deploy', $date_deploy);
+
+            $stmt->execute();
+
+            return true;
+
+        }catch(PDOException $e) {
+            echo "ERROR: " . $e->getMessage();
+            return false;
+        }
+    }
+
+    public function checkIsClearanceDeployed($id) {
+        try {
+
+            $sql = "SELECT * FROM clearance_status WHERE clearance_id = '$id' AND status = 'active'";
+            $result = $this->conn->query($sql);
+            $count = $result->rowCount();
+            return $count;
+            
+        }catch(PDOException $e) {
+            echo "ERROR: " . $e->getMessage();
+            return false;
+        }
+    }
     
     
     

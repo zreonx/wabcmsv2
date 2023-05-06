@@ -131,7 +131,7 @@
                                         
                                         <div class="d-flex my-2 mb-3 gap-2">
                                             <button id="deploySignatoryBtn" class="btn btn-success rounded">Deploy to Signatories</button>
-                                            <button href="signatory_management.php" class="btn btn-success rounded" disabled>Deploy to Students</button>
+                                            <button id="deployStudentBtn" class="btn btn-success rounded">Deploy to Students</button>
                                             <button type="button" class="btn btn-secondary rounded ms-auto" data-bs-dismiss="modal">Cancel</button>
                                         </div>
                                     </div>
@@ -247,6 +247,26 @@
                     
                     $('.status-btn').click(function() {
                         clearance_id = $(this).attr('data-id');
+
+                        $.ajax({
+                            method : "POST",
+                            url: "../controller/clearance_check_status.php",
+                            data: {
+                                id : clearance_id,
+                            },
+                            success: function (response){
+                                console.log(response);
+                                if(response > 0){
+                                    $('#deploySignatoryBtn').prop('disabled', true);
+                                    $('#deployStudentBtn').prop('disabled', false);
+                                }else {
+                                    $('#deploySignatoryBtn').prop('disabled', false);  
+                                    $('#deployStudentBtn').prop('disabled', true);
+                                }
+                                
+                            }
+                        })
+
                         $.ajax({
                             method : "POST",
                             url: "../controller/clearance_get_info.php",
@@ -255,10 +275,10 @@
                             },
                             success: function(result) {
                                 clearance_data = JSON.parse(result)
-                                
-                                console.log(result);
+                            
                             }
                         })
+
                     });
 
                     $('#deploySignatoryBtn').click(function(){
@@ -274,7 +294,7 @@
                                 academic_year: clearance_data.academic_year,
                             },
                             success: function(response) {
-                                console.log(response)
+                                $('#deploySignatoryBtn').prop('disabled', true);
                             }
                         });
                     }); 

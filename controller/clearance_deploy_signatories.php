@@ -203,6 +203,9 @@
             echo "transfering clearance";
         }
 
+        
+        $clearance->deployClearanceSignatories($id, $date_approval);
+        
        
 
         //$result = $clearance->getClearanceInfo($id);
