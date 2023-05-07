@@ -196,6 +196,46 @@ class Designation {
         }
     }
 
+    //Remove Signatory Assignment
+
+    public function removeSignatoryDesignation($designation_id) {
+        try {
+            $status = 'removed';
+            $sql = "UPDATE designation_signatory SET status = :status WHERE designation_id = :designation_id ; ";
+            $stmt = $this->conn->prepare($sql);
+            $stmt->bindparam(':status', $status);
+            $stmt->bindparam(':designation_id', $designation_id);
+            $stmt->execute();
+
+            return true;
+
+        }catch(PDOException $e) {
+            echo "ERROR: " . $e->getMessage();
+            return false;
+        }
+    }
+
+
+    public function removeDesignationTable($signatory_id, $table_name) {
+        try {
+            $status = 'removed';
+            $sql = "UPDATE designation_table_record SET status = :status WHERE signatory_id = :signatory_id AND signatory_clearance_table_name = :table_name ; ";
+            $stmt = $this->conn->prepare($sql);
+            $stmt->bindparam(':status', $status);
+            $stmt->bindparam(':signatory_id', $signatory_id);
+            $stmt->bindparam(':table_name', $table_name);
+            $stmt->execute();
+
+            return true;
+
+        }catch(PDOException $e) {
+            echo "ERROR: " . $e->getMessage();
+            return false;
+        }
+    }
+
+    
+
     //Getting Signatory Information
 
      public function getSignatoryInformation($ds_id) {
@@ -229,6 +269,20 @@ class Designation {
         }
     }
 
+    //Get designation information
+    public function getDesignationInfo($designation_id) {
+        try {
+
+            $sql = "SELECT * FROM designation_signatory ds INNER JOIN designation_meta dm ON ds.designation_id = dm.id WHERE ds.designation_id = $designation_id AND ds.status = 'active'";
+            $result = $this->conn->query($sql);
+            $data = $result->fetch(PDO::FETCH_ASSOC);
+            return $data;
+     
+        }catch(PDOException $e) {
+            echo "ERROR: " . $e->getMessage();
+            return false;
+        }
+    }
     public function ad_tbname() {
         
         $allDesignation = $this->getAllAssignedDesignations();
@@ -404,7 +458,7 @@ class Designation {
     public function designationTableRecord() {
         try {
 
-            $sql = "SELECT * FROM designation_table_record";
+            $sql = "SELECT * FROM designation_table_record WHERE status = 'active'";
             $result = $this->conn->query($sql);
             $data = $result->fetchAll(PDO::FETCH_ASSOC);
             return $data;

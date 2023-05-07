@@ -102,7 +102,9 @@
                                                 $s_info = $designation->getSignatoryInformation($d_row['id']);
                                                if(!empty($s_info)) {
                                                    echo $s_info['last_name'] . ", " . $s_info['first_name'] . " " . strtoupper(substr($s_info['middle_name'], 0, 1)) ."." ;
-                                                }else {
+                                                ?>
+                                                <button data-id="<?php echo $d_row['id'] ?>" class="btn btn-sm btn-remove btn-danger" data-bs-toggle="modal" data-bs-target="#removeAssignment"><i class="fas fa-user-times"></i></button>
+                                                <?php }else {
                                                     echo '<span class="badge bg-secondary">Unassigned</span>';
                                                 ?>
                                                 <button data-id="<?php echo $d_row['id'] ?>" class="btn btn-sm btn-add btn-success" data-bs-toggle="modal" data-bs-target="#assignModal"><i class="fas fa-user-plus"></i></button>
@@ -143,6 +145,30 @@
                                 </div>
                             </div>
                         </div>
+
+                        <div class="modal fade custom-modal" id="removeAssignment" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header x-border py-1 pt-3">
+                                        <h1 class="px-1 display-6 fs-5">Remove Signatory Designation</h1>
+                                    </div>
+                                    <div class="modal-body x-border py-0">
+                                        <div class="d-flex gap-2justify-content-center align-items-center">
+                                            <div class="fs-1 text-danger p-2">
+                                                <i class="fas fa-exclamation-triangle"></i>
+                                            </div>
+                                            <div class="p-2">Are you sure you want to delete this clearance? This action cannot be undone.</div>
+                                        </div>
+                                        <div class="d-flex justify-content-end my-2 mb-3 gap-2">
+                                            <button id="removeSignatory" class="btn btn-danger rounded confirm-remove">Confirm</button>
+                                            <button type="button" class="btn btn-secondary rounded" data-bs-dismiss="modal">Cancel</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        
 
                         <div class="modal fade custom-modal" id="assignModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                             <div class="modal-dialog">
@@ -273,6 +299,16 @@
                         $('#searchSignatory').val("");
                         designationId = $(this).attr('data-id')
                     });
+
+                    $('.btn-remove').click(function(){
+                        designationId = $(this).attr('data-id')
+                        $('.confirm-remove').attr('data-id', designationId);
+                    });
+
+                    $('#removeSignatory').click(function(){
+                       let removeId = $(this).attr('data-id');
+                        window.location.replace("../controller/designation_remove.php?designation_id=" + removeId);
+                    })
 
                     $('#searchSignatory').on('input', function() {
                         clearTimeout(searchTimeout);

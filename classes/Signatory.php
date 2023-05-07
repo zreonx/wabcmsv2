@@ -23,7 +23,7 @@ class Signatory {
     public function getSignatoryDesignations($id) {
         try {
 
-            $sql = "SELECT * FROM designation_signatory ds INNER JOIN designation_meta dm ON ds.designation_id = dm.id WHERE ds.status !=  'inactive' AND ds.signatory_id = '$id';";
+            $sql = "SELECT * FROM designation_signatory ds INNER JOIN designation_meta dm ON ds.designation_id = dm.id WHERE ds.status =  'active' AND ds.signatory_id = '$id';";
             $result = $this->conn->query($sql);
             $data = $result->fetchAll(PDO::FETCH_ASSOC);
             return $data;
