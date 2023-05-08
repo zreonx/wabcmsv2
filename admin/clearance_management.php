@@ -275,7 +275,6 @@
                             },
                             success: function(result) {
                                 clearance_data = JSON.parse(result)
-                            
                             }
                         })
 
@@ -295,6 +294,7 @@
                             },
                             success: function(response) {
                                 $('#deploySignatoryBtn').prop('disabled', true);
+                                $('#deployStudentBtn').prop('disabled', false);
                             }
                         });
                     }); 

@@ -32,6 +32,10 @@
 .x-border {
     border: none;
 }
+.default-border {
+    border: 1px solid #d8d8d8;
+    border-radius: 5px;
+}
 .f-d {
     font-size: var(--normal-font-size);
 }
@@ -54,6 +58,14 @@
     font-size: 18px;
     margin-left: 5px;
     margin-right: 5px;
+}
+
+.danger-notice {
+    border-left: 3px solid rgb(236, 81, 81);
+    border-radius:  0 8px 8px 0;
+    padding: 10px 20px;
+    background-color: #f3c8c897;
+    
 }
 
 /* Global CSS */

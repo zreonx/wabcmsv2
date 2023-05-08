@@ -39,7 +39,7 @@
                                 <div class="custom-select select-category">
                                     <input type="hidden" class="select-name" name="category" id="category">
                                     <button type="button" class="select-btn categoryBtn"> 
-                                        <span class="sbtn-text">Select Signatory Category</span>
+                                        <span class="sbtn-text" id="categoryText">Select Signatory Category</span>
                                         <i class="bx bx-chevron-down"></i>
                                     </button>
                                     <ul class="select-menu">
@@ -54,7 +54,7 @@
                                 <div class="custom-select select-workplace">
                                     <input type="hidden" class="select-name" name="workplace" id="workplace">
                                     <button type="button" class="select-btn categoryBtn"> 
-                                        <span class="sbtn-text">Select Workplace</span>
+                                        <span class="sbtn-text" id="workplaceText">Select Workplace</span>
                                         <i class="bx bx-chevron-down"></i>
                                     </button>
                                     <ul class="select-menu">
@@ -67,7 +67,56 @@
                                 <input type="text" id="designation_name" name="designation_name" class="input-box" required>
                                 <label class="input-label">Designation Name</label>
                             </div>
-                            <button type="submit" name="submit" class="btn btn-success rounded mt-3" id="addDesignation">Add Designation</button>
+                            <button id="preAddBtn" type="button" class="btn btn-success rounded mt-3" data-bs-toggle="modal" data-bs-target="#confirmAddDesignation">Add Designation</button>
+                        </div>
+
+
+                        <div class="modal fade custom-modal" id="confirmAddDesignation" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header x-border py-1 pt-3">
+                                        <h1 class="px-1 display-6 fs-5">Designation Information</h1>
+                                    </div>
+                                    <div class="modal-body x-border py-0">
+                                        
+                                        <div>
+                                            
+                                            <div class="default-border py-2 px-3">
+                                                
+                                                
+                                                <table class="table table-borderless w-auto mt-1">
+                                                    <tr>
+                                                        <td><span>Category:</span></td>
+                                                        <td><strong><i id="category-text">Testing</i></strong></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><span>Workplace:</span></td>
+                                                        <td><strong><i id="workplace-text">Testing</i></strong></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><span>Designation:</span></td>
+                                                        <td><strong><i id="designation-text">Testing</i></strong></td>
+                                                    </tr>
+                                                    
+                                                </table>
+                                                
+                                            </div>
+                                            <div class="d-flex gap-2 justify-content-center align-items-center">
+                                            <!-- <div class="fs-1 text-danger p-2">
+                                                <i class="fas fa-exclamation-triangle"></i>
+                                            </div> -->
+                                            <div class="danger-notice f-d mt-3 my-2"> <i class="fas fa-exclamation-triangle text-danger"></i> Notice! Please check all the information you've entered before proceeding, once it was added, it cannot be edited.</div>
+                                            
+                                        </div>
+                                        </div>
+                                        
+                                        <div class="d-flex justify-content-end my-2 mb-3 gap-2">
+                                            <button type="submit" name="submit" class="btn btn-success rounded" id="addDesignation">Add Designation</button>
+                                            <button type="button" class="btn btn-secondary rounded" data-bs-dismiss="modal">Cancel</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </form>
 
@@ -146,9 +195,9 @@
                             </div>
                         </div>
 
-                        <div class="modal fade custom-modal" id="removeAssignment" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                        <div class="modal fade custom-modal " id="removeAssignment" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                             <div class="modal-dialog">
-                                <div class="modal-content">
+                                <div class="modal-content ">
                                     <div class="modal-header x-border py-1 pt-3">
                                         <h1 class="px-1 display-6 fs-5">Remove Signatory Designation</h1>
                                     </div>
@@ -194,8 +243,6 @@
                                 </div>
                             </div>
                         </div>
-                    
-
                     </div>
                 </div>
             </div>
@@ -293,6 +340,26 @@
                     let searchTimeout;
                     var assignedSignatoryId;
                     var designationId;
+
+                    $('#preAddBtn').click(function(){
+                        let categoryText = $('#categoryText').text();
+                        let workplaceText = $('#workplaceText').text();
+                        let designationText = $('input[name="designation_name"]').val();
+
+                      
+                       
+
+                       if(categoryText === "Program Head") {
+                            $('#category-text').text("Department");
+                            $('#workplace-text').text(workplaceText);
+                            $('#designation-text').text("Program Head");
+                       }else {
+                            $('#category-text').text(categoryText);
+                            $('#workplace-text').text(workplaceText);
+                            $('#designation-text').text(designationText);
+                       }
+                     
+                    })
 
                     $('.btn-add').click(function(){
                         $('#search-list').html('');
