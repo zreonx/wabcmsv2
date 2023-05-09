@@ -133,7 +133,7 @@
                
                 <div class="col-lg-7 pt-2 px-4">
                     <label class="form-label">Signatory Designations</label>
-                    <div class="d-flex justify-content-end mb-2">
+                    <div class="d-flex justify-content-end mb-2 ">
                         <div class="form-group d-flex gap-2">
                             <input class="form-control form-control-sm" type="text" id="search-val" placeholder="Search...">
                             <button class="btn btn-search btn-success btn-sm rounded" id="searchBtn">SEARCH</button>
@@ -153,16 +153,18 @@
                                 <tr>
                                     <td>
                                         <div class="d-flex gap-2">
+                                            <span class="d-flex justify-content-center align-items-center">
                                             <?php 
                                                 $s_info = $designation->getSignatoryInformation($d_row['id']);
-                                               if(!empty($s_info)) {
-                                                   echo $s_info['last_name'] . ", " . $s_info['first_name'] . " " . strtoupper(substr($s_info['middle_name'], 0, 1)) ."." ;
-                                                ?>
-                                                <button data-id="<?php echo $d_row['id'] ?>" class="btn btn-sm btn-remove btn-danger" data-bs-toggle="modal" data-bs-target="#removeAssignment"><i class="fas fa-user-times"></i></button>
+                                                if(!empty($s_info)) {
+                                                    echo $s_info['last_name'] . ", " . $s_info['first_name'] . " " . strtoupper(substr($s_info['middle_name'], 0, 1)) ."." ;
+                                                    ?>
+                                                </span>
+                                                <button data-id="<?php echo $d_row['id'] ?>" class="btn btn-sm small-btn btn-remove btn-danger" data-bs-toggle="modal" data-bs-target="#removeAssignment"><i class="fas fa-user-times"></i></button>
                                                 <?php }else {
-                                                    echo '<span class="badge bg-secondary">Unassigned</span>';
+                                                    echo '<span class="badge bg-secondary me-2">Unassigned</span>';
                                                 ?>
-                                                <button data-id="<?php echo $d_row['id'] ?>" class="btn btn-sm btn-add btn-success" data-bs-toggle="modal" data-bs-target="#assignModal"><i class="fas fa-user-plus"></i></button>
+                                                <button data-id="<?php echo $d_row['id'] ?>" class="btn btn-sm small-btn btn-add btn-success" data-bs-toggle="modal" data-bs-target="#assignModal"><i class="fas fa-user-plus"></i></button>
                                             <?php } ?>
                                         </div>
                                     </td>
@@ -175,8 +177,8 @@
                                     </td>
                                     <td><div class="p-1"><?php echo $d_row['designation'] ?></td></div>
                                     <td>
-                                        <button data-id="<?php echo $d_row['id'] ?>" class="btn btn-sm btn-success rounded btnsm edit-btn">Edit</button>
-                                        <button data-id="<?php echo $d_row['id']?>" class="btn btn-delete btn-sm btn-success rounded btnsm" data-bs-toggle="modal" data-bs-target="#deleteModal">Delete</button>
+                                        <!-- <button data-id="<?php //echo $d_row['id'] ?>" class="btn btn-sm btn-success rounded btnsm edit-btn">Edit</button> -->
+                                        <button data-id="<?php echo $d_row['id']?>" class="btn btn-delete btn-sm small-btn btn-success rounded" data-bs-toggle="modal" data-bs-target="#deleteModal"> <i class="fas fa-trash"></i> Delete</button>
                                     </td>
                                 </tr>
                             <?php endwhile; ?>

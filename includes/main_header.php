@@ -7,7 +7,7 @@
 
     <link rel="stylesheet" href="../css/bootstrap.min.css">
     <link href="https://cdn.datatables.net/v/bs5/jszip-2.5.0/dt-1.13.4/b-2.3.6/b-html5-2.3.6/b-print-2.3.6/r-2.4.1/sc-2.1.1/datatables.min.css?v.1" rel="stylesheet"/>
-    <link rel="stylesheet" href="../css/main.css?v1.1">
+    <link rel="stylesheet" href="../css/main.css?v1.7">
     <link rel="stylesheet" href="../css/all.min.css">
     
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
@@ -28,7 +28,7 @@
    
     <script src="../js/main.js?v.3"></script>
 
-    <script src="../js/datatable.js"></script>
+    <script src="../js/datatable.js?v1.1"></script>
 </head>
 <body>
 
@@ -110,8 +110,7 @@
                 <i class='bx bx-chevron-down' id="chevron"></i>
             </div>
             <ul class="category-item p-0">
-                <li class="category-link"><a href="student_management.php" class="clink-text">Students</a></li>
-                <li class="category-link"><a class="clink-text">Add Signatory</a></li>                
+                <li class="category-link"><a href="student_management.php" class="clink-text">Students</a></li>            
             </ul>
         </div>
         

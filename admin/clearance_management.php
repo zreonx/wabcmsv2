@@ -82,8 +82,8 @@
                
                 <div class="col-lg-7 pt-2 px-4">
                     <label class="form-label">Clearance Records</label>
-                    <div class="custom-table default-height-overflow">
-                        <table class="table table-hover">
+                    <div class="custom-table px-3 pb-3">
+                        <table class="table text-center display w-100 mb-2" id="my-datable"">
                             <thead>
                                 <tr>
                                     <th>Clearance</th>
@@ -95,10 +95,10 @@
                             </thead>
                                 <?php $count = 1; while($c_row = $clearances->fetch(PDO::FETCH_ASSOC)): ?>
                                     <tr>
-                                        <td><?php echo $c_row['clearance_name'] ?></td>
-                                        <td><?php echo $c_row['beneficiary'] ?></td>
-                                        <td><?php echo $c_row['semester'] ?></td>
-                                        <td><?php echo $c_row['academic_year'] ?></td>
+                                        <td><div class="td-label"><?php echo $c_row['clearance_name'] ?></div></td>
+                                        <td><div class="td-label"><?php echo $c_row['beneficiary'] ?></div></td>
+                                        <td><div class="td-label"><?php echo $c_row['semester'] ?></div></td>
+                                        <td><div class="td-label"><?php echo $c_row['academic_year'] ?></div></td>
                                         <td>
                                             
                                             <button data-id="<?php echo $c_row['clearance_id']?>" class="btn btn-delete btn-sm btn-success rounded btnsm" data-bs-toggle="modal" data-bs-target="#deleteModal">Delete</button>

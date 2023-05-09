@@ -60,11 +60,37 @@
     margin-right: 5px;
 }
 
+/* Plackards */
+
 .danger-notice {
     border-left: 3px solid rgb(236, 81, 81);
     border-radius:  0 8px 8px 0;
     padding: 10px 20px;
     background-color: #f3c8c897;
+}
+
+/* Text */
+.long-word {
+    max-width: 148px; /* or any other value that fits your design */
+    word-wrap: break-word;
+}
+
+td, th {
+    vertical-align: middle;
+}
+
+.td-label, .xy-center-text {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+}
+
+
+/* Buttons */
+
+.small-btn {
+    height: 28px !important;
 }
 
 /* Global CSS */
@@ -472,15 +498,8 @@ table.dataTable.dtr-inline.collapsed>tbody>tr>td.dtr-control:before, table.dataT
 @media only screen and (max-width: 540px) {
     .input-cont .input-box:focus ~ label, .input-cont .input-box:valid ~ label {
     }
-    .btnsm {
-        width: 50px !important;
-        margin-bottom: 5px;
-    }
+
 }
 @media only screen and (max-width: 1980px) {
-    
-    .btnsm {
-        width: 50px !important;
-        margin-bottom: 5px;
-    }
+
 }

@@ -9,7 +9,6 @@ $(document).ready(function(){
             'excel', 'pdf', 'print'
         ],
         
-        "pagingType": "full_numbers",
         "pageLength": 10,
         "lengthChange": false,
         responsive: true,

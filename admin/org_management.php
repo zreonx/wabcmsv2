@@ -25,11 +25,10 @@
                 </div>
                 <div class="col-lg-7 pt-2 px-4">
                     <label class="form-label">Organizations</label>
-                    <div class="custom-table default-height-overflow">
-                        <table class="table text-center">
+                    <div class="custom-table px-3 pb-3">
+                        <table class="table text-center display w-100 mb-2" id="my-datable"">
                             <thead>
                                 <tr>
-                                    
                                     <th>Acronym</th>
                                     <th>Organization</th>
                                     <th>Action</th>
@@ -39,10 +38,10 @@
                                 <tr>
                                     
                                     <th><?php echo $org_row['organization_code']; ?></th>
-                                    <td><?php echo $org_row['organization_name']; ?></td>
+                                    <td class="long-word"><?php echo $org_row['organization_name']; ?></td>
                                     <td>
-                                        <button data-id="<?php echo $org_row['id']?>" class="btn btn-sm btn-success rounded btnsm edit-btn">Edit</button>
-                                        <button data-id="<?php echo $org_row['id']?>" class="btn btn-delete btn-sm btn-success rounded btnsm" data-bs-toggle="modal" data-bs-target="#deleteModal">Delete</button>
+                                        <button data-id="<?php echo $org_row['id']?>" class="btn btn-sm btn-success rounded small-btn edit-btn "><i class="fas fa-edit"></i> Edit</button>
+                                        <button data-id="<?php echo $org_row['id']?>" class="btn btn-delete btn-sm btn-success rounded small-btn " data-bs-toggle="modal" data-bs-target="#deleteModal"><i class="fas fa-trash"></i> Delete</button>
                                     </td>
                                 </tr>
                             <?php $count++; endwhile; ?>

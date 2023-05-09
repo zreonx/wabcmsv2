@@ -10,8 +10,6 @@
         <h1 class="page-title fs-5 display-6">SHS Management</h1>
         <div class="page-content p-2 rounded ">
             <div class="row">
-                
-
                 <div class="col-lg-5 pt-2 px-4">
                     <form action="../controller/shs_add.php" method="POST">
                         <label class="form-label">Manage SHS Strand</label>
@@ -32,8 +30,8 @@
                
                 <div class="col-lg-7 pt-2 px-4">
                     <label class="form-label">SHS Strand</label>
-                    <div class="custom-table default-height-overflow">
-                        <table class="table text-center">
+                    <div class="custom-table px-3 pb-3">
+                        <table class="table text-center display w-100 mb-2" id="my-datable"">
                             <thead>
                                 <tr>
                                     <th>Strand</th>
@@ -46,8 +44,8 @@
                                     <th><?php echo $shs_row['strand'] ?></th>
                                     <td><?php echo $shs_row['description'] ?></td>
                                     <td>
-                                        <button data-id="<?php echo $shs_row['id'] ?>" class="btn btn-sm btn-success rounded btnsm edit-btn">Edit</button>
-                                        <button data-id="<?php echo $shs_row['id']?>" class="btn btn-delete btn-sm btn-success rounded btnsm" data-bs-toggle="modal" data-bs-target="#deleteModal">Delete</button>
+                                        <button data-id="<?php echo $shs_row['id'] ?>" class="btn btn-sm btn-success rounded btnsm edit-btn"><i class="fas fa-edit"></i> Edit</button>
+                                        <button data-id="<?php echo $shs_row['id']?>" class="btn btn-delete btn-sm btn-success rounded btnsm" data-bs-toggle="modal" data-bs-target="#deleteModal"><i class="fas fa-trash"></i> Delete</button>
                                     </td>
                                 </tr>
 
