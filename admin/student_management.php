@@ -17,6 +17,9 @@
         </div>
         <div class="page-content p-2 rounded ">
             <div class="row">
+
+
+                <div class="export-btn mt-2 d-flex justify-content-end px-4"></div>
                 <div class="col-lg-12 px-4 my-3">
                     <div class="d-flex gap-2 align-items-center">
                         <span class="f-d">Type</span>
@@ -24,14 +27,17 @@
                         <button class="btn btn-search btn-success btn-sm btn-rounded">College</button>
                         <button class="btn btn-search btn-success btn-sm btn-rounded">SHS</button>
                         <div class="d-flex gap-2 ms-auto">
-                            <input class="form-control form-control-sm" type="text" id="searchSignatory" placeholder="Search...">
-                            <button class="btn btn-search btn-success btn-sm rounded">SEARCH</button>
+                            <input class="form-control form-control-sm" type="text" id="search-val" placeholder="Search...">
+                            <button class="btn btn-search btn-success btn-sm rounded" id="searchBtn">SEARCH</button>
                         </div>
                     </div>
                 </div>
+              
                 <div class="col-lg-12 px-4 mb-2">
-                    <div class="custom-table default-height-overflow">
-                        <table class="table text-center">
+                    <div class="custom-table px-3 pb-2">
+
+                        <table class="table text-center display w-100 mb-2" id="my-datable">
+                            
                             <thead>
                                 <tr>
                                     <th>#</th>
@@ -44,6 +50,7 @@
                                     <th>Action</th>
                                 </tr>
                             </thead>
+                            
                             <?php $count = 1; while($stud_row = $allStudents->fetch(PDO::FETCH_ASSOC)): ?>
                                 <tr>
                                     <td><?php echo $count; ?></td>
@@ -55,10 +62,11 @@
                                     <td><?php echo $stud_row['year_level']; ?></td>
                                     <td><button data-id="<?php echo $sig_row['id']?>" class="btn btn-delete btn-sm btn-success rounded btnsm" data-bs-toggle="modal" data-bs-target="#deleteModal">Delete</button></td>
                                 </tr>
+                                
                             <?php $count++; endwhile; ?>
                             
                         </table>
-                    
+
                         <div class="modal fade custom-modal" id="importModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                             <div class="modal-dialog">
                                 <div class="modal-content">
@@ -84,10 +92,45 @@
                         </div>
 
                     </div>
+                    
                 </div>
             </div>
             <script>
                 $(document).ready(function(){
+
+                    var table = $('#my-datable').DataTable({
+                        language: {
+                            search: "_INPUT_",
+                            searchPlaceholder: "Search Student"
+                        },
+
+                        buttons: [
+                            'excel', 'pdf', 'print'
+                        ],
+                        "pagingType": "full_numbers",
+                        "pageLength": 10,
+                        "lengthChange": false,
+                        responsive: true,
+                        "targets": 'no-sort',
+                        "bSort": true,
+                        "order": [],
+
+                    });
+
+                        // Append export buttons container to .export-btn container
+                        $('.export-btn').append(table.buttons().container());
+                      
+                        $('#searchBtn').click(function() {
+                            var searchTerm = $('#search-val').val();
+                            table.search(searchTerm).draw();
+                        });
+
+                        $('#search-val').on('keyup', function() {
+                            var searchTerm = $('#search-val').val();
+                            table.search(searchTerm).draw();
+                        });
+
+
                     var editId;
 
                     setTimeout(function(){

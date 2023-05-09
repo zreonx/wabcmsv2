@@ -65,7 +65,6 @@
     border-radius:  0 8px 8px 0;
     padding: 10px 20px;
     background-color: #f3c8c897;
-    
 }
 
 /* Global CSS */
@@ -387,6 +386,85 @@ body {
     box-shadow: var(--shadow-sm);
 }
 
+/* Custom Tables  */
+
+.export-btn .dt-buttons button {
+    background-color: #029c63;
+    font-size: var(--small-font-size);
+    padding: 8px 12px;
+    border-radius: 5px;
+}
+
+
+#my-datable_paginate .pagination {
+   
+}
+
+#my-datable_paginate .pagination .page-item {
+    border-radius: 5px;
+}
+
+#my-datable_paginate .pagination .page-item.active > .page-link, #datable_paginate .pagination .page-item:focus > .page-link {
+    background-color: #02c37c !important;
+    border: 1px solid #02c37c;
+}
+
+#my-datable_paginate .pagination .page-item .page-link {
+    font-size: var(--small-font-size);
+}
+
+#my-datable_info {
+    font-size: var(--normal-font-size);
+    padding: 0;
+}
+
+.dataTables_filter  {
+    display: none;
+}
+
+.dataTable > thead > tr > th[class*="sort"]:before,
+.dataTable > thead > tr > th[class*="sort"]:after {
+   
+}
+
+.dataTable > thead > tr > th[class*="sort"]:before {
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    content: "\f176" !important;
+}
+.dataTable > thead > tr > th[class*="sort"]:after {
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    content: "\f175" !important;
+    margin-right: .5em;
+}
+
+table.dataTable.dtr-inline.collapsed>tbody>tr>td.dtr-control:before, table.dataTable.dtr-inline.collapsed>tbody>tr>th.dtr-control:before {
+    background-color: #02c37c !important;
+}
+
+/* Default styles for all <th> elements */
+th {
+    position: relative; /* needed for absolute positioning of sort icon */
+  }
+  
+  /* Styles for <th> elements that are currently sorted ascending */
+  th.asc::after {
+    content: url('https://www.flaticon.com/free-icon/filter-filled-tool-symbol_57164?term=filter&page=1&position=1&origin=search&related_id=57164');
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+  
+  /* Styles for <th> elements that are currently sorted descending */
+  th.desc::after {
+    content: url('path/to/descending-sort-icon.png');
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+  }
 
 
 /* Organization Management Style */
@@ -405,6 +483,7 @@ body {
     border-radius: 5px;
     padding:10px 15px 15px 15px;
 }
+
 
 
 /* Media Queries */
