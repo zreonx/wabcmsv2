@@ -6,7 +6,6 @@
         require '../config/connection.php';
 
        
-
         $designation_info = $designation->getDesignationInfo($designation_id);
 
 

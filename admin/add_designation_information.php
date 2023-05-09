@@ -133,8 +133,14 @@
                
                 <div class="col-lg-7 pt-2 px-4">
                     <label class="form-label">Signatory Designations</label>
-                    <div class="custom-table default-height-overflow">
-                        <table class="table table-hover">
+                    <div class="d-flex justify-content-end mb-2">
+                        <div class="form-group d-flex gap-2">
+                            <input class="form-control form-control-sm" type="text" id="search-val" placeholder="Search...">
+                            <button class="btn btn-search btn-success btn-sm rounded" id="searchBtn">SEARCH</button>
+                        </div>
+                    </div>  
+                    <div class="custom-table">
+                        <table class="table text-center display w-100 mb-2" id="my-datable">
                             <thead>
                                 <tr>
                                     <th>Signatory</th>
@@ -206,7 +212,7 @@
                                             <div class="fs-1 text-danger p-2">
                                                 <i class="fas fa-exclamation-triangle"></i>
                                             </div>
-                                            <div class="p-2">Are you sure you want to delete this clearance? This action cannot be undone.</div>
+                                            <div class="p-2">Are you sure you want to remove this designation? This action cannot be undone.</div>
                                         </div>
                                         <div class="d-flex justify-content-end my-2 mb-3 gap-2">
                                             <button id="removeSignatory" class="btn btn-danger rounded confirm-remove">Confirm</button>

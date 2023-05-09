@@ -30,6 +30,17 @@ class Designation {
             return false;
         }
     }
+    public function getSpecificDesignation($designation_id) {
+        try {
+            $sql = "SELECT * FROM designation_meta WHERE id = '$designation_id' AND status = 'active'";
+            $result = $this->conn->query($sql);
+            return $result->fetch(PDO::FETCH_ASSOC);
+     
+        }catch(PDOException $e) {
+            echo "ERROR: " . $e->getMessage();
+            return false;
+        }
+    }
 
     public function getDesignationData($designation_id) {
         try {
@@ -449,6 +460,42 @@ class Designation {
             }else {
                 return false;
             }
+        }catch(PDOException $e) {
+            echo "ERROR: " . $e->getMessage();
+            return false;
+        }
+    }
+
+    //check if table name was there before
+    public function checkExistingRemovedTable($table_name) {
+        try {
+
+            $sql = "SELECT * FROM designation_table_record WHERE signatory_clearance_table_name = '$table_name' AND status = 'removed';";
+            $result = $this->conn->query($sql);
+            if($result->rowCount() > 0) { 
+                return true;
+            }else {
+                return false;
+            }
+        }catch(PDOException $e) {
+            echo "ERROR: " . $e->getMessage();
+            return false;
+        }
+    }
+
+    //Update removed clearance table
+
+    public function reactivatePreviousSignatoryTable($table_name) {
+        try {
+
+            $sql = "UPDATE designation_table_record SET status = 'active' WHERE signatory_clearance_table_name = :table_name ; ";
+            $stmt = $this->conn->prepare($sql);
+            $stmt->bindparam(':table_name', $table_name);
+
+            $stmt->execute();
+
+            return true;
+
         }catch(PDOException $e) {
             echo "ERROR: " . $e->getMessage();
             return false;

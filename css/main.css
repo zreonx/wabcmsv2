@@ -443,29 +443,10 @@ table.dataTable.dtr-inline.collapsed>tbody>tr>td.dtr-control:before, table.dataT
     background-color: #02c37c !important;
 }
 
-/* Default styles for all <th> elements */
-th {
-    position: relative; /* needed for absolute positioning of sort icon */
-  }
-  
-  /* Styles for <th> elements that are currently sorted ascending */
-  th.asc::after {
-    content: url('https://www.flaticon.com/free-icon/filter-filled-tool-symbol_57164?term=filter&page=1&position=1&origin=search&related_id=57164');
-    position: absolute;
-    right: 0;
-    top: 50%;
-    transform: translateY(-50%);
-  }
-  
-  /* Styles for <th> elements that are currently sorted descending */
-  th.desc::after {
-    content: url('path/to/descending-sort-icon.png');
-    position: absolute;
-    right: 0;
-    top: 50%;
-    transform: translateY(-50%);
-  }
-
+/* Search */
+.search-area{
+    width: 200px !important;
+}
 
 /* Organization Management Style */
 
