@@ -175,7 +175,7 @@
 
                     var id;
 
-                    $('.edit-btn').on('click', function(){
+                    $('#my-datable tbody').on('click', '.edit-btn', function(){
                         id = $(this).attr('data-id')
                         $.ajax({
                             type: "GET",

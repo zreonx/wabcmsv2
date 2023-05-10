@@ -89,7 +89,7 @@
                         }
                     })
 
-                    $('.edit-btn').click(function(){
+                    $('#my-datable tbody').on('click', '.edit-btn', function(){
                         editId = $(this).attr('data-id');
                         $.ajax({
                             type: "GET",
