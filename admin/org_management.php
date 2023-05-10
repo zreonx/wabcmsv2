@@ -47,19 +47,23 @@
                             <?php $count++; endwhile; ?>
                         </table>
                     
-                        <div class="modal fade" id="deleteModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                        <div class="modal fade custom-modal " id="deleteModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                             <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="staticBackdropLabel">Delete Confirmation</h5>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                <div class="modal-content ">
+                                    <div class="modal-header x-border py-1 pt-3">
+                                        <h1 class="px-1 display-6 fs-5">Delete Organization</h1>
                                     </div>
-                                    <div class="modal-body">
-                                        Are you sure you want to delete this organization?
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                                        <button data-id="" type="button" class="btn btn-danger confirm-delete">Continue</button>
+                                    <div class="modal-body x-border py-0">
+                                        <div class="d-flex gap-2justify-content-center align-items-center danger-notice p-3">
+                                            <div class="fs-1 text-danger p-2">
+                                                <i class="fas fa-trash"></i>
+                                            </div>
+                                            <div class="p-2 f-d">Notice! This action cannot be undone. Are you sure you want to delete this organization?</div>
+                                        </div>
+                                        <div class="d-flex justify-content-end my-2 mb-3 gap-2">
+                                            <button id="removeSignatory" class="btn btn-danger rounded confirm-remove">Confirm</button>
+                                            <button type="button" class="btn btn-secondary rounded" data-bs-dismiss="modal">Cancel</button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

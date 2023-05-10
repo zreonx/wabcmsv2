@@ -139,16 +139,21 @@
                             </div>
                         </div>
 
-                        <div class="modal fade custom-modal" id="deleteModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                        <div class="modal fade custom-modal " id="deleteModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                             <div class="modal-dialog">
-                                <div class="modal-content">
+                                <div class="modal-content ">
                                     <div class="modal-header x-border py-1 pt-3">
                                         <h1 class="px-1 display-6 fs-5">Delete Clearance</h1>
                                     </div>
                                     <div class="modal-body x-border py-0">
-                                        <div class="ps-1 pb-3">Are you sure you want to delete this clearance?</div>
+                                        <div class="d-flex gap-2justify-content-center align-items-center danger-notice p-3">
+                                            <div class="fs-1 text-danger p-2">
+                                                <i class="fas fa-trash"></i>
+                                            </div>
+                                            <div class="p-2 f-d">Notice! This action cannot be undone. Are you sure you want to delete this clearance?</div>
+                                        </div>
                                         <div class="d-flex justify-content-end my-2 mb-3 gap-2">
-                                            <button id="deleteClearance" class="btn btn-danger rounded confirm-delete">Confirm</button>
+                                            <button id="removeSignatory" class="btn btn-danger rounded confirm-remove">Confirm</button>
                                             <button type="button" class="btn btn-secondary rounded" data-bs-dismiss="modal">Cancel</button>
                                         </div>
                                     </div>

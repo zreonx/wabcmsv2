@@ -1,15 +1,16 @@
 <?php
-    define('DB_HOST', 'localhost');
-    define('DB_USER', 'root');
-    define('DB_PASS', '');
-    define('DB_NAME', 'wabcms_db');
+    // define('DB_HOST', 'localhost');
+    // define('DB_USER', 'root');
+    // define('DB_PASS', '');
+    // define('DB_NAME', 'wabcms_db');
+    // define('DB_CHARSET', 'utf8mb4');
+
+    define('DB_HOST', 'sql208.epizy.com');
+    define('DB_USER', 'epiz_34001244');
+    define('DB_PASS', 'jg9BK25Lv8J');
+    define('DB_NAME', 'epiz_34001244_wabcms_db');
     define('DB_CHARSET', 'utf8mb4');
 
-    // define('DB_HOST', 'sql.freedb.tech');
-    // define('DB_USER', 'freedb_zreonsaiver');
-    // define('DB_PASS', 'WBwSC@69pNx82wQ');
-    // define('DB_NAME', 'freedb_cccwabcms_db');
-    // define('DB_CHARSET', 'utf8mb4');
 
     include_once '../includes/autoloader.inc.php';
     //include_once '../includes/session.php';

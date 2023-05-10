@@ -36,6 +36,10 @@
     border: 1px solid #d8d8d8;
     border-radius: 5px;
 }
+.danger-border {
+    border: 1px solid rgb(247, 150, 150);
+    border-radius: 5px;
+}
 .f-d {
     font-size: var(--normal-font-size);
 }
@@ -66,7 +70,7 @@
     border-left: 3px solid rgb(236, 81, 81);
     border-radius:  0 8px 8px 0;
     padding: 10px 20px;
-    background-color: #f3c8c897;
+    background-color: #f5d3d397;
 }
 
 /* Text */
