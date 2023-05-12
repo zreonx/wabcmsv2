@@ -374,7 +374,7 @@
                      
                     })
 
-                    $('.btn-add').click(function(){
+                    $('#my-datable tbody').on('click', '.btn-add', function(){
                         $('#search-list').html('');
                         $('#searchSignatory').val("");
                         designationId = $(this).attr('data-id')
