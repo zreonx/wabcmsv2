@@ -26,6 +26,19 @@
     --shadow-warning: 0 0 0 4px rgba(210, 127, 0, 0.2);
     --shadow-danger: 0 0 0 4px rgba(203, 18, 0, 0.2);
     --shadow-info: 0 0 0 4px rgba(0, 200, 177, 0.2);
+
+
+    --color-default: #029c63;
+
+    --color-success: #198754;
+    --color-accentsuccess: #16cf79;
+    --color-danger: #dc3545;
+    --color-warning: #ffc107;
+    --color-primary: #0d6efd;
+    --color-gray: #6c757d;
+    --color-info: #0dcaf0 ;
+    --color-lightS: #f8f9fa ;
+    --color-dark: #343a40 ;
 }
 
 /* Ready to call CSS */
@@ -47,6 +60,19 @@
     font-size: var(--small-font-size);
 }
 
+.badge-green {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+
+    border: 1px solid var(--color-accentsuccess);
+    border-radius: 24px;
+
+    padding: 3px 4px;
+    font-size: var(--small-font-size);
+}
+
 .default-height-overflow {
     height: 75vh;
     overflow: auto;
@@ -62,6 +88,16 @@
     font-size: 18px;
     margin-left: 5px;
     margin-right: 5px;
+}
+
+
+/* Dot Icon */
+
+.i-dot {
+    font-size: .50rem;
+}
+.i-success {
+    color: var(--color-accentsuccess);
 }
 
 /* Plackards */
@@ -182,6 +218,10 @@ body {
 
 .custom-category.active .category-item {
     display: block !important;
+}
+
+#chevron {
+    font-size: .80rem;
 }
 
 .custom-category.active #chevron {
@@ -483,8 +523,10 @@ table.dataTable.dtr-inline.collapsed>tbody>tr>td.dtr-control:before, table.dataT
 .page{
     padding: 12px;
 }
+
 .page-content {
     border: 1px solid #f6f6f6;
+    padding: 15px 18px 30px !important;
 }
 
 /* Designation Managments */
@@ -501,6 +543,11 @@ table.dataTable.dtr-inline.collapsed>tbody>tr>td.dtr-control:before, table.dataT
 
 @media only screen and (max-width: 540px) {
     .input-cont .input-box:focus ~ label, .input-cont .input-box:valid ~ label {
+    }
+
+    .page-header {
+        justify-content: center !important;
+        flex-direction: column;
     }
 
 }

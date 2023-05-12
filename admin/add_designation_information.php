@@ -26,7 +26,14 @@
         <?php if(isset($_GET['success'])){ echo '<div class="alert alert-success" id="err">Designation has been added.</div>'; } ?>
         <?php if(isset($_GET['delete'])){ echo '<div class="alert alert-success" id="err">Department has been deleted.</div>'; } ?>
         <?php if(isset($_GET['assign'])){ echo '<div class="alert alert-success" id="err">Designation has been assigned.</div>'; } ?>
-        <h1 class="page-title fs-5 display-6">Designation Management</h1>
+        <div class="page-header d-flex flex-wrap align-items-center gap-2 justify-content-md-between">
+            <h1 class="page-title fs-5 display-6">Designation Management</h1>
+            <div class="d-flex gap-2 flex-wrap align-items-center justify-content-center mb-3">
+                <button class="btn btn-success rounded px-3" type="button" id="activateDesignations"><i class="fad fa-sync-alt me-2" id="sync-icon"></i>Sync Designations</button>
+                <button type="btn btn-success rounded" class="btn btn-success rounded" id="deleteDesignations">Delete all table dev</button>
+            </div>
+        </div>
+
         <div class="page-content p-2 rounded ">
             <div class="row">
                 
@@ -87,15 +94,15 @@
                                                 <table class="table table-borderless w-auto mt-1">
                                                     <tr>
                                                         <td><span>Category:</span></td>
-                                                        <td><strong><i id="category-text">Testing</i></strong></td>
+                                                        <td><strong><i id="category-text"></i></strong></td>
                                                     </tr>
                                                     <tr>
                                                         <td><span>Workplace:</span></td>
-                                                        <td><strong><i id="workplace-text">Testing</i></strong></td>
+                                                        <td><strong><i id="workplace-text"></i></strong></td>
                                                     </tr>
                                                     <tr>
                                                         <td><span>Designation:</span></td>
-                                                        <td><strong><i id="designation-text">Testing</i></strong></td>
+                                                        <td><strong><i id="designation-text">Select Designation</i></strong></td>
                                                     </tr>
                                                     
                                                 </table>
@@ -119,15 +126,6 @@
                             </div>
                         </div>
                     </form>
-
-
-                    <div class="mt-3 activate-designations">
-                        <label class="form-label">Setup Signatory Designations</label>
-                        <div class="">
-                            <button type="button" class="btn btn-success rounded" id="activateDesignations">Setup All Designations</button>
-                            <button type="button" class="btn btn-success rounded" id="deleteDesignations">Delete all table dev</button>
-                        </div>
-                    </div>
                 </div>
 
                
@@ -160,7 +158,7 @@
                                                     echo $s_info['last_name'] . ", " . $s_info['first_name'] . " " . strtoupper(substr($s_info['middle_name'], 0, 1)) ."." ;
                                                     ?>
                                                 </span>
-                                                <button data-id="<?php echo $d_row['id'] ?>" class="btn btn-sm small-btn btn-remove btn-danger" data-bs-toggle="modal" data-bs-target="#removeAssignment"><i class="fas fa-user-times"></i></button>
+                                                <button data-id="<?php echo $d_row['id'] ?>" class="btn btn-sm small-btn btn-remove btn-danger" data-bs-toggle="modal" data-bs-target="#removeAssignment"><i class="fas fa-user-minus"></i></button>
                                                 <?php }else {
                                                     echo '<span class="badge bg-secondary me-2">Unassigned</span>';
                                                 ?>
@@ -189,13 +187,15 @@
                         <div class="modal fade custom-modal " id="deleteModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                             <div class="modal-dialog">
                                 <div class="modal-content ">
-                                    <div class="modal-header x-border py-1 pt-3">
-                                        <h1 class="px-1 display-6 fs-5">Delete Designation</h1>
+                                    <div class="modal-header x-border py-3">
+                                        <div class="d-flex align-items-center gap-1">
+                                            <span><i class="fad fa-trash-alt text-danger fs-5"></i></span><h1 class="px-1 display-6 fs-5 my-0">Delete Designation</h1>
+                                        </div>
                                     </div>
                                     <div class="modal-body x-border py-0">
                                         <div class="d-flex gap-2justify-content-center align-items-center danger-notice p-3">
                                             <div class="fs-1 text-danger p-2">
-                                                <i class="fas fa-trash"></i>
+                                                <i class="fas fa-exclamation-triangle text-danger"></i>
                                             </div>
                                             <div class="p-2 f-d">Notice! This action cannot be undone. Are you sure you want to delete this designation?</div>
                                         </div>
@@ -432,7 +432,21 @@
                     });
 
                     $('#activateDesignations').click(function() {
-                        $.ajax({
+                        $(this).prop('disabled', true);
+                        $('#sync-icon').animate({deg: 360}, {
+                            duration: 2000,
+                            step: function(now) {
+                                $(this).css({
+                                    transform: 'rotate(' + now + 'deg)'
+                                });
+                            },
+                            complete: function() {
+                                $(this).css({transform: ''});
+                            }
+                        });
+
+                        setTimeout(() => {
+                            $.ajax({
                             method : "POST",
                             url: "../controller/clearance_designation_table.php",
                             data: {
@@ -446,8 +460,11 @@
                                     $('#err').remove();
                                 },3000);
 
+                                $('#activateDesignations').prop('disabled', false);
+
                             }
                         })
+                        }, 3000);
                     });
 
                     $('#deleteDesignations').click(function() {

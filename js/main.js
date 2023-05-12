@@ -21,7 +21,6 @@ $(document).ready(function() {
     const sidebar = document.getElementById('sidebar');
     menuButton.addEventListener('click', () => {
         sidebar.classList.toggle('sidebar-open');
-        console.log(sidebar);
     });
    
 

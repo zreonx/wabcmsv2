@@ -9,7 +9,7 @@ $(document).ready(function(){
             'excel', 'pdf', 'print'
         ],
         
-        "pageLength": 10,
+        "pageLength": 9,
         "lengthChange": false,
         responsive: true,
         "targets": 'no-sort',

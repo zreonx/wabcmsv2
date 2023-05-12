@@ -1,107 +1,56 @@
 <?php 
     require_once '../includes/main_header.php'; 
     require_once '../config/connection.php';
-    $allStudents = $student->getStudents();
+    $allOrg = $organization->getOrganizations();
 ?>
     <div class="page">
-    <?php 
-        if (isset($_GET['import']) && $_GET['import'] == "success") { echo '<div class="alert alert-success" id="err">Students has been updated.</div>'; }
-        if (isset($_GET['error']) && $_GET['error'] == "true") { echo '<div class="alert alert-danger" id="err">There was an error importing students.</div>'; } 
-        if (isset($_GET['import']) && $_GET['import'] == "empty") { echo '<div class="alert alert-danger" id="err">Please select a CSV file.</div>'; }
-        if (isset($_GET['import']) && $_GET['import'] == "invalid") {echo '<div class="alert alert-danger" id="err">Please select an appropriate file format</div>';}
-        if (isset($_GET['column']) && $_GET['column'] == "false") { echo '<div class="alert alert-danger" id="err">The column of the file does not match our database.</div>'; }
-    ?>
-        <div class="page-header d-flex flex-wrap align-items-center gap-2 justify-content-md-between">
-            <h1 class="page-title fs-5 display-6">Student Management</h1>
-            <div class="d-flex gap-2 flex-wrap align-items-center justify-content-center">
-                <button class="btn btn-success rounded mb-3" id="syncBtn" type="button" id="sync-btn"><i class="fad fa-sync-alt me-1"></i> Sync Accounts</button>
-                <div class="btn btn-success rounded mb-3" id="addOrgBtn" data-bs-toggle="modal" data-bs-target="#importModal"><i class="fas me-1 fa-plus"></i> Import CSV</div>
-            </div>
-        </div>
+        <?php if(isset($_GET['update'])){ echo '<div class="alert alert-success" id="err">Oranization has been updated.</div>'; } ?>
+        <?php if(isset($_GET['delete'])){ echo '<div class="alert alert-success" id="err">Oranization has been deleted.</div>'; } ?>
+        <h1 class="page-title fs-5 display-6">Accounts Management</h1>
         <div class="page-content p-2 rounded ">
             <div class="row">
-
-
-                <div class="export-btn mt-2 d-flex justify-content-end px-4"></div>
-                <div class="col-lg-12 px-4 my-3">
-                    <div class="d-flex gap-2 align-items-center">
-                        <span class="f-d">Type</span>
-                        <button class="btn btn-search btn-success btn-sm btn-rounded">All</button>
-                        <button class="btn btn-search btn-success btn-sm btn-rounded">College</button>
-                        <button class="btn btn-search btn-success btn-sm btn-rounded">SHS</button>
-                        <div class="d-flex gap-2 ms-auto">
-                            <input class="form-control form-control-sm" type="text" id="search-val" placeholder="Search...">
-                            <!-- <button class="btn btn-search btn-success btn-sm rounded" id="searchBtn">SEARCH</button> -->
-                        </div>
-                    </div>
-                </div>
-              
-                <div class="col-lg-12 px-4 mb-2">
-                    <div class="custom-table px-3 pb-2">
-
-                        <table class="table text-center display w-100 mb-2" id="my-datable">
-                            
+                <div class="col-lg-12 pt-2 px-4">
+                    <label class="form-label">User Account Information</label>
+                    <div class="custom-table px-3 pb-3">
+                        <table class="table text-center display w-100 mb-2" id="my-datable"">
                             <thead>
                                 <tr>
-                                    <th>#</th>
-                                    <th>Name</th>
+                                    <th>Type</th>
+                                    <th>ID</th>
                                     <th>Email</th>
-                                    <th>Contact</th>
-                                    <th>Course / Strand</th>
-                                    <th>Education Level</th>
-                                    <th>Academic Level</th>
                                     <th>Status</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
-                            
-                            <?php $count = 1; while($stud_row = $allStudents->fetch(PDO::FETCH_ASSOC)): ?>
-                                <tr>
-                                    <td><?php echo $count; ?></td>
-                                    <td><?php echo $stud_row['last_name'] . ", " . $stud_row['first_name'] . " " . $stud_row['middle_name'] //strtoupper(substr($stud_row['middle_name'], 0, 1)) ."." ?></td>
-                                    <td><?php echo $stud_row['email']; ?></td>
-                                    <td><?php echo $stud_row['contact_number']; ?></td>
-                                    <td><?php echo $stud_row['program_course']; ?></td>
-                                    <td><?php echo $stud_row['academic_level']; ?></td>
-                                    <td><?php echo $stud_row['year_level']; ?></td>
-                                    <td class="text-center align-middle"><?php echo ($stud_row['status'] == "imported") ? '<div class="badge-green"><i class="fas fa-circle i-dot i-success "></i> <span>Enrolled</span></div>' : ''; ?></td>
-                                    <td><button data-id="<?php echo $sig_row['id']?>" class="btn btn-delete btn-sm btn-success rounded btnsm" data-bs-toggle="modal" data-bs-target="#deleteModal">Delete</button></td>
-                                </tr>
-                                
-                            <?php $count++; endwhile; ?>
-                            
                         </table>
-
-                        <div class="modal fade custom-modal" id="importModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                    
+                        <div class="modal fade custom-modal " id="deleteModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                             <div class="modal-dialog">
-                                <div class="modal-content">
+                                <div class="modal-content ">
                                     <div class="modal-header x-border py-1 pt-3">
-                                        <h1 class="px-1 display-6 fs-6">Import Student</h1>
+                                        <h1 class="px-1 display-6 fs-5">Delete Organization</h1>
                                     </div>
                                     <div class="modal-body x-border py-0">
-                                        <form class="px-3 pb-3" action="../controller/student_import.php" method="post" enctype="multipart/form-data">
-                                            <div class="file-upload">
-                                                <label>
-                                                    <input type="file" class="form-control" name="csvfile" accept=".csv">
-                                                    <span>Choose CSV file or drag it here</span>
-                                                </label>
-                                            </div>   
-                                            <div class="d-flex justify-content-end gap-2">
-                                                <button type="submit" class="btn btn-success rounded" name="submit">Import</button>
-                                                <button type="button" class="btn btn-secondary rounded" data-bs-dismiss="modal">Cancel</button>
+                                        <div class="d-flex gap-2justify-content-center align-items-center danger-notice p-3">
+                                            <div class="fs-1 text-danger p-2">
+                                                <i class="fas fa-trash"></i>
                                             </div>
-                                        </form>
+                                            <div class="p-2 f-d">Notice! This action cannot be undone. Are you sure you want to delete this organization?</div>
+                                        </div>
+                                        <div class="d-flex justify-content-end my-2 mb-3 gap-2">
+                                            <button id="removeSignatory" class="btn btn-danger rounded confirm-remove">Confirm</button>
+                                            <button type="button" class="btn btn-secondary rounded" data-bs-dismiss="modal">Cancel</button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
+
                     </div>
-                    
                 </div>
             </div>
             <script>
                 $(document).ready(function(){
-                    
                     var editId;
 
                     setTimeout(function(){
@@ -117,7 +66,7 @@
                         }
                     })
 
-                    $('.edit-btn').click(function(){
+                    $('#my-datable tbody').on('click', '.edit-btn', function(){
                         editId = $(this).attr('data-id');
                         $.ajax({
                             type: "GET",

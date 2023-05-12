@@ -22,7 +22,7 @@
                                 <div class="custom-select select-clearance-beneficiaries">
                                     <input type="hidden" class="select-name" name="clearance_beneficiary" id="clearance_beneficiary">
                                     <button type="button" class="select-btn"> 
-                                        <span class="sbtn-text">Clearance Recipient</span>
+                                        <span class="sbtn-text" id="crtext">Clearance Recipient</span>
                                         <i class="bx bx-chevron-down"></i>
                                     </button>
                                     <ul class="select-menu">
@@ -37,7 +37,7 @@
                                 <div class="custom-select select-clearance-type">
                                     <input type="hidden" class="select-name" name="clearance_type" id="clearance_type">
                                     <button type="button" class="select-btn"> 
-                                        <span class="sbtn-text">Clearance Type</span>
+                                        <span class="sbtn-text" id="cttext">Clearance Type</span>
                                         <i class="bx bx-chevron-down"></i>
                                     </button>
                                     <ul class="select-menu">
@@ -63,7 +63,7 @@
                                 <div class="custom-select select-academic-year">
                                     <input type="hidden" class="select-name" name="academic_year" id="academic_year">
                                     <button type="button" class="select-btn"> 
-                                        <span class="sbtn-text">Academic Year</span>
+                                        <span class="sbtn-text" id="aytext">Academic Year</span>
                                         <i class="bx bx-chevron-down"></i>
                                     </button>
                                     <ul class="select-menu">
@@ -73,9 +73,62 @@
                                     </ul>
                                 </div>
                            </div>
-
-                            <button type="submit" name="submit" class="btn btn-success rounded mt-3" id="clearanceBtn">Create Clearance</button>
+                           <button id="preAddBtn" type="button" class="btn btn-success rounded mt-3" data-bs-toggle="modal" data-bs-target="#confirmAddClearance">Create Clearance</button>           
+                            <!-- <button type="submit" name="submit" class="btn btn-success rounded mt-3" id="clearanceBtn">Create Clearance</button> -->
                         </div>
+
+                        <div class="modal fade custom-modal" id="confirmAddClearance" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header x-border py-1 pt-3">
+                                        <h1 class="px-1 display-6 fs-5"><i class="fal fa-info-circle "></i> Clearance Information</h1>
+                                    </div>
+                                    <div class="modal-body x-border py-0">
+                                        
+                                        <div>
+                                            
+                                            <div class="default-border py-2 px-3">
+                                                
+                                                
+                                                <table class="table table-borderless w-auto mt-1">
+                                                    <tr>
+                                                        <td><span>Clearance Recipient:</span></td>
+                                                        <td><strong><i id="cr-text"></i></strong></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><span>Clearance Type:</span></td>
+                                                        <td><strong><i id="ct-text"></i></strong></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><span>Semester:</span></td>
+                                                        <td><strong><i id="sem-text">Select Designation</i></strong></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><span>Academic Year:</span></td>
+                                                        <td><strong><i id="ay-text">Select Designation</i></strong></td>
+                                                    </tr>
+                                                    
+                                                </table>
+                                                
+                                            </div>
+                                            <div class="d-flex gap-2 justify-content-center align-items-center">
+                                            <!-- <div class="fs-1 text-danger p-2">
+                                                <i class="fas fa-exclamation-triangle"></i>
+                                            </div> -->
+                                            <div class="danger-notice f-d mt-3 my-2"> <i class="fas fa-exclamation-triangle text-danger"></i> Notice! Please check all the information you've entered before proceeding, once it was added, it cannot be edited.</div>
+                                            
+                                        </div>
+                                        </div>
+                                        
+                                        <div class="d-flex justify-content-end my-2 mb-3 gap-2">
+                                            <button type="submit" name="submit" class="btn btn-success rounded" id="clearanceBtn">Create Clearance</button>
+                                            <button type="button" class="btn btn-secondary rounded" data-bs-dismiss="modal">Cancel</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                     </form>
                 </div>
 
@@ -172,6 +225,19 @@
                     setTimeout(function(){
                         $('#err').remove();
                     },3000);
+
+                    $('#preAddBtn').click(function(){
+                        let crText = $('#crtext').text();
+                        let ctText = $('#cttext').text();
+                        let semText = $('input[name="semester"]').val();
+                        let ayText = $('#aytext').text();
+
+                        $('#cr-text').text(crText);
+                        $('#ct-text').text(ctText);
+                        $('#sem-text').text(semText);
+                        $('#ay-text').text(ayText);
+                     
+                    })
 
                     var id;
 
