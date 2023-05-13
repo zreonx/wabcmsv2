@@ -28,6 +28,7 @@
     $signatory = new Signatory($conn);
     $student = new Student($conn);
     $clearance = new Clearance($conn);
+    $user = new User($conn);
 
 
     // $clearance = new Clearance($conn);

@@ -1,7 +1,7 @@
 <?php 
     require_once '../includes/main_header.php'; 
     require_once '../config/connection.php';
-    $allOrg = $organization->getOrganizations();
+    $allUser = $user->getAllUser();
 ?>
     <div class="page">
         <?php if(isset($_GET['update'])){ echo '<div class="alert alert-success" id="err">Oranization has been updated.</div>'; } ?>
@@ -18,10 +18,23 @@
                                     <th>Type</th>
                                     <th>ID</th>
                                     <th>Email</th>
+                                    <th>Password</th>
                                     <th>Status</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
+                            <tbody>
+                                <?php foreach($allUser as $user_data): ?>
+                                    <tr>
+                                        <td><?php echo ucfirst($user_data['user_type']); ?></td>
+                                        <td><?php echo $user_data['user_id']; ?></td>
+                                        <td><?php echo $user_data['email']; ?></td>
+                                        <td><?php echo $user_data['password']; ?></td>
+                                        <td class="text-center align-middle"><?php echo ($user_data['status'] == "active") ? '<div class="d-flex justify-content-center"><div class="badge-green"><i class="fas fa-circle i-dot i-success "></i> <span>Active</span></div></div>' : ''; ; ?></td>
+                                        <td>Action</td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            </tbody>
                         </table>
                     
                         <div class="modal fade custom-modal " id="deleteModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">

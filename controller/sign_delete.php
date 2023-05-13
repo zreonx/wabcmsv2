@@ -8,6 +8,7 @@
         $result = $signatory->deleteSignatory($id);
 
         if($result) {
+            $user->deleteUser($id);
             header("location: ../admin/signatory_management.php?delete=success");
         }
 

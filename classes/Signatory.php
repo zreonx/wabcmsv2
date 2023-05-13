@@ -19,6 +19,19 @@ class Signatory {
             return false;
         }
     }
+    
+    public function getSignatoryInfo($email) {
+        try {
+
+            $sql = "SELECT * FROM signatories WHERE email = '$email' AND status =  'active'";
+            $result = $this->conn->query($sql);
+            return $result->fetch(PDO::FETCH_ASSOC);
+     
+        }catch(PDOException $e) {
+            echo "ERROR: " . $e->getMessage();
+            return false;
+        }
+    }
 
     public function getSignatoryDesignations($id) {
         try {

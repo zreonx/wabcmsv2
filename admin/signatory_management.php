@@ -94,7 +94,7 @@
                                             </div>
                                         </div>
                                         <div class="d-flex justify-content-end my-2 mb-3 gap-2">
-                                            <button id="removeSignatory" class="btn btn-danger rounded confirm-remove">Confirm</button>
+                                            <button id="removeSignatory" class="btn btn-danger rounded confirm-delete">Confirm</button>
                                             <button type="button" class="btn btn-secondary rounded" data-bs-dismiss="modal">Cancel</button>
                                         </div>
                                     </div>
