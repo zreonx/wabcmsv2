@@ -167,6 +167,7 @@ body {
 .sidebar-open{
     left: 0;
 }
+
 .sidebar-open ~ .main-content {
     margin-left: 280px; 
 }
@@ -370,10 +371,11 @@ body {
     position: absolute;
     z-index: 999;
     padding: 0;
-    margin-top: 10px;
+    margin-top: 5px;
     padding: 5px 0;
     background-color: #fff;
     box-shadow: 0 0 3px rgba(0,0,0,0.1);
+    border: 1px solid #d8d8d8;
     overflow: auto;
 
 }
