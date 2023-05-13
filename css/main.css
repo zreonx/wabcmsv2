@@ -549,7 +549,7 @@ table.dataTable.dtr-inline.collapsed>tbody>tr>td.dtr-control:before, table.dataT
 
     .page-header {
         justify-content: center !important;
-        flex-direction: column;
+        flex-direction: column !important;
     }
 
 }

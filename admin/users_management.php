@@ -11,6 +11,20 @@
             <div class="row">
                 <div class="col-lg-12 pt-2 px-4">
                     <label class="form-label">User Account Information</label>
+
+                   <div class="page-filter d-flex flex-wrap justify-content-sm-between gap-2 align-items-center">
+                        <div class="d-flex gap-2 justify-content-sm-center mb-2 align-items-center">
+                            <span class="f-d">Filter</span>
+                            <button class="btn btn-search btn-success btn-sm btn-rounded">All</button>
+                            <button class="btn btn-search btn-success btn-sm btn-rounded">Student</button>
+                            <button class="btn btn-search btn-success btn-sm btn-rounded">Signatory</button>
+                        </div>
+                        <div class="d-flex align-self-start gap-2 mb-2">
+                            <input class="form-control form-control-sm" type="text" id="search-val" placeholder="Search...">
+                            <!-- <button class="btn btn-search btn-success btn-sm rounded" id="searchBtn">SEARCH</button> -->
+                        </div>
+                   </div>
+
                     <div class="custom-table px-3 pb-3">
                         <table class="table text-center display w-100 mb-2" id="my-datable"">
                             <thead>
