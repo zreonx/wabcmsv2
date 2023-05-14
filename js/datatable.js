@@ -30,5 +30,6 @@ $(document).ready(function(){
         var searchTerm = $('#search-val').val();
         table.search(searchTerm).draw();
     });
+    
 })
 

@@ -29,6 +29,7 @@
     $student = new Student($conn);
     $clearance = new Clearance($conn);
     $user = new User($conn);
+    $filter = new Filter($conn);
 
 
     // $clearance = new Clearance($conn);

@@ -1,16 +1,31 @@
 <?php
 
-class User {
+class Filter {
     private $conn;
 
     public function __construct($conn) {
         $this->conn = $conn;
     }
 
-    public function getAllUser() {
-        try {
 
-            $sql = "SELECT * FROM users WHERE status = 'active'";
+    //Filtering Table
+    public function getTableBy($table_name, $column_name, $filter_value, $status_label) {
+        try {
+            $sql = "SELECT * FROM $table_name WHERE $column_name LIKE '%$filter_value' AND status = '$status_label' ";
+            $result = $this->conn->query($sql);
+            return $result->fetchAll(PDO::FETCH_ASSOC);
+     
+        }catch(PDOException $e) {
+            echo "ERROR: " . $e->getMessage();
+            return false;
+        }
+    }
+
+
+    //Filter Students 
+    public function getStudentBy($table_name, $column_name, $filter_value, $status_label) {
+        try {
+            $sql = "SELECT * FROM $table_name WHERE $column_name LIKE '%$filter_value' AND status = '$status_label' ";
             $result = $this->conn->query($sql);
             return $result->fetchAll(PDO::FETCH_ASSOC);
      

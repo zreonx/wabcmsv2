@@ -14,21 +14,21 @@
         <div class="page-header d-flex flex-wrap align-items-center gap-2 justify-content-md-between">
             <h1 class="page-title fs-5 display-6">Student Management</h1>
             <div class="d-flex gap-2 flex-wrap align-items-center justify-content-center">
-                <button class="btn btn-success rounded mb-3" id="syncBtn" type="button" id="sync-btn"><i class="fad fa-sync-alt me-1"></i> Sync Accounts</button>
                 <div class="btn btn-success rounded mb-3" id="addOrgBtn" data-bs-toggle="modal" data-bs-target="#importModal"><i class="fas me-1 fa-plus"></i> Import CSV</div>
             </div>
         </div>
         <div class="page-content p-2 rounded ">
-            <div class="row">
-
-
-                <div class="export-btn mt-2 d-flex justify-content-end px-4"></div>
+            <div class="row"> 
+                <div class="mt-2 d-flex justify-content-between">
+                    <label class="form-label">Student Record</label>
+                    <div class="export-btn"></div>
+                </div>
                 <div class="col-lg-12 px-4 my-3">
                     <div class="d-flex gap-2 align-items-center">
                         <span class="f-d">Type</span>
-                        <button class="btn btn-search btn-success btn-sm btn-rounded">All</button>
-                        <button class="btn btn-search btn-success btn-sm btn-rounded">College</button>
-                        <button class="btn btn-search btn-success btn-sm btn-rounded">SHS</button>
+                        <button type="button" class="btn btn-search btn-success btn-sm btn-rounded" id="filter-all">All</button>
+                        <button type="button" class="btn btn-search btn-success btn-sm btn-rounded" id="filter-college">College</button>
+                        <button type="button" class="btn btn-search btn-success btn-sm btn-rounded" id="filter-shs">SHS</button>
                         <div class="d-flex gap-2 ms-auto">
                             <input class="form-control form-control-sm" type="text" id="search-val" placeholder="Search...">
                             <!-- <button class="btn btn-search btn-success btn-sm rounded" id="searchBtn">SEARCH</button> -->
@@ -44,6 +44,7 @@
                             <thead>
                                 <tr>
                                     <th>#</th>
+                                    <th>Student ID</th>
                                     <th>Name</th>
                                     <th>Email</th>
                                     <th>Contact</th>
@@ -51,13 +52,14 @@
                                     <th>Education Level</th>
                                     <th>Academic Level</th>
                                     <th>Status</th>
-                                    <th>Action</th>
+                                    <!-- <th>Action</th> -->
                                 </tr>
                             </thead>
                             
                             <?php $count = 1; while($stud_row = $allStudents->fetch(PDO::FETCH_ASSOC)): ?>
                                 <tr>
                                     <td><?php echo $count; ?></td>
+                                    <td><?php echo $stud_row['student_id']; ?></td>
                                     <td><?php echo $stud_row['last_name'] . ", " . $stud_row['first_name'] . " " . $stud_row['middle_name'] //strtoupper(substr($stud_row['middle_name'], 0, 1)) ."." ?></td>
                                     <td><?php echo $stud_row['email']; ?></td>
                                     <td><?php echo $stud_row['contact_number']; ?></td>
@@ -65,7 +67,7 @@
                                     <td><?php echo $stud_row['academic_level']; ?></td>
                                     <td><?php echo $stud_row['year_level']; ?></td>
                                     <td class="text-center align-middle"><?php echo ($stud_row['status'] == "imported") ? '<div class="badge-green"><i class="fas fa-circle i-dot i-success "></i> <span>Enrolled</span></div>' : ''; ?></td>
-                                    <td><button data-id="<?php echo $sig_row['id']?>" class="btn btn-delete btn-sm btn-success rounded btnsm" data-bs-toggle="modal" data-bs-target="#deleteModal">Delete</button></td>
+                                    <!-- <td><button data-id="<?php echo $sig_row['id']?>" class="btn btn-delete btn-sm btn-success rounded btnsm" data-bs-toggle="modal" data-bs-target="#deleteModal">Delete</button></td> -->
                                 </tr>
                                 
                             <?php $count++; endwhile; ?>
@@ -99,9 +101,12 @@
                     
                 </div>
             </div>
+
+            <script src="../js/filter_student.js"></script>
             <script>
+                
                 $(document).ready(function(){
-                    
+
                     var editId;
 
                     setTimeout(function(){

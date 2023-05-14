@@ -20,20 +20,39 @@ if(isset($_POST['submit'])) {
                    
                     $row = 0;
                     $file = fopen($csv, "r");
+
+                    $current_users = $user->getAllUser();
+
                     while (($column = fgetcsv($file, 0, ",")) !== false) {
                         $row++;
                         if ($row == 1) {
                             continue;
                         }
+
                         $result = $student->importStudent(['student_id' => $column[0], 'first_name' => $column[1], 'middle_name' => $column[2], 'last_name' => $column[3], 'contact_number' => $column[4], 'email' => $column[5], 'program_course' => $column[6], 'academic_level' => $column[7], 'year_level' => $column[8]]);
                         
-                        if($result == true) {
-                            header("location: ../admin/student_management.php?import=success");
-                        } else {
-                            header("location: ../admin/student_management.php?error=true");
+                        $user_exists = false;
+
+                        foreach($current_users as $user_data){
+                            if($column[0] == $user_data['user_id']) {
+                                $user_exists = true;
+                                break;
+                            }
                         }
-                        echo "<br>";
+                    
+                        if (!$user_exists) {
+                            $user->makeUserAccount($column[0], "student", $column[5]);
+                        }
                     }   
+
+                    if($result == true) {   
+                        header("location: ../admin/student_management.php?import=success");
+                    } else {
+                        header("location: ../admin/student_management.php?error=true");
+                    }
+
+                    echo "<br>";
+
                 }
            // } 
         }else {

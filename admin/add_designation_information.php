@@ -30,7 +30,7 @@
             <h1 class="page-title fs-5 display-6">Designation Management</h1>
             <div class="d-flex gap-2 flex-wrap align-items-center justify-content-center mb-3">
                 <button class="btn btn-success rounded px-3" type="button" id="activateDesignations"><i class="fad fa-sync-alt me-2" id="sync-icon"></i>Sync Designations</button>
-                <button type="btn btn-success rounded" class="btn btn-success rounded" id="deleteDesignations">Delete all table dev</button>
+                <!-- <button type="btn btn-success rounded" class="btn btn-success rounded" id="deleteDesignations">Delete all table dev</button> -->
             </div>
         </div>
 
@@ -134,7 +134,7 @@
                     <div class="d-flex justify-content-end mb-2 ">
                         <div class="form-group d-flex gap-2">
                             <input class="form-control form-control-sm" type="text" id="search-val" placeholder="Search...">
-                            <button class="btn btn-search btn-success btn-sm rounded" id="searchBtn">SEARCH</button>
+                            <!-- <button class="btn btn-search btn-success btn-sm rounded" id="searchBtn">SEARCH</button> -->
                         </div>
                     </div>  
                     <div class="custom-table">
@@ -187,10 +187,13 @@
                         <div class="modal fade custom-modal " id="deleteModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                             <div class="modal-dialog">
                                 <div class="modal-content ">
-                                    <div class="modal-header x-border py-3">
-                                        <div class="d-flex align-items-center gap-1">
-                                            <span><i class="fad fa-trash-alt text-danger fs-5"></i></span><h1 class="px-1 display-6 fs-5 my-0">Delete Designation</h1>
-                                        </div>
+                                    <div class="modal-header x-border py-1 pt-3">
+                                        <h1 class="px-1 display-6 fs-5"><i class="fal fa-trash"></i> Delete Designation</h1>
+                                    
+                                        <!-- <div class="d-flex justify-content-start align-items-center gap-1">
+                                            <span><i class="fal fa-trash-alt fs-4"></i></span>
+                                            <h1 class="px-1 display-6 fs-5 my-0">Delete Designation</h1>
+                                        </div> -->
                                     </div>
                                     <div class="modal-body x-border py-0">
                                         <div class="d-flex gap-2justify-content-center align-items-center danger-notice p-3">
@@ -212,7 +215,7 @@
                             <div class="modal-dialog">
                                 <div class="modal-content ">
                                     <div class="modal-header x-border py-1 pt-3">
-                                        <h1 class="px-1 display-6 fs-5">Unassign Signatory</h1>
+                                        <h1 class="px-1 display-6 fs-5"><i class="fal fa-user-alt-slash"></i> Unassign Signatory</h1>
                                     </div>
                                     <div class="modal-body x-border py-0">
                                         <div class="d-flex gap-2justify-content-center align-items-center danger-notice p-3">
@@ -222,7 +225,7 @@
                                             <div class="p-2 f-d">Are you sure you want to unassign this signatory?</div>
                                         </div>
                                         <div class="d-flex justify-content-end my-2 mb-3 gap-2">
-                                            <button id="removeSignatory" class="btn btn-danger rounded confirm-remove">Confirm</button>
+                                            <button type="button" id="removeSignatory" class="btn btn-danger rounded confirm-remove">Confirm</button>
                                             <button type="button" class="btn btn-secondary rounded" data-bs-dismiss="modal">Cancel</button>
                                         </div>
                                     </div>
@@ -265,7 +268,7 @@
                 $(document).ready(function(){
                     setTimeout(function(){
                         $('#err').remove();
-                    },3000);
+                    },10000);
 
                     var department = <?php echo $dept_json ; ?>;
                     var organization = <?php echo $org_json ; ?>;
@@ -380,13 +383,13 @@
                         designationId = $(this).attr('data-id')
                     });
 
-                    $('.btn-remove').click(function(){
+                    $('#my-datable tbody').on('click', '.btn-remove', function(){
                         designationId = $(this).attr('data-id')
                         $('.confirm-remove').attr('data-id', designationId);
                     });
 
-                    $('#removeSignatory').click(function(){
-                       let removeId = $(this).attr('data-id');
+                    $('.confirm-remove').on("click", function(){     
+                        let removeId = $(this).attr('data-id');
                         window.location.replace("../controller/designation_remove.php?designation_id=" + removeId);
                     })
 
@@ -408,7 +411,7 @@
                                         }else {
                                             $('#search-list').html('<h1 class="display-6 fs-6 text-center text-success">    Signatory does not exist.</h1>');
                                         }
-                                    },3000)
+                                    },10000)
                                 }
                             }) 
                         }, 1000);
@@ -458,7 +461,7 @@
                                 //console.log(result);
                                 setTimeout(function(){
                                     $('#err').remove();
-                                },3000);
+                                },10000);
 
                                 $('#activateDesignations').prop('disabled', false);
 
@@ -479,7 +482,7 @@
                                 $('.page-content').before(response.message);
                                 setTimeout(function(){
                                     $('#err').remove();
-                                },3000);
+                                },10000);
                             }
                         })
                     });

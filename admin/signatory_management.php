@@ -86,11 +86,12 @@
                                     </div>
                                     <div class="modal-body x-border py-0">
                                         <div class="d-flex gap-2 align-items-center">
-                                            <div class="fs-1 text-danger p-2">
-                                                <i class="fad fa-trash"></i>
-                                            </div>
-                                            <div class="d-flex gap-2justify-content-center align-items-center danger-notice p-3">
-                                                <div class="p-2 f-d">Notice! This action cannot be undone. Are you sure you want to delete this signatory?</div>
+                                           
+                                            <div class="d-flex gap-2justify-content-center align-items-center danger-notice p-1">
+                                                <span class="fs-1 text-danger p-4">
+                                                        <i class="fas fa-trash fs-1"></i>
+                                                </span>    
+                                                <div class="p-2 f-d">Notice! This action cannot be undone. Are you sure you want to delete this signatory?</div> 
                                             </div>
                                         </div>
                                         <div class="d-flex justify-content-end my-2 mb-3 gap-2">

@@ -81,7 +81,7 @@
                             <div class="modal-dialog">
                                 <div class="modal-content">
                                     <div class="modal-header x-border py-1 pt-3">
-                                        <h1 class="px-1 display-6 fs-5"><i class="fal fa-info-circle "></i> Clearance Information</h1>
+                                        <h1 class="px-1 display-6 fs-5">Clearance Information</h1>
                                     </div>
                                     <div class="modal-body x-border py-0">
                                         
