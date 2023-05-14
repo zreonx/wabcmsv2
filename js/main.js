@@ -22,7 +22,23 @@ $(document).ready(function() {
     menuButton.addEventListener('click', () => {
         sidebar.classList.toggle('sidebar-open');
     });
-   
+
+    //Profile Menu
+    const profileBtn = document.getElementById('profile-btn');
+    const profileMenu = document.querySelector('.profile-menu');
+
+    profileBtn.addEventListener('click', () => {
+        profileBtn.classList.toggle('active');
+    });
+
+    // Add click event listener to document
+    document.addEventListener('click', event => {
+        // Check if clicked element is inside the menu
+        if (!profileMenu.contains(event.target) && !profileBtn.contains(event.target)) {
+            profileBtn.classList.remove('active');
+        }
+    });
+
 
     //responsive sidebar
     const mediaQuery = window.matchMedia('(max-width: 768px)');

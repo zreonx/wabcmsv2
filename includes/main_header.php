@@ -1,4 +1,5 @@
 <html lang="en">
+    <?php require_once '../config/connection.php'; ?>
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -8,7 +9,7 @@
     <link rel="icon" href="../images/ccc_logo.webp" type="image/x-icon">
     <link rel="stylesheet" href="../css/bootstrap.min.css?v.1">
     <link href="https://cdn.datatables.net/v/bs5/jszip-2.5.0/dt-1.13.4/b-2.3.6/b-html5-2.3.6/b-print-2.3.6/r-2.4.1/sc-2.1.1/datatables.min.css?v.1" rel="stylesheet"/>
-    <link rel="stylesheet" href="../css/main.css?v1.5">
+    <link rel="stylesheet" href="../css/main.css?v1.6">
     <link rel="stylesheet" href="../css/all.min.css">
     
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
@@ -27,7 +28,7 @@
 
     <script src="../js/all.min.js"></script>
    
-    <script src="../js/main.js?v.3"></script>
+    <script src="../js/main.js?v.4"></script>
 
     <script src="../js/datatable.js?v1.2"></script>
 </head>
@@ -39,6 +40,20 @@
             <img class="side-logo img-fluid" style="height: 150px" src="../images/ccc_logo.webp" alt="logo">
         </a>
     </div>
+
+
+    <?php       
+        // if(isset($_SESSION['user_type']) and $_SESSION['user_type'] == 'admin' ) {
+        //     include_once 'users/admin_sidebar.php';
+        // }else if (isset($_SESSION['user_type']) and $_SESSION['user_type'] == 'signatory') {
+        //     include_once 'users/signatory_sidebar.php';
+        // }else if(isset($_SESSION['user_type']) and $_SESSION['user_type'] == 'student'){
+        //     include_once 'users/student_sidebar.php';
+        // }
+    ?>
+
+
+    <!-- Admin Header -->
     <div class="sidenav-category mt-2">
         <div class="custom-category">
             <a class="category-btn clink-text-single" href="index.php" >
@@ -145,7 +160,22 @@
 </div>
 
     <div class="main-content">
-        <div class="side-header d-flex align-items-center">
+        <div class="side-header d-flex align-items-center justify-content-between">
             <button class="btn btn-menu"><i class="far fa-bars"></i></button>
+            <div class="profile mx-3 d-flex align-items-center gap-2" id="profile-btn">
+                <img src="https://cdn-icons-png.flaticon.com/512/847/847969.png" class="img-fluid" style="height: 28px;" alt="">
+                <span class="f-d">Profile</span>
+            </div>
+            <div class="profile-menu">
+               <ul>
+                    <li><i class="fas fa-address-card profile-icon"></i><a href="#">Information</a></li>
+                    <li><i class="fas fa-sliders-h profile-icon"></i><a href="#">Change Password</a></li>
+                    <li><i class="fas fa-sign-out-alt profile-icon"></i><a href="../logout.php">Logout</a></li>
+               </ul>
+            </div>
         </div>
+        
+
+
+    <!-- Signatory Header -->
 

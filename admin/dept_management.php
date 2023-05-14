@@ -1,6 +1,5 @@
 <?php 
     require_once '../includes/main_header.php'; 
-    require_once '../config/connection.php';
     $departments = $department->getDepartments();
 ?>
     <div class="page">

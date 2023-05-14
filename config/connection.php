@@ -13,7 +13,7 @@
 
 
     include_once '../includes/autoloader.inc.php';
-    //include_once '../includes/session.php';
+    include_once '../includes/session.php';
 
 
     $db = new DatabaseConnection();

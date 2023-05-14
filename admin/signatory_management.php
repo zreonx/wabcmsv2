@@ -1,6 +1,5 @@
 <?php 
     require_once '../includes/main_header.php'; 
-    require_once '../config/connection.php';
     $signatories = $signatory->getSignatories();
 ?>
     <div class="page">

@@ -53,6 +53,55 @@ class User {
         }
         return implode($pass); 
     }
+
+    public function getUserType($email) {
+        try {
+            $sql = "SELECT * FROM users WHERE email = '$email' AND status = 'active' ";
+            $result = $this->conn->query($sql);
+            $user_type = $result->fetch(PDO::FETCH_ASSOC);
+            
+            return $user_type['user_type'];
+     
+        }catch(PDOException $e) {
+            echo "ERROR: " . $e->getMessage();
+            return false;
+        }
+    }
+
+    public function loginUser($user_type, $email, $password) {
+        try {
+
+            $sql = 'SELECT * FROM users WHERE user_type = :type AND email = :email AND password = :password ;';
+            $stmt = $this->conn->prepare($sql);
+            $stmt->bindparam(':type', $user_type);
+            $stmt->bindparam(':email', $email);
+            $stmt->bindparam(':password', $password);
+            $stmt->execute();
+            $result = $stmt->fetch(PDO::FETCH_ASSOC);
+            return $result;
+
+
+        }catch(PDOException $e) {
+            echo "ERROR: " . $e->getMessage();
+            return false;
+            
+        }
+        
+    }
+
+    public function getAdminInfo($user_id) {
+        try {
+
+            $sql = "SELECT * FROM admin WHERE admin_id = $user_id";
+            $result = $this->conn->query($sql);
+            return $result->fetch(PDO::FETCH_ASSOC);
+            
+        }catch(PDOException $e) {
+            echo "ERROR: " . $e->getMessage();
+            return false;
+        }
+    }
+
     
 
     public function getOffice($id) {

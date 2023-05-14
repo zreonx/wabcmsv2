@@ -1,4 +1,7 @@
-<?php require_once '../includes/main_header.php' ?>
+<?php 
+    require_once '../includes/main_header.php' 
+
+?>
 <div class="page">
     <div class="alert alert-dismissible alert-light" id='err'>
         <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
