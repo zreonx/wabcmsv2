@@ -27,7 +27,7 @@ $(document).ready(function(){
             },
 
             beforeSend:function(){
-                
+                $('#my-datable').html(loadingAnimation());
             },
 
             success: function(result) {
@@ -64,6 +64,16 @@ $(document).ready(function(){
                 });
             }
         })
+    }
+
+    function loadingAnimation() {
+        let html = "";
+        
+        html += "<div class='d-flex justify-content-center align-items-center gap-2'>"
+        html += '<div class="spinner-border spinner-border-sm text-success text-center" role="status"><span class="visually-hidden"></span></div><div><span class="text-success">Loading...</span></div>';
+        html += "</div>"
+        return html;
+       
     }
 })
 

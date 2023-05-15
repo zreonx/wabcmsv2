@@ -23,18 +23,20 @@
 
                 header("location: ../admin/index.php");
             }else if($user_type == 'signatory') {
-                // $_SESSION['user_type'] = $user_type;
-                // $_SESSION['user_id'] = $result['user_id'];
-                // $_SESSION['user_data'] = $users->getSignatoryInfo($result['user_id']);
+                $_SESSION['user_type'] = $user_type;
+                $_SESSION['user_id'] = $result['user_id'];
 
-                header("location: ../signatory/dashboard.php");
+                $_SESSION['user_data'] = $user->getSignatoryInfo($result['user_id']);
+
+                header("location: ../signatory/index.php");
             }else if($user_type == 'student') {
-                // $_SESSION['user_type'] = $user_type;
-                // $_SESSION['user_id'] = $result['user_id'];
+                $_SESSION['user_type'] = $user_type;
+                $_SESSION['user_id'] = $result['user_id'];
                 
-                // $_SESSION['user_data'] = $users->getUserInfo($result['user_id']);
+                $_SESSION['user_data'] = $user->getStudentInfo($result['user_id']);
 
-                // header("location: ../student/clearance_list.php");
+                header("location: ../student/index.php");
+
             }else {
 
                 // $_SESSION['user_type'] = $user_type;

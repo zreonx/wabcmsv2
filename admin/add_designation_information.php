@@ -410,7 +410,7 @@
                                         }else {
                                             $('#search-list').html('<h1 class="display-6 fs-6 text-center text-success">    Signatory does not exist.</h1>');
                                         }
-                                    },10000)
+                                    },1000)
                                 }
                             }) 
                         }, 1000);

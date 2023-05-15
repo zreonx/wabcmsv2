@@ -101,7 +101,7 @@
                 </div>
             </div>
 
-            <script src="../js/filter_student.js"></script>
+            <script src="../js/filter_student.js?v.1"></script>
             <script>
                 
                 $(document).ready(function(){
