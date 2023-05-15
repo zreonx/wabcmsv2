@@ -9,7 +9,7 @@
     <link rel="icon" href="../images/ccc_logo.webp" type="image/x-icon">
     <link rel="stylesheet" href="../css/bootstrap.min.css?v.1">
     <link href="https://cdn.datatables.net/v/bs5/jszip-2.5.0/dt-1.13.4/b-2.3.6/b-html5-2.3.6/b-print-2.3.6/r-2.4.1/sc-2.1.1/datatables.min.css?v.1" rel="stylesheet"/>
-    <link rel="stylesheet" href="../css/main.css?v1.7">
+    <link rel="stylesheet" href="../css/main.css?v1.8">
     <link rel="stylesheet" href="../css/all.min.css">
     
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
@@ -27,10 +27,9 @@
     
 
     <script src="../js/all.min.js"></script>
-   
     <script src="../js/main.js?v.4"></script>
-
     <script src="../js/datatable.js?v1.2"></script>
+
 </head>
 <body>
 
@@ -229,7 +228,7 @@
                 </div>
             </a>
         </div>
-        
+
         <div class="custom-category">
             <div class="category-btn">
                 <div>
@@ -270,7 +269,7 @@
         <div class="side-header d-flex align-items-center justify-content-between">
             <button class="btn btn-menu"><i class="far fa-bars"></i></button>
             <div class="profile mx-3 d-flex align-items-center gap-2" id="profile-btn">
-                <img src="https://cdn-icons-png.flaticon.com/512/847/847969.png" class="img-fluid" style="height: 28px;" alt="">
+                <img src="https://cdn-icons-png.flaticon.com/512/847/847969.png" class="img-fluid" style="height: 24px;" alt="">
                 <span class="f-d">Profile</span>
             </div>
             <div class="profile-menu">
