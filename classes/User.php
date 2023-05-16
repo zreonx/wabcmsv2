@@ -105,7 +105,7 @@ class User {
     public function getSignatoryInfo($user_id) {
         try {
 
-            $sql = "SELECT * FROM signatories WHERE id = $user_id WHERE status = 'active'";
+            $sql = "SELECT * FROM signatories WHERE id = $user_id AND status = 'active'";
             $result = $this->conn->query($sql);
             return $result->fetch(PDO::FETCH_ASSOC);
             
@@ -118,7 +118,7 @@ class User {
     public function getStudentInfo($user_id) {
         try {
 
-            $sql = "SELECT * FROM students WHERE id = $user_id WHERE status = 'imported'";
+            $sql = "SELECT * FROM students WHERE id = $user_id AND status = 'imported'";
             $result = $this->conn->query($sql);
             return $result->fetch(PDO::FETCH_ASSOC);
             

@@ -7,6 +7,7 @@
         <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
         <strong>WABCMS 2.0</strong> <span></span>
     </div>
+    </div>
     <h1 class="page-title fs-5 display-6">Dashboard </h1>
 </div>
    

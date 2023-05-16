@@ -215,7 +215,7 @@ body {
 
 /* Custom Tooltip */
 
-.custom-tooltip .tooltip-inner {
+.custom-tooltip .tooltip-arrow {
     background-color: #10e094;
     color: #fff;
     
@@ -224,6 +224,19 @@ body {
 .custom-tooltip .tooltip-arrow {
     display: none;
 }
+
+.tooltip .tooltip-arrow {
+    display: none;
+}
+
+.tooltip .tooltip-inner {
+    padding: 5px 8px;
+    color: var(--color-dark);
+    background-color: #fff;
+    box-shadow: var(--shadow-md);
+  }
+
+
 /* Side Navigation CSS */
 
 .sidenav {
@@ -627,11 +640,17 @@ table.dataTable.dtr-inline.collapsed>tbody>tr>td.dtr-control:before, table.dataT
     box-shadow: var(--shadow-sm);
 }
 
+.card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(275px, 1fr));
+    gap: 12px;
+}
+
 
 /* Signatory Clearance Card */
 
 .clearance-card { 
-    padding: 8px 12px;
+    padding: 10px 12px;
     max-width: 275px;
     border: 1px solid #e8e8e8;
     border-top: 4px solid var(--color-success);

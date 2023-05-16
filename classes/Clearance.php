@@ -236,8 +236,39 @@ class Clearance {
             return false;
         }
     }
-    
-    
-    
+
+    public function getActiveClearance() {
+        try {
+            $sql = "SELECT * FROM clearance_status cs INNER JOIN clearances c ON cs.clearance_id = c.id INNER JOIN clearance_type ct ON c.clearance_type = ct.id INNER JOIN clearance_beneficiaries cb ON c.clearance_beneficiary = cb.id   WHERE cs.status = 'active'";
+            $result = $this->conn->query($sql);
+            return $result->fetchAll(PDO::FETCH_ASSOC);
+        }catch(PDOException $e) {
+            echo "ERROR: " . $e->getMessage();
+            return false;
+        }
+    }
+
+    public function getSignatoryDesignationTable($signatory_id) {
+        try {
+            $sql = "SELECT * FROM designation_table_record WHERE signatory_id = '$signatory_id' AND status = 'active'";
+            $result = $this->conn->query($sql);
+            return $result->fetchAll(PDO::FETCH_ASSOC);
+        }catch(PDOException $e) {
+            echo "ERROR: " . $e->getMessage();
+            return false;
+        }
+    }
+
+    public function getSignatoryDesignationTableStudent($table_name, $clearance_id) {
+        try {
+            $sql = "SELECT * FROM $table_name tb INNER JOIN students s ON tb.student_id = s.student_id WHERE clearance_id = '$clearance_id'";
+            $result = $this->conn->query($sql);
+            return $result->fetchAll(PDO::FETCH_ASSOC);
+        }catch(PDOException $e) {
+            echo "ERROR: " . $e->getMessage();
+            return false;
+        }
+    }
+
     
 }
