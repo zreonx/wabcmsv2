@@ -79,6 +79,20 @@
     padding: 3px 6px;
     font-size: var(--small-font-size);
 }
+
+.badge-danger {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+
+    border: 1px solid var(--color-danger);
+    border-radius: 24px;
+
+    padding: 3px 6px;
+    font-size: var(--small-font-size);
+}
+
 .badge-circle {
     background-color: #029c63;
     color: var(--color-lights);
@@ -109,6 +123,10 @@
 }
 .i-success {
     color: var(--color-accentsuccess);
+}
+
+.i-danger {
+    color: var(--color-danger);
 }
 
 /* Plackards */
@@ -672,10 +690,6 @@ table.dataTable.dtr-inline.collapsed>tbody>tr>td.dtr-control:before, table.dataT
 .info-btn:hover { 
     box-shadow: var(--shadow-sm);
 }
-
-
-
-
 
 
 /* Media Queries */
