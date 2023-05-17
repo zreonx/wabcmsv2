@@ -3,17 +3,22 @@
 
     $activeClearance = $clearance->getActiveClearance();
     $user_data = $_SESSION['user_data'];
-    
-    $organizations = $organization->getAllOrganizations();
 
-    
+    $organizations = $organization->getAllOrganizations();
+    $clearanceInfo = $clearance->getClearanceInfo($_GET['clearance_id']);
+    $clearanceInfo = $clearanceInfo->fetch(PDO::FETCH_ASSOC);
 
     $sig_tb_content = $clearance->getSignatoryDesignationTableStudent($_GET['designation_workplace'], $_GET['clearance_id']);
     
 ?>
     <div class="page px-4">
-        <?php if(isset($_GET['success'])){ echo '<div class="alert alert-success" id="err">Clearance has been created.</div>'; } ?>
-        <?php if(isset($_GET['delete'])){ echo '<div class="alert alert-success" id="err">Clearance has been deleted.</div>'; } ?>
+        <?php 
+            if (isset($_GET['import']) && $_GET['import'] == "success") { echo '<div class="alert alert-success" id="err">Students has been updated.</div>'; }
+            if (isset($_GET['error']) && $_GET['error'] == "true") { echo '<div class="alert alert-danger" id="err">There was an error importing students.</div>'; } 
+            if (isset($_GET['import']) && $_GET['import'] == "empty") { echo '<div class="alert alert-danger" id="err">Please select a CSV file.</div>'; }
+            if (isset($_GET['import']) && $_GET['import'] == "invalid") {echo '<div class="alert alert-danger" id="err">Please select an appropriate file format</div>';}
+            if (isset($_GET['column']) && $_GET['column'] == "false") { echo '<div class="alert alert-danger" id="err">The column of the file does not match our database.</div>'; }
+        ?>
         <div class="d-flex justify-content-between align-items-center">
             <h1 class="page-title fs-5 display-6">Designation</h1>
             <div class="d-flex gap-2 flex-wrap align-items-center justify-content-center">
@@ -45,9 +50,9 @@
             <div class="default-border rounded-end mb-2 w-100 d-flex ">
                 <div class="f-d badge bg-success rounded-0 rounded-start" data-bs-toggle="tooltip" title="Clearance Reference Number">CRN <?php echo($_GET['clearance_id']); ?></div>
                 <div class="d-flex justify-content-between align-items-center flex-grow-1 px-2">
-                    <h1 class="f-d display-6 mb-0">Finals Clearance</h1>
-                    <h1 class="f-d display-6 mb-0">1st Semester</h1>
-                    <h1 class="f-d display-6 mb-0">A.Y. 2022-2023</h1>
+                    <h1 class="f-d display-6 mb-0"><?php echo $clearanceInfo['clearance_name'] ?></h1>
+                    <h1 class="f-d display-6 mb-0"><?php echo $clearanceInfo['semester'] ?></h1>
+                    <h1 class="f-d display-6 mb-0"><?php echo $clearanceInfo['academic_year'] ?></h1>
                 </div>
             </div>
             <div class="d-flex justify-content-between align-items-end mb-2 ">
@@ -93,13 +98,21 @@
                                     <h1 class="px-1 display-6 fs-6">Import Organization Members</h1>
                                 </div>
                                 <div class="modal-body x-border py-0">
-                                    <form class="px-3 pb-3" action="../controller/student_import.php" method="post" enctype="multipart/form-data">
+                                    <form class="px-3 pb-3" action="../controller/signatory_import_org.php" method="post" enctype="multipart/form-data">
                                         <div class="file-upload">
                                             <label>
                                                 <input type="file" class="form-control" name="csvfile" accept=".csv">
                                                 <span>Choose CSV file or drag it here</span>
                                             </label>
                                         </div>   
+
+                                        <input type="hidden" name="signatory_id" value="<?php echo $user_data['id']; ?>">
+                                        <input type="hidden" name="clearance_id" value="<?php echo $_GET['clearance_id']; ?>">
+                                        <input type="hidden" name="semester" value="<?php echo $clearanceInfo['semester'] ?>">
+                                        <input type="hidden" name="academic_year" value="<?php echo $clearanceInfo['academic_year'] ?>">
+                                        <input type="hidden" name="url_info_string" value="<?php echo 'clearance_id='. $_GET['clearance_id'] .'&workplace='. $_GET['workplace'] .'&designation_workplace= '. $_GET['designation_workplace'] ?>">
+                                        <input type="hidden" name="designation_table" value="<?php echo $_GET['designation_workplace']; ?>">
+                                       
                                         <div class="d-flex justify-content-end gap-2">
                                             <button type="submit" class="btn btn-success rounded" name="submit">Import</button>
                                             <button type="button" class="btn btn-secondary rounded" data-bs-dismiss="modal">Cancel</button>
