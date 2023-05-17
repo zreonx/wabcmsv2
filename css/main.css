@@ -42,6 +42,7 @@
 
 
     --border-gray: #d8d8d8;
+    --bg-superlight: #f8f9fa;
 }
 
 /* Ready to call CSS */
@@ -50,7 +51,7 @@
 }
 .default-border {
     border: 1px solid #d8d8d8;
-    border-radius: 5px;
+    border-radius: 5px !important;
 }
 .danger-border {
     border: 1px solid rgb(247, 150, 150);
@@ -65,6 +66,14 @@
 
 .text-success {
      color: var(--color-success);
+}
+
+.text-accent {
+    color: var(--color-accentsuccess);
+}
+
+.text-gray {
+    color: var(--color-gray);
 }
 
 .badge-green {
@@ -115,6 +124,9 @@
     margin-right: 5px;
 }
 
+.bg-superlight{
+    background-color: var(--bg-superlight) !important;
+}
 
 /* Dot Icon */
 
@@ -664,6 +676,14 @@ table.dataTable.dtr-inline.collapsed>tbody>tr>td.dtr-control:before, table.dataT
     gap: 12px;
 }
 
+.d-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(225px, 1fr));
+    gap: 8px;
+}
+
+
+
 
 /* Signatory Clearance Card */
 
@@ -691,6 +711,52 @@ table.dataTable.dtr-inline.collapsed>tbody>tr>td.dtr-control:before, table.dataT
     box-shadow: var(--shadow-sm);
 }
 
+/* Dashboard Admin */
+
+.d-workplace {
+    width: 300px;
+    background-color: #fff;
+    border-radius: 5px;
+}
+
+.d-card {
+    height: 90px;
+    width: 225px;
+    background-color: #fff;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: .3s ease-in-out;
+}
+
+.d-overlay {
+    bottom: 8px;
+    left: 50%;
+    right: 50%;
+    opacity: 0;
+    transition: .3s ease-in-out;
+}
+
+.d-overlay a:hover {
+    color: var(--color-gray);
+}
+
+.d-card:hover {
+    box-shadow: var(--shadow-sm);
+    height: 100px;
+}
+
+.d-card:hover .d-overlay {
+    opacity: 1;
+}
+
+
+
+
+.s-card-pic {
+    position: relative;
+    right: -12px;
+    top: -8px;
+}
 
 /* Media Queries */
 

@@ -9,7 +9,7 @@
     <link rel="icon" href="../images/ccc_logo.webp" type="image/x-icon">
     <link rel="stylesheet" href="../css/bootstrap.min.css?v.1">
     <link href="https://cdn.datatables.net/v/bs5/jszip-2.5.0/dt-1.13.4/b-2.3.6/b-html5-2.3.6/b-print-2.3.6/r-2.4.1/sc-2.1.1/datatables.min.css?v.1" rel="stylesheet"/>
-    <link rel="stylesheet" href="../css/main.css?v1.11">
+    <link rel="stylesheet" href="../css/main.css?v1.13">
     <link rel="stylesheet" href="../css/all.min.css">
     
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
@@ -33,7 +33,7 @@
 </head>
 <body>
 
-<div class="sidenav navbar-expand d-flex flex-column align-items-start sidebar-open" id="sidebar">
+<div class="sidenav navbar-expand d-flex flex-column align-items-start sidebar-open me-0" id="sidebar">
     <div class="sidenav-logo d-flex justify-content-center align-items-center w-100 mt-3">
         <a href="#" class=""> 
             <img class="side-logo img-fluid" style="height: 150px" src="../images/ccc_logo.webp" alt="logo">
@@ -182,23 +182,9 @@
             </div>
             <ul class="category-item p-0">
                 <li class="category-link"><a href="clearance_management.php" class="clink-text">Clearance</a></li>
-                <li class="category-link"><a class="clink-text">Clearance Requests</a></li>
-                
             </ul>
         </div>
 
-        <div class="custom-category">
-            <div class="category-btn">
-                <div>
-                    <i class="fad fa-users mx-2"></i>
-                    <span class="category-text">Student Management</span>
-                </div>
-                <i class='fal fa-chevron-down' id="chevron"></i>
-            </div>
-            <ul class="category-item p-0">
-                <li class="category-link"><a href="student_management.php" class="clink-text">Students</a></li>            
-            </ul>
-        </div>
         
         <div class="custom-category">
             <div class="category-btn">

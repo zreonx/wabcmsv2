@@ -30,6 +30,7 @@
     $clearance = new Clearance($conn);
     $user = new User($conn);
     $filter = new Filter($conn);
+    $dashboard = new Dashboard($conn);
 
 
     // $clearance = new Clearance($conn);
