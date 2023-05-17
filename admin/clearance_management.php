@@ -88,7 +88,6 @@
                                             
                                             <div class="default-border py-2 px-3">
                                                 
-                                                
                                                 <table class="table table-borderless w-auto mt-1">
                                                     <tr>
                                                         <td><span>Clearance Recipient:</span></td>
@@ -152,7 +151,6 @@
                                         <td><div class="td-label"><?php echo $c_row['semester'] ?></div></td>
                                         <td><div class="td-label"><?php echo $c_row['academic_year'] ?></div></td>
                                         <td>
-                                            
                                             <button data-id="<?php echo $c_row['clearance_id']?>" class="btn btn-delete btn-sm btn-success rounded btnsm" data-bs-toggle="modal" data-bs-target="#deleteModal">Delete</button>
                                             <button data-id="<?php echo $c_row['clearance_id'] ?>" class="btn btn-sm btn-success rounded btnsm status-btn" data-bs-toggle="modal" data-bs-target="#clearanceDashboard" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Clearance Status" data-bs-custom-class="custom-tooltip"><i class="fas fs-6 fa-sliders-h"></i></button>
                                         </td>
@@ -163,11 +161,12 @@
                         </table>
 
 
-                        <div class="modal fade custom-modal" id="clearanceDashboard" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                        <div class="modal fade custom-modal modal-dashboard" id="clearanceDashboard" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                             <div class="modal-dialog">
                                 <div class="modal-content">
-                                    <div class="modal-header x-border py-1 pt-3">
-                                        <h1 class="px-1 display-6 fs-5">Clearance Status</h1>
+                                    <div class="modal-header x-border py-1 pt-3 d-flex justify-content-between align-items-center mb-1">
+                                        <h1 class="px-1 display-6 fs-5 mb-0">Clearance Status</h1>
+                                        <div class="f-d badge bg-success " data-bs-toggle="tooltip" title="Clearance Reference Number">CRN <span id="crn"></span></div>
                                     </div>
                                     <div class="modal-body x-border py-0">
                                     
@@ -180,10 +179,69 @@
                                                 <th>Status</th>
                                             </table>
                                         </div> -->
+
+                                        <div class="default-border py-2 px-3">
+                                                
+                                                <table class="table table-borderless w-auto mt-1">
+                                                    <tr>
+                                                        <td><span>Clearance Recipient:</span></td>
+                                                        <td><strong><i id="c-cr-text"></i></strong></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><span>Clearance Type:</span></td>
+                                                        <td><strong><i id="c-ct-text"></i></strong></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><span>Semester:</span></td>
+                                                        <td><strong><i id="c-sem-text"></i></strong></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><span>Academic Year:</span></td>
+                                                        <td><strong><i id="c-ay-text"></i></strong></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><span>Date Created:</span></td>
+                                                        <td><strong><i id="c-created"></i></strong></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><span>Date Deployed Signatories:</span></td>
+                                                        <td><strong><i id="c-deployed">-</i></strong></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><span>Date Deployed Student:</span></td>
+                                                        <td><strong><i id="c-deployed-stud">-</i></strong></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><span>Date Ended:</span></td>
+                                                        <td><strong><i id="c-ended">-</i></strong></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><span>Status:</span></td>
+                                                        <td id="c-status"><strong class="badge-green text-success"><i>-</i></strong></td>
+                                                    </tr>
+                                                    
+                                                </table>
+
+                                                <div class="d-flex flex-wrap gap-2 pb-2">
+                                                   <div>
+                                                        <div class="f-d display-6 m-1">Step 1</div>
+                                                        <button id="deploySignatoryBtn" class="btn btn-success rounded">Deploy to Signatories</button>
+                                                   </div>
+                                                   <div>
+                                                        <div class="f-d display-6 m-1">Step 2</div>
+                                                        <button id="deployStudentBtn" class="btn btn-success rounded">Deploy to Students</button>
+                                                   </div>
+                                                   <div>
+                                                        <div class="f-d display-6 m-1">Step 3</div>
+                                                        <button id="endClearanceBtn" class="btn btn-danger rounded">End</button>
+                                                   </div>
+                                                </div>
+                                                
+                                            </div>
+                                            
                                         
                                         <div class="d-flex my-2 mb-3 gap-2">
-                                            <button id="deploySignatoryBtn" class="btn btn-success rounded">Deploy to Signatories</button>
-                                            <button id="deployStudentBtn" class="btn btn-success rounded">Deploy to Students</button>
+                                           
                                             <button type="button" class="btn btn-secondary rounded ms-auto" data-bs-dismiss="modal">Cancel</button>
                                         </div>
                                     </div>
@@ -315,8 +373,9 @@
                     var clearance_data;
                     var clearance_id;
                     
-                    $('.status-btn').click(function() {
+                    $('#my-datable tbody').on('click', '.status-btn', function(){
                         clearance_id = $(this).attr('data-id');
+                        $('#crn').text(clearance_id);
 
                         $.ajax({
                             method : "POST",
@@ -325,8 +384,37 @@
                                 id : clearance_id,
                             },
                             success: function (response){
-                                console.log(response);
-                                if(response > 0){
+                                let result = JSON.parse(response);
+
+                                clearClearanceText();
+
+                                $('#c-cr-text').text(result.clearance_info.beneficiary);
+                                $('#c-ct-text').text(result.clearance_info.clearance_name);
+                                $('#c-sem-text').text(result.clearance_info.semester);
+                                $('#c-ay-text').text(result.clearance_info.academic_year);
+                               
+
+                                let created = new Date(result.clearance_info.date_created);
+                                $('#c-created').text($.format.date(created, "MMM d, yyyy") + " At " + $.format.date(created, "h:mm a"));
+                                $('#endClearanceBtn').prop('disabled', true);
+                                if(result.returned_row > 0){
+                                    let deployed = new Date(result.returned_data.date_deploy_signatory);
+                                    if(result.returned_data.date_deploy_signatory !== "") {
+                                        $('#c-deployed').text($.format.date(deployed, "MMM d, yyyy") + " At " + $.format.date(deployed, "h:mm a"));
+                                        $('#c-status').html('<strong class="badge-green text-success"><i>Deployed</i></strong>');
+                                    }else {
+                                        $('#c-status').html('<strong class="badge-primary text-primary"><i>Initialized</i></strong>');
+                                    }
+                                    let deployed_stud = new Date(result.returned_data.date_deploy_student);
+                                    if(result.returned_data.date_deploy_student !== "") {
+                                        $('#c-deployed-stud').text($.format.date(deployed_stud, "MMM d, yyyy") + " At " + $.format.date(deployed_stud, "h:mm a"));
+                                    }
+                                    let ended = new Date(result.returned_data.date_ended);
+                                    if(result.returned_data.date_ended !== "") {
+                                        $('#c-ended').text($.format.date(ended, "MMM d, yyyy") + " At " + $.format.date(ended, "h:mm a"));
+                                        $('#c-status').html('<strong class="badge-danger text-danger"><i>Ended</i></strong>');
+                                    }
+                                    // let ended = new Date(result.clearance_info.date_created);
                                     $('#deploySignatoryBtn').prop('disabled', true);
                                     $('#deployStudentBtn').prop('disabled', false);
                                 }else {
@@ -347,6 +435,17 @@
                                 clearance_data = JSON.parse(result)
                             }
                         })
+
+                        function clearClearanceText() {
+                            $('#c-cr-text').text('');
+                            $('#c-ct-text').text('');
+                            $('#c-sem-text').text('');
+                            $('#c-ay-text').text('');
+                            $('#c-deployed').text('-');
+                            $('#c-deployed-stud').text('-');
+                            $('#c-ended').text('-');
+                            $('#c-status').html('<strong class="badge-primary text-primary"><i>Initialized</i></strong>');
+                    }
 
                     });
 

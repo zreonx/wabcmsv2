@@ -50,7 +50,7 @@ class Clearance {
     public function getClearanceInfo($id) {
         try {
 
-            $sql = "SELECT * FROM clearances c INNER JOIN clearance_beneficiaries cb ON c.clearance_beneficiary = cb.id INNER JOIN clearance_type ct ON c.clearance_type = ct.id WHERE c.id = $id";
+            $sql = "SELECT *, c.status AS 'c_status' FROM clearances c INNER JOIN clearance_beneficiaries cb ON c.clearance_beneficiary = cb.id INNER JOIN clearance_type ct ON c.clearance_type = ct.id WHERE c.id = $id";
             $result = $this->conn->query($sql);
             return $result;
             
@@ -229,7 +229,8 @@ class Clearance {
             $sql = "SELECT * FROM clearance_status WHERE clearance_id = '$id' AND status = 'active'";
             $result = $this->conn->query($sql);
             $count = $result->rowCount();
-            return $count;
+            $query = $result->fetch(PDO::FETCH_ASSOC);
+            return array('count' => $count, 'query' => $query);
             
         }catch(PDOException $e) {
             echo "ERROR: " . $e->getMessage();
@@ -264,6 +265,45 @@ class Clearance {
             $sql = "SELECT * FROM $table_name tb INNER JOIN students s ON tb.student_id = s.student_id WHERE clearance_id = '$clearance_id'";
             $result = $this->conn->query($sql);
             return $result->fetchAll(PDO::FETCH_ASSOC);
+        }catch(PDOException $e) {
+            echo "ERROR: " . $e->getMessage();
+            return false;
+        }
+    }
+
+
+    public function addStudentDeficiency($clearance_id, $signatory_table, $student_id, $message, $date_notify) {
+        try {
+            $status = "initialized";
+            $sql = "INSERT INTO deficiencies (clearance_id, signatory_table, student_id, message, date_notify, date_cleared, status) VALUES (:clearance_id, :signatory_table, :student_id, :message, :date_notify, '', 'deficient'); ";
+            $stmt = $this->conn->prepare($sql);
+            $stmt->bindparam(':clearance_id', $clearance_id);
+            $stmt->bindparam(':signatory_table', $signatory_table);
+            $stmt->bindparam(':student_id', $student_id);
+            $stmt->bindparam(':message', $message);
+            $stmt->bindparam(':date_notify', $date_notify);
+            $stmt->execute();
+
+            return true;
+
+        }catch(PDOException $e) {
+            echo "ERROR: " . $e->getMessage();
+            return false;
+        }
+    }
+
+    public function unclearDeficientStudent($designation_table, $clearance_id, $student_id) {
+        try {
+
+            $sql = "UPDATE $designation_table SET student_clearance_status = '0' WHERE clearance_id = :clearance_id AND student_id = :student_id ; ";
+            $stmt = $this->conn->prepare($sql);
+            $stmt->bindparam(':clearance_id', $clearance_id);
+            $stmt->bindparam(':student_id', $student_id);
+
+            $stmt->execute();
+
+            return true;
+
         }catch(PDOException $e) {
             echo "ERROR: " . $e->getMessage();
             return false;

@@ -13,7 +13,7 @@
 ?>
     <div class="page px-4">
         <?php 
-            if (isset($_GET['import']) && $_GET['import'] == "success") { echo '<div class="alert alert-success" id="err">Students has been updated.</div>'; }
+            if (isset($_GET['import']) && $_GET['import'] == "success") { echo '<div class="alert alert-success" id="err">Deficiency has been added.</div>'; }
             if (isset($_GET['error']) && $_GET['error'] == "true") { echo '<div class="alert alert-danger" id="err">There was an error importing students.</div>'; } 
             if (isset($_GET['import']) && $_GET['import'] == "empty") { echo '<div class="alert alert-danger" id="err">Please select a CSV file.</div>'; }
             if (isset($_GET['import']) && $_GET['import'] == "invalid") {echo '<div class="alert alert-danger" id="err">Please select an appropriate file format</div>';}
@@ -52,7 +52,7 @@
                 <div class="d-flex justify-content-between align-items-center flex-grow-1 px-2">
                     <h1 class="f-d display-6 mb-0"><?php echo $clearanceInfo['clearance_name'] ?></h1>
                     <h1 class="f-d display-6 mb-0"><?php echo $clearanceInfo['semester'] ?></h1>
-                    <h1 class="f-d display-6 mb-0"><?php echo $clearanceInfo['academic_year'] ?></h1>
+                    <h1 class="f-d display-6 mb-0">A.Y. <?php echo $clearanceInfo['academic_year'] ?></h1>
                 </div>
             </div>
             <div class="d-flex justify-content-between align-items-end mb-2 ">
@@ -79,9 +79,29 @@
                             <?php foreach($sig_tb_content as $des_student): ?>
                                 <tr>
                                 <td><?php echo $des_student['last_name'] . ", " . $des_student['first_name'] . " " . $des_student['middle_name'] //strtoupper(substr($stud_row['middle_name'], 0, 1)) ."." ?></td>
-                                    <td><?php echo $des_student['academic_level'] ?></td>
+                                    <td><?php echo ($des_student['academic_level'] < 5) ?></td>
                                     <td><?php echo $des_student['program_course'] ?></td>
-                                    <td><?php echo $des_student['year_level'] ?></td>
+                                    <td>
+                                        <?php 
+                                            switch($des_student['year_level']){
+                                                case '1' : 
+                                                    echo $des_student['year_level'] . "st Year";
+                                                break ;
+                                                case '2' : 
+                                                    echo $des_student['year_level'] . "nd Year";
+                                                break ;
+                                                case '3' : 
+                                                    echo $des_student['year_level'] . "rd Year";
+                                                break ;
+                                                case '4' : 
+                                                    echo $des_student['year_level'] . "th Year";
+                                                break ;
+                                                default:
+                                                    echo 'Grade ' . $des_student['year_level'];
+                                                break ;
+                                            }
+                                        ?>
+                                    </td>
                                     <td><?php echo ($des_student['student_clearance_status'] == "1") ? '<div class=""><div class="badge-green"><i class="fas fa-check-circle i-dot i-success "></i> <span>Cleared</span></div></div>' : '<div class=""><div class="badge-danger"><i class="fas fa-exclamation-circle i-dot i-danger "></i> <span class="text-gray">Deficient</span></div></div>'; ; ?></td>
                                     <td><button data-id="<?php $des_student['id'] ?>" class="btn btn-sm btn-success rounded btnsm edit-btn" <?php echo ($des_student['student_clearance_status'] == "1") ? 'disabled' : '' ; ?> ><i class="far fa-user-check"></i> Clear</button></td>
                                 </tr>
@@ -130,13 +150,36 @@
                                     <h1 class="px-1 display-6 fs-6">Import Deficient Student</h1>
                                 </div>
                                 <div class="modal-body x-border py-0">
-                                    <form class="px-3 pb-3" action="../controller/student_import.php" method="post" enctype="multipart/form-data">
-                                        <div class="file-upload">
-                                            <label>
-                                                <input type="file" class="form-control" name="csvfile" accept=".csv">
-                                                <span>Choose CSV file or drag it here</span>
-                                            </label>
-                                        </div>   
+                                    <form class="px-3 pb-3" action="../controller/signatory_import_other.php" method="post" enctype="multipart/form-data">
+                                    
+                                    <div class="file-upload">
+                                        <label>
+                                            <input type="file" class="form-control" name="csvfile" accept=".csv">
+                                            <span>Choose CSV file or drag it here</span>
+                                        </label>
+                                    </div>   
+                                    
+                                    <div class="px-3 py-2">
+                                            <div class="input-cont mb-2">
+                                                <textarea class="input-box" name="message" id="message" cols="30" rows="3" required></textarea>
+                                                <label class="input-label">Input Message Deficiency</label>
+                                            </div>
+                                        
+                                            
+                                            <input type="hidden" name="signatory_id" value="<?php echo $user_data['id']; ?>">
+                                            <input type="hidden" name="clearance_id" value="<?php echo $_GET['clearance_id']; ?>">
+                                            <input type="hidden" name="semester" value="<?php echo $clearanceInfo['semester'] ?>">
+                                            <input type="hidden" name="academic_year" value="<?php echo $clearanceInfo['academic_year'] ?>">
+                                            <input type="hidden" name="url_info_string" value="<?php echo 'clearance_id='. $_GET['clearance_id'] .'&workplace='. $_GET['workplace'] .'&designation_workplace= '. $_GET['designation_workplace'] ?>">
+                                            <input type="hidden" name="designation_table" value="<?php echo $_GET['designation_workplace']; ?>">
+
+
+                                            <div class="success-notice f-s my-2"><i class="fal fa-question-circle"></i> Note: This will add deficiencies simultaneously to those included in chosen file , please review your action before proceeding.</div>
+                                       </div>
+
+                                       
+                                       
+
                                         <div class="d-flex justify-content-end gap-2">
                                             <button type="submit" class="btn btn-success rounded" name="submit">Import</button>
                                             <button type="button" class="btn btn-secondary rounded" data-bs-dismiss="modal">Cancel</button>

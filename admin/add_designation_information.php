@@ -187,7 +187,7 @@
                             <div class="modal-dialog">
                                 <div class="modal-content ">
                                     <div class="modal-header x-border py-1 pt-3">
-                                        <h1 class="px-1 display-6 fs-5"><i class="fal fa-trash"></i> Delete Designation</h1>
+                                        <h1 class="px-1 display-6 fs-5">Delete Designation</h1>
                                     
                                         <!-- <div class="d-flex justify-content-start align-items-center gap-1">
                                             <span><i class="fal fa-trash-alt fs-4"></i></span>
@@ -214,7 +214,7 @@
                             <div class="modal-dialog">
                                 <div class="modal-content ">
                                     <div class="modal-header x-border py-1 pt-3">
-                                        <h1 class="px-1 display-6 fs-5"><i class="fal fa-user-alt-slash"></i> Unassign Signatory</h1>
+                                        <h1 class="px-1 display-6 fs-5">Unassign Signatory</h1>
                                     </div>
                                     <div class="modal-body x-border py-0">
                                         <div class="d-flex gap-2justify-content-center align-items-center danger-notice p-3">
