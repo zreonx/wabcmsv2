@@ -58,8 +58,6 @@
                     $('.btn-view').on('click', function(){
                         let signatoryId = '<?php echo $user_data['id']?>';
                         let clearanceId = $(this).attr('data-id');
-
-                        console.log(clearanceId);
                        $.ajax({
                             type: "POST",
                             url: "../controller/signatory_designations.php",
@@ -68,7 +66,6 @@
                                 clearance_id: clearanceId
                             },
                             success: function(response) {
-                                console.log(response);
                                 if(response.length !== 0) {
                                     $('#designation-content').html(response);
                                 }else {

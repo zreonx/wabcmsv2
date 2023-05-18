@@ -462,6 +462,7 @@
                                 academic_year: clearance_data.academic_year,
                             },
                             success: function(response) {
+                                console.log(response);
                                 $('#deploySignatoryBtn').prop('disabled', true);
                                 $('#deployStudentBtn').prop('disabled', false);
                             }

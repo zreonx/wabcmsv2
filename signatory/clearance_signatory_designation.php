@@ -8,7 +8,10 @@
     $clearanceInfo = $clearance->getClearanceInfo($_GET['clearance_id']);
     $clearanceInfo = $clearanceInfo->fetch(PDO::FETCH_ASSOC);
 
-    $sig_tb_content = $clearance->getSignatoryDesignationTableStudent($_GET['designation_workplace'], $_GET['clearance_id']);
+    $designation_workplace = $_GET['designation_workplace'];
+    $clearance_id = $_GET['clearance_id'];
+
+    $sig_tb_content = $clearance->getSignatoryDesignationTableStudent($designation_workplace, $clearance_id);
     
 ?>
     <div class="page px-4">
@@ -236,7 +239,7 @@
                                         </label>
                                     </div>   
                                     
-                                    <div class="px-3 py-2">
+                                    <div class="py-2">
                                             <div class="input-cont mb-2">
                                                 <textarea class="input-box" name="message" id="message" cols="30" rows="3" required></textarea>
                                                 <label class="input-label">Input Message Deficiency</label>

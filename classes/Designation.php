@@ -245,6 +245,23 @@ class Designation {
         }
     }
 
+    public function getDesignationTableById($signatory_id) {
+        try {
+            $status = 'active';
+            $sql = "SELECT * FROM designation_table_record WHERE status = :status AND signatory_id = :signatory_id ; ";
+            $stmt = $this->conn->prepare($sql);
+            $stmt->bindparam(':status', $status);
+            $stmt->bindparam(':signatory_id', $signatory_id);
+            $stmt->execute();
+
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        }catch(PDOException $e) {
+            echo "ERROR: " . $e->getMessage();
+            return false;
+        }
+    }
+
     
 
     //Getting Signatory Information

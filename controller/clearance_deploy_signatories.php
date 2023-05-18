@@ -30,6 +30,13 @@
 
         //Select all students
 
+        //Create table name prefix and pattern
+        function clearance_table_prefix($workplace, $designation, $signatory_id) {
+            $raw_name = $workplace . ' ' . $designation . ' ' . $signatory_id;
+            $table_name =   str_replace(' ', '_', strtolower($raw_name));
+            return "sdb_" . $table_name ;
+        }
+
         $allStudent = $clearance->selectAllStudents();
         $collegeStudent = $clearance->selectCollegeStudent();
         $shsStudent = $clearance->selectShsStudent();
@@ -128,7 +135,7 @@
                                                 $shs_strand = array("ABM","STEM");
                                                 if(in_array($stud['program_course'], $shs_strand)){
                                                     //Insert Nothing
-                                                    //$clearance->insertStudentToTable($tb_name, $id, $semester, $academic_year, $stud['student_id'], $date_approval);
+                                                    $clearance->insertStudentToTable($tb_name, $id, $semester, $academic_year, $stud['student_id'], $date_approval);
                                                 }
                                             }
                                         }else {
@@ -197,8 +204,19 @@
                     }
                 break;
 
+
+               
             }
-             
+            
+            //Track Signatory Designation Every Clearance
+            
+            foreach($allsig_data as $sig_des) {
+                $designation_table = clearance_table_prefix($sig_des['signatory_workplace_name'], $sig_des['signatory_designation'], $sig_des['signatory_id']);
+                $sig_table = $designation->getDesignationTableById($sig_des['signatory_id']);
+
+                $clearance->createClearanceDesignation($id, $sig_des['signatory_id'], $sig_des['signatory_workplace_name'], $designation_table);
+            }
+        
         }else if($cleaerance_type == "2") {
             echo "transfering clearance";
         }

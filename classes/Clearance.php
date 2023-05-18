@@ -82,6 +82,28 @@ class Clearance {
         }
     }
 
+    public function createClearanceDesignation($clearance_id, $signatory_id, $workplace, $designation_table) {
+        try {
+
+            $status = "active";
+            $sql = "INSERT INTO designation_clearance_signatory (clearance_id, signatory_id, workplace, designation_table, status) VALUES (:clearance_id, :signatory_id, :workplace, :designation_table, :status); ";
+            $stmt = $this->conn->prepare($sql);
+            $stmt->bindparam(':clearance_id', $clearance_id);
+            $stmt->bindparam(':signatory_id', $signatory_id);
+            $stmt->bindparam(':workplace', $workplace);
+            $stmt->bindparam(':designation_table', $designation_table);
+            $stmt->bindparam(':status', $status);
+
+            $stmt->execute();
+
+            return true;
+
+        }catch(PDOException $e) {
+            echo "ERROR: " . $e->getMessage();
+            return false;
+        }
+    }
+
     // public function createClearanceStatus($clearance_id) {
     //     try {
 
@@ -260,9 +282,20 @@ class Clearance {
         }
     }
 
+    public function getClearanceSignatoryDesignationTable($clearance_id, $signatory_id) {
+        try {
+            $sql = "SELECT * FROM designation_clearance_signatory WHERE clearance_id = $clearance_id AND signatory_id = '$signatory_id' AND status = 'active'";
+            $result = $this->conn->query($sql);
+            return $result->fetchAll(PDO::FETCH_ASSOC);
+        }catch(PDOException $e) {
+            echo "ERROR: " . $e->getMessage();
+            return false;
+        }
+    }
+
     public function getSignatoryDesignationTableStudent($table_name, $clearance_id) {
         try {
-            $sql = "SELECT * FROM $table_name tb INNER JOIN students s ON tb.student_id = s.student_id WHERE clearance_id = '$clearance_id'";
+            $sql = "SELECT * FROM $table_name tb INNER JOIN students s ON tb.student_id = s.student_id COLLATE utf8mb4_general_ci WHERE tb.clearance_id = '$clearance_id' COLLATE utf8mb4_general_ci";
             $result = $this->conn->query($sql);
             return $result->fetchAll(PDO::FETCH_ASSOC);
         }catch(PDOException $e) {
