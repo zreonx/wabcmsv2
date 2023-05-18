@@ -382,5 +382,17 @@ class Clearance {
         }
     }
 
+    //Get All Deficiency of student
+    public function getStudentDeficiency($table_name, $clearance_id, $student_id) {
+        try {
+            $sql = "SELECT * FROM deficiencies WHERE clearance_id = '$clearance_id' AND student_id = '$student_id' AND signatory_table = '$table_name'";
+            $result = $this->conn->query($sql);
+            return $result->fetchAll(PDO::FETCH_ASSOC);
+        }catch(PDOException $e) {
+            echo "ERROR: " . $e->getMessage();
+            return false;
+        }
+    }
+
     
 }

@@ -10,6 +10,7 @@
 :root {
     --normal-font-size: 1rem;
     --small-font-size: .75rem;
+    --msmall-font-size: .90rem;
 
     --text-orage: #ff8303;
 
@@ -32,6 +33,7 @@
 
     --color-success: #198754;
     --color-accentsuccess: #16cf79;
+    --color-greenlight: #cdf5e3;
     --color-danger: #dc3545;
     --color-warning: #ffc107;
     --color-primary: #0d6efd;
@@ -60,6 +62,11 @@
 .f-d {
     font-size: var(--normal-font-size);
 }
+
+.f-ms {
+    font-size: var(--msmall-font-size);
+}
+
 .f-s {
     font-size: var(--small-font-size);
 }
@@ -133,6 +140,25 @@
     color: var(--color-lights);
 }
 
+.badge-msg {
+    position: absolute;
+    left: 102px;
+    top: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background-color: var(--color-accentsuccess);
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    font-size: .60rem;
+    font-weight: bold;
+    text-align: center;
+    color: #fff;
+}
+
 .default-height-overflow {
     height: 75vh;
     overflow: auto;
@@ -153,6 +179,12 @@
 .bg-superlight{
     background-color: var(--bg-superlight) !important;
 }
+
+.bg-greenlight{
+    background-color: var(--color-greenlight) !important;
+}
+
+
 
 /* Dot Icon */
 

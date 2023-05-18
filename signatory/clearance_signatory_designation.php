@@ -113,15 +113,15 @@
                                                 <button data-id="<?php echo $des_student['student_id'] ?>" data-value="<?php echo $des_student['last_name'] . ", " . $des_student['first_name'] . " " . $des_student['middle_name'] ?>" data-value1="<?php echo $des_student['year_level'] ?>" data-value2="<?php echo $des_student['program_course'] ?>" class="btn btn-sm btn-success rounded btnsm deficiency-btn" data-bs-toggle="modal" data-bs-target="#singleDeficiency"> <i class="fas fa-comment-plus"></i></button>
                                             </span>
                                             <span data-bs-toggle="tooltip" title="View Deficiency">
-                                                <button data-id="<?php echo $des_student['student_id'] ?>" data-value="<?php echo $des_student['last_name'] . ", " . $des_student['first_name'] . " " . $des_student['middle_name'] ?>" data-value1="<?php echo $des_student['year_level'] ?>" data-value2="<?php echo $des_student['program_course'] ?>" class="btn btn-sm btn-success rounded btnsm deficiency-btn" data-bs-toggle="modal" data-bs-target="#singleDeficiency"> <i class="fas fa-envelope"></i></button>
+                                                <button data-id="<?php echo $des_student['student_id'] ?>" data-cl-id="<?php echo $_GET['clearance_id'] ?>" data-cl-table="<?php echo $_GET['designation_workplace'] ?>"  data-value="<?php echo $des_student['last_name'] . ", " . $des_student['first_name'] . " " . $des_student['middle_name'] ?>" data-value1="<?php echo $des_student['year_level'] ?>" data-value2="<?php echo $des_student['program_course'] ?>" class="btn btn-sm btn-success rounded btnsm view-btn" data-bs-toggle="modal" data-bs-target="#viewMessage"> <i class="fas fa-envelope"></i></button>
                                             </span>
                                             <!-- <button data-id="<?php echo $des_student['id'] ?>" class="btn btn-sm btn-success rounded btnsm clear-btn" <?php echo ($des_student['student_clearance_status'] == "1") ? 'disabled' : '' ; ?> ><i class="far fa-user-check"></i> Clear</button> -->
                                         <?php else: ?>
                                             <span data-bs-toggle="tooltip" title="Add Deficiency">
-                                                <button data-id="<?php echo $des_student['student_id'] ?>" data-value="<?php echo $des_student['last_name'] . ", " . $des_student['first_name'] . " " . $des_student['middle_name'] ?>" data-value1="<?php echo $des_student['year_level'] ?>" data-value2="<?php echo $des_student['program_course'] ?>" class="btn btn-sm btn-success rounded btnsm deficiency-btn" data-bs-toggle="modal" data-bs-target="#singleDeficiency"> <i class="fas fa-comment-plus"></i></button>
+                                                <button data-id="<?php echo $des_student['student_id'] ?>" data-cl-id="<?php echo $_GET['clearance_id'] ?>" data-cl-table="<?php echo $_GET['designation_workplace'] ?>"  data-value="<?php echo $des_student['last_name'] . ", " . $des_student['first_name'] . " " . $des_student['middle_name'] ?>" data-value1="<?php echo $des_student['year_level'] ?>" data-value2="<?php echo $des_student['program_course'] ?>" class="btn btn-sm btn-success rounded btnsm deficiency-btn" data-bs-toggle="modal" data-bs-target="#singleDeficiency"> <i class="fas fa-comment-plus"></i></button>
                                             </span>
                                             <span data-bs-toggle="tooltip" title="View Deficiency">
-                                                <button data-id="<?php echo $des_student['student_id'] ?>" data-value="<?php echo $des_student['last_name'] . ", " . $des_student['first_name'] . " " . $des_student['middle_name'] ?>" data-value1="<?php echo $des_student['year_level'] ?>" data-value2="<?php echo $des_student['program_course'] ?>" class="btn btn-sm btn-success rounded btnsm deficiency-btn" data-bs-toggle="modal" data-bs-target="#singleDeficiency"> <i class="fas fa-envelope"></i></button>
+                                            <button data-id="<?php echo $des_student['student_id'] ?>" data-cl-id="<?php echo $_GET['clearance_id'] ?>" data-cl-table="<?php echo $_GET['designation_workplace'] ?>"  data-value="<?php echo $des_student['last_name'] . ", " . $des_student['first_name'] . " " . $des_student['middle_name'] ?>" data-value1="<?php echo $des_student['year_level'] ?>" data-value2="<?php echo $des_student['program_course'] ?>" class="btn btn-sm btn-success rounded btnsm view-btn" data-bs-toggle="modal" data-bs-target="#viewMessage"> <i class="fas fa-envelope"></i></button>
                                             </span>
                                             
                                             <?php endif; ?>
@@ -176,11 +176,61 @@
                                         
                                             <div class="success-notice f-s my-3"><i class="fal fa-question-circle"></i> Note: This will add deficiencies to given student, please review your action before proceeding.</div>
                                        
-                                        <div class="d-flex justify-content-end gap-2 pb-1">
+                                        <div class="d-flex justify-content-end gap-2 pb-2">
                                             <button type="submit" class="btn btn-success rounded" name="submit">Send</button>
                                             <button type="button" class="btn btn-secondary rounded" data-bs-dismiss="modal">Cancel</button>
                                         </div>
                                     </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal fade custom-modal" id="viewMessage" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header x-border py-1 pt-3">
+                                    <h1 class="px-1 display-6 fs-6">Message Content</h1>
+                                </div>
+                                <div class="modal-body x-border py-0">
+                                        
+                                    <div class="default-border p-2 pt-2 mb-2">
+                                        <table class="table table-borderless w-auto m-0">
+                                            <tr>
+                                                <td><span>To:</span></td>
+                                                <td><strong><i id="m-rec-text"></i></strong></td>
+                                            </tr>
+                                            <tr>
+                                                <td><span>Name:</span></td>
+                                                <td><strong><i id="m-name-text"></i></strong></td>
+                                            </tr>
+                                            <tr>
+                                                <td><span>Course and Year:</span></td>
+                                                <td><strong><i id="m-yc-text">Select Designation</i></strong></td>
+                                            </tr>
+                                            
+                                        </table>
+                                    </div>
+
+                                    
+                                    <input type="hidden" name="student_id" id="m_student_id" value="">
+                                    <input type="hidden" name="signatory_id" id="sigid" value="<?php echo $user_data['id']; ?>">
+                                    <input type="hidden" name="clearance_id" value="<?php echo $_GET['clearance_id']; ?>">
+                                    <input type="hidden" name="semester" value="<?php echo $clearanceInfo['semester'] ?>">
+                                    <input type="hidden" name="academic_year" value="<?php echo $clearanceInfo['academic_year'] ?>">
+                                    <input type="hidden" name="url_info_string" value="<?php echo 'clearance_id='. $_GET['clearance_id'] .'&workplace='. $_GET['workplace'] .'&designation_workplace= '. $_GET['designation_workplace'] ?>">
+                                    <input type="hidden" name="designation_table" value="<?php echo $_GET['designation_workplace']; ?>">
+                                    
+                                    <div class="px-2" id="msg-area">
+                                        
+                                    </div>
+                                    <!-- <div class="success-notice f-s my-3"><i class="fal fa-question-circle"></i> Note: This will add deficiencies to given student, please review your action before proceeding.</div> -->
+                                    
+                                    <div class="d-flex justify-content-end gap-2 mb-3 mt-1 px-2">
+                                        <!-- <button type="submit" class="btn btn-success rounded" name="submit">Send</button> -->
+                                        <button type="button" class="btn btn-secondary rounded" data-bs-dismiss="modal">Close</button>
+                                    </div>
+                                    
                                 </div>
                             </div>
                         </div>
@@ -286,6 +336,36 @@
                         $('#student_id').val(sid);
                         $('#name-text').text(name);
                         $('#yc-text').text(programCourse + " - " + yearLevel);
+                        
+                    });
+
+                    $('#my-datable tbody').on('click', '.view-btn', function(){
+
+                        let sid = $(this).attr('data-id');
+                        let sigid = $('#sigid').val();
+                        let cid = $(this).attr('data-cl-id');
+                        let table = $(this).attr('data-cl-table');
+                        let name = $(this).attr('data-value');
+                        let yearLevel = $(this).attr('data-value1');
+                        let programCourse = $(this).attr('data-value2');
+                        $('#m-rec-text').text(sid);
+                        $('#m_student_id').val(sid);
+                        $('#m-name-text').text(name);
+                        $('#m-yc-text').text(programCourse + " - " + yearLevel);
+
+                        $.ajax({
+                            type: "POST",
+                            url: "../controller/signatory_deficiency_view.php",
+                            data: {
+                                student_id : sid,
+                                clearance_id : cid,
+                                designation_table: table,
+                            },
+                            success: function(result) {
+                                console.log(result);
+                                $('#msg-area').html(result);
+                            }
+                        })
                         
                     });
 
