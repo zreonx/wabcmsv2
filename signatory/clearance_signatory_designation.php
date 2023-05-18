@@ -112,7 +112,7 @@
                                             <span data-bs-toggle="tooltip" title="View Deficiency">
                                                 <button data-id="<?php echo $des_student['student_id'] ?>" data-value="<?php echo $des_student['last_name'] . ", " . $des_student['first_name'] . " " . $des_student['middle_name'] ?>" data-value1="<?php echo $des_student['year_level'] ?>" data-value2="<?php echo $des_student['program_course'] ?>" class="btn btn-sm btn-success rounded btnsm deficiency-btn" data-bs-toggle="modal" data-bs-target="#singleDeficiency"> <i class="fas fa-envelope"></i></button>
                                             </span>
-                                            <button data-id="<?php echo $des_student['id'] ?>" class="btn btn-sm btn-success rounded btnsm clear-btn" <?php echo ($des_student['student_clearance_status'] == "1") ? 'disabled' : '' ; ?> ><i class="far fa-user-check"></i> Clear</button>
+                                            <!-- <button data-id="<?php echo $des_student['id'] ?>" class="btn btn-sm btn-success rounded btnsm clear-btn" <?php echo ($des_student['student_clearance_status'] == "1") ? 'disabled' : '' ; ?> ><i class="far fa-user-check"></i> Clear</button> -->
                                         <?php else: ?>
                                             <span data-bs-toggle="tooltip" title="Add Deficiency">
                                                 <button data-id="<?php echo $des_student['student_id'] ?>" data-value="<?php echo $des_student['last_name'] . ", " . $des_student['first_name'] . " " . $des_student['middle_name'] ?>" data-value1="<?php echo $des_student['year_level'] ?>" data-value2="<?php echo $des_student['program_course'] ?>" class="btn btn-sm btn-success rounded btnsm deficiency-btn" data-bs-toggle="modal" data-bs-target="#singleDeficiency"> <i class="fas fa-comment-plus"></i></button>
@@ -120,9 +120,9 @@
                                             <span data-bs-toggle="tooltip" title="View Deficiency">
                                                 <button data-id="<?php echo $des_student['student_id'] ?>" data-value="<?php echo $des_student['last_name'] . ", " . $des_student['first_name'] . " " . $des_student['middle_name'] ?>" data-value1="<?php echo $des_student['year_level'] ?>" data-value2="<?php echo $des_student['program_course'] ?>" class="btn btn-sm btn-success rounded btnsm deficiency-btn" data-bs-toggle="modal" data-bs-target="#singleDeficiency"> <i class="fas fa-envelope"></i></button>
                                             </span>
-                                        <button data-id="<?php echo $des_student['id'] ?>" class="btn btn-sm btn-success rounded btnsm clear-btn" <?php echo ($des_student['student_clearance_status'] == "1") ? 'disabled' : '' ; ?> ><i class="far fa-user-check"></i> Clear</button>
-
-                                        <?php endif; ?>
+                                            
+                                            <?php endif; ?>
+                                        <button data-id="<?php echo $des_student['student_id'] ?>" data-cl-id="<?php echo $_GET['clearance_id'] ?>" data-cl-table="<?php echo $_GET['designation_workplace'] ?>" data-cl-workplace="<?php echo $_GET['workplace'] ?>" class="btn btn-sm btn-success rounded btnsm clear-btn" <?php echo ($des_student['student_clearance_status'] == "1") ? 'disabled' : '' ; ?> ><i class="far fa-user-check"></i> Clear</button>
                                         
                                        
                                     </td>
@@ -283,9 +283,33 @@
                         $('#student_id').val(sid);
                         $('#name-text').text(name);
                         $('#yc-text').text(programCourse + " - " + yearLevel);
-
-
                         
+                    });
+
+                    $('#my-datable tbody').on('click', '.clear-btn', function(){
+
+                        let sid = $(this).attr('data-id');
+                        let cid = $(this).attr('data-cl-id');
+                        let workplace = $(this).attr('data-cl-workplace');
+                        let table = $(this).attr('data-cl-table');
+                        let url_string = "clearance_id=" + cid + "&workplace=" + workplace + "&designation_workplace=" + table; 
+                        let url_info_string = url_string.replace(/\s+/g, '');
+
+                        $.ajax({
+                            type: "POST",
+                            url: "../controller/signatory_deficiency_clear.php",
+                            data: {
+                                student_id : sid,
+                                clearance_id : cid,
+                                signatory_id : sid,
+                                workplace: workplace,
+                                designation_table: table,
+                            },
+                            success: function(result) {
+                                console.log(result);
+                                window.location.replace("clearance_signatory_designation.php?" + url_info_string);
+                            }
+                        })
                     });
                 })
                

@@ -310,5 +310,44 @@ class Clearance {
         }
     }
 
+    public function clearDeficientStudent($designation_table, $clearance_id, $student_id, $date_cleared) {
+        try {
+
+            $sql = "UPDATE deficiencies SET date_cleared = :date_cleared, status='cleared' WHERE clearance_id = :clearance_id AND student_id = :student_id AND signatory_table = :designation_table ; ";
+            $stmt = $this->conn->prepare($sql);
+            $stmt->bindparam(':clearance_id', $clearance_id);
+            $stmt->bindparam(':student_id', $student_id);
+            $stmt->bindparam(':date_cleared', $date_cleared);
+            $stmt->bindparam(':designation_table', $designation_table);
+
+            $stmt->execute();
+
+            return true;
+
+        }catch(PDOException $e) {
+            echo "ERROR: " . $e->getMessage();
+            return false;
+        }
+    }
+
+    public function cleaStudentDeficiency($designation_table, $clearance_id, $student_id, $date_cleared) {
+        try {
+
+            $sql = "UPDATE $designation_table SET student_clearance_status = '1', date_cleared = :date_cleared WHERE clearance_id = :clearance_id AND student_id = :student_id ; ";
+            $stmt = $this->conn->prepare($sql);
+            $stmt->bindparam(':clearance_id', $clearance_id);
+            $stmt->bindparam(':student_id', $student_id);
+            $stmt->bindparam(':date_cleared', $date_cleared);
+
+            $stmt->execute();
+
+            return true;
+
+        }catch(PDOException $e) {
+            echo "ERROR: " . $e->getMessage();
+            return false;
+        }
+    }
+
     
 }
