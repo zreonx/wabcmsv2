@@ -9,9 +9,13 @@
     $clearanceInfo = $clearanceInfo->fetch(PDO::FETCH_ASSOC);
 
     $designation_workplace = $_GET['designation_workplace'];
+
     $clearance_id = $_GET['clearance_id'];
 
     $sig_tb_content = $clearance->getSignatoryDesignationTableStudent($designation_workplace, $clearance_id);
+
+    $sumitDeficiencyStatus = $clearance->checkDeficiencySubmitStatus($clearance_id, $designation_workplace);
+
     
 ?>
     <div class="page px-4">
@@ -24,7 +28,7 @@
         ?>
         <div class="d-flex flex-wrap gap-2 justify-content-lg-between align-items-center">
             <h1 class="page-title fs-5 display-6">Designation</h1>
-            <div class="d-flex gap-2 align-items-center justify-content-center ms-auto">
+            <div class="d-flex gap-2 align-items-center justify-content-center ms-auto"> 
                 <?php
                     $is_org = false;
                     foreach($organizations as $orgs){
@@ -33,7 +37,7 @@
                             break;
                         }
                     }
-
+                if(!$sumitDeficiencyStatus['cd_status'] == "1"):
                     if($is_org):
                 ?>
                     <!-- <div class="btn btn-success rounded mb-3" id="addOrgBtn" data-bs-toggle="modal" data-bs-target="#importOrg"><i class="fas fa-user-plus"></i> Add Member</div> -->
@@ -41,13 +45,26 @@
                 <?php else: ?>
                     <div class="btn btn-success rounded mb-3" id="addOrgBtn" data-bs-toggle="modal" data-bs-target="#importOther"><i class="fas me-1 fa-plus"></i> Import Deficient Student</div>
                 <?php endif; ?>
+
+                <?php else: ?>
+                
+                <?php endif; ?>
                 
             </div>
         </div>
         <div class="page-content p-2 rounded">
             <div class="d-flex justify-content-between align-items-center mb-2">
                 <h1 class="fs-5 display-6 py-1 m-0"><i class="fas fa-mail-bulk text-success"></i> <?php echo (isset($_GET['designation_workplace'])) ? strtoupper(str_replace("_", " ", substr($_GET['designation_workplace'], 3, -1))) : 'Not Available'; ?></h1>
-                <div class="btn btn-success rounded mb-3" id="addOrgBtn" data-bs-toggle="modal" data-bs-target="#importModal"><i class="fas me-1 fa-thumbs-up"></i> Submit Deficiency</div>
+                
+                <?php if($sumitDeficiencyStatus['cd_status'] == "1"): ?>
+
+                    <div data-id="<?php echo $_GET['clearance_id']; ?>" data-value="<?php echo $_GET['designation_workplace']; ?>" class="btn btn-success rounded mb-3" id="submitDeficiencyBtn">Cancel</div>
+
+                <?php else: ?>
+                    
+                    <div data-id="<?php echo $_GET['clearance_id']; ?>" data-value="<?php echo $_GET['designation_workplace']; ?>" class="btn btn-success rounded mb-3" id="submitDeficiencyBtn"><i class="fas me-1 fa-thumbs-up"></i> Submit Deficiency</div>
+                
+                <?php endif; ?>
             </div>
 
            
@@ -251,11 +268,6 @@
                                             </label>
                                         </div>   
 
-                                        <div class="input-cont mb-2">
-                                            <textarea class="input-box" name="message" id="message" cols="30" rows="3" required></textarea>
-                                            <label class="input-label">Input Message Deficiency</label>
-                                        </div>
-
                                         <input type="hidden" name="signatory_id" value="<?php echo $user_data['id']; ?>">
                                         <input type="hidden" name="clearance_id" value="<?php echo $_GET['clearance_id']; ?>">
                                         <input type="hidden" name="semester" value="<?php echo $clearanceInfo['semester'] ?>">
@@ -338,6 +350,58 @@
                         $('#yc-text').text(programCourse + " - " + yearLevel);
                         
                     });
+
+                    $('#submitDeficiencyBtn').on('click', function(){
+                        let clearance_id =$(this).attr('data-id');
+                        let designation_table = $(this).attr('data-value');
+                        $.ajax({
+                            type: "POST",
+                            url: "../controller/signatory_submit_check.php",
+                            data: {
+                                clearance_id : clearance_id,
+                                designation_table: designation_table,
+                            },
+                            success: function(result) {
+                                let cstatus = JSON.parse(result);
+                                if(cstatus.cs_status == "ended") {
+                                    $('#submitDeficiencyBtn').prop('disabled', true);
+                                }else {
+                                    if(cstatus.cd_status == '1'){
+                                        console.log('already been submited');
+                                        $.ajax({
+                                            type: "POST",
+                                            url: "../controller/signatory_submit_cancel.php",
+                                            data: {
+                                                clearance_id : clearance_id,
+                                                designation_table: designation_table,
+                                                cd_id: cstatus.cd_id,
+                                            },
+                                            success: function(response) {
+                                                $('#submitDeficiencyBtn').html("<i class='fas me-1 fa-thumbs-up'></i> Submit Deficiency");
+                                                $('#addOrgBtn').show();
+                                            }
+                                        })
+                                    }else {
+                                        $.ajax({
+                                            type: "POST",
+                                            url: "../controller/signatory_submit_deficiency.php",
+                                            data: {
+                                                clearance_id : clearance_id,
+                                                designation_table: designation_table,
+                                                cd_id: cstatus.cd_id,
+                                            },
+                                            success: function(response) {
+                                                $('#submitDeficiencyBtn').text("Cancel");
+                                                $('#addOrgBtn').hide();
+                                            }
+                                        })
+
+                                    }
+                                    $('#submitDeficiencyBtn').prop('disabled', false);
+                                }
+                            }
+                        })
+                    })
 
                     $('#my-datable tbody').on('click', '.view-btn', function(){
 

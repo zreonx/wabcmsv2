@@ -221,7 +221,20 @@
             echo "transfering clearance";
         }
 
-        
+        $clearance->createSignatoryDeficiencySubmission($id);
+        $submissionRecord = $clearance->checkDeficiencySubmission($id);
+
+
+        if($submissionRecord > 0) {
+            $cdInfo = $clearance->getDeficiencySubmissionId($id);
+            echo $cdInfo['id'];
+            echo $designation_table;
+            foreach($allsig_data as $sig_des) {
+                $designation_table = clearance_table_prefix($sig_des['signatory_workplace_name'], $sig_des['signatory_designation'], $sig_des['signatory_id']);
+                $clearance->insertSignatoryDeficiencyStatus($cdInfo['id'], $sig_des['signatory_id'], $designation_table, '');
+            }
+        }
+
         $clearance->deployClearanceSignatories($id, $date_approval);
         
        

@@ -146,10 +146,11 @@ class Clearance {
         }
     }
 
+    //Deleteing clearance
     public function deleteClearance($id) {
         try {
 
-            $sql = "UPDATE clearances SET status = 'deleted' WHERE id = :id ; ";
+            $sql = "UPDATE clearances SET status = 'deleted' WHERE id = :id ; UPDATE clearance_status SET status = 'deleted' WHERE clearance_id = :id ;";
             $stmt = $this->conn->prepare($sql);
             $stmt->bindparam(':id', $id);
 
@@ -162,6 +163,48 @@ class Clearance {
             return false;
         }
     }
+
+    public function selectClearanceStatusRecord($clearance_id) {
+        try {
+
+            $sql = "SELECT * FROM clearance_status WHERE clearance_id = '$clearance_id' AND status = 'active'";
+            $result = $this->conn->query($sql);
+            $record = $result->rowCount();
+            return $record;
+            
+        }catch(PDOException $e) {
+            echo "ERROR: " . $e->getMessage();
+            return false;
+        }
+    }
+
+    public function deleteDeployedStudentInTable($signatory_table, $clearance_id) {
+        try {
+
+            $sql = "DELETE FROM $signatory_table WHERE clearance_id = '$clearance_id'";
+            $result = $this->conn->query($sql);
+            $record = $result->rowCount();
+            return $record;
+            
+        }catch(PDOException $e) {
+            echo "ERROR: " . $e->getMessage();
+            return false;
+        }
+    }
+
+    public function selectActiveDesignationTable() {
+        try {
+
+            $sql = "SELECT * FROM designation_table_record WHERE status = 'active'";
+            $result = $this->conn->query($sql);
+            return $result->fetchAll(PDO::FETCH_ASSOC);
+            
+        }catch(PDOException $e) {
+            echo "ERROR: " . $e->getMessage();
+            return false;
+        }
+    }
+
 
     //Deploying clearance for signatories
 
@@ -393,6 +436,121 @@ class Clearance {
             return false;
         }
     }
+
+
+    public function createSignatoryDeficiencySubmission($clearance_id) {
+        try {
+            $status = "initialized";
+            $sql = "INSERT INTO clearance_signatory_deficiency_status (clearance_id, status) VALUES (:clearance_id, 'incomplete'); ";
+            $stmt = $this->conn->prepare($sql);
+            $stmt->bindparam(':clearance_id', $clearance_id);
+            $stmt->execute();
+
+            return true;
+
+        }catch(PDOException $e) {
+            echo "ERROR: " . $e->getMessage();
+            return false;
+        }
+    }
+
+    public function insertSignatoryDeficiencyStatus($cd_id, $signatory_id, $signatory_table, $date_submit) {
+        try {
+            $status = "active";
+            $sql = "INSERT INTO clearance_signatory_deficiency_record (cd_id, signatory_id, signatory_table, date_submit, cd_status, status) VALUES (:cd_id, :signatory_id, :signatory_table, :date_submit, '', '$status'); ";
+            $stmt = $this->conn->prepare($sql);
+            $stmt->bindparam(':cd_id', $cd_id);
+            $stmt->bindparam(':signatory_id', $signatory_id);
+            $stmt->bindparam(':signatory_table', $signatory_table);
+            $stmt->bindparam(':date_submit', $date_submit);
+            $stmt->execute();
+
+            return true;
+
+        }catch(PDOException $e) {
+            echo "ERROR: " . $e->getMessage();
+            return false;
+        }
+    }
+
+    public function checkDeficiencySubmission($clearance_id) {
+        try {
+
+            $sql = "SELECT * FROM clearance_signatory_deficiency_status WHERE clearance_id = '$clearance_id'; ";
+            $result = $this->conn->query($sql);
+            $record = $result->rowCount();
+            return $record;
+            
+        }catch(PDOException $e) {
+            echo "ERROR: " . $e->getMessage();
+            return false;
+        }
+    }
+
+    public function getDeficiencySubmissionId($clearance_id) {
+        try {
+
+            $sql = "SELECT * FROM clearance_signatory_deficiency_status WHERE clearance_id = '$clearance_id'; ";
+            $result = $this->conn->query($sql);
+            return $result->fetch(PDO::FETCH_ASSOC);
+            
+        }catch(PDOException $e) {
+            echo "ERROR: " . $e->getMessage();
+            return false;
+        }
+    }
+
+    public function checkDeficiencySubmitStatus($clearance_id, $designation_table) {
+        try {
+            $sql = "SELECT *, cs.status AS 'cs_status' FROM clearance_signatory_deficiency_status cs INNER JOIN clearance_signatory_deficiency_record cr ON cs.id = cr.cd_id AND cr.signatory_table = '$designation_table' WHERE cs.clearance_id = '$clearance_id'; ";
+            $result = $this->conn->query($sql);
+            return $result->fetch(PDO::FETCH_ASSOC);
+            
+        }catch(PDOException $e) {
+            echo "ERROR: " . $e->getMessage();
+            return false;
+        }
+    }
+
+    public function submitDeficiency($designation_table, $cd_id, $date_submit) {
+        try {
+
+            $sql = "UPDATE clearance_signatory_deficiency_record SET cd_status  = '1', date_submit = :date_submit WHERE cd_id = :cd_id AND signatory_table = :signatory_table ; ";
+            $stmt = $this->conn->prepare($sql);
+            $stmt->bindparam(':cd_id', $cd_id);
+            $stmt->bindparam(':signatory_table', $designation_table);
+            $stmt->bindparam(':date_submit', $date_submit);
+
+            $stmt->execute();
+
+            return true;
+
+        }catch(PDOException $e) {
+            echo "ERROR: " . $e->getMessage();
+            return false;
+        }
+    }
+
+    public function cancelSubmitDeficiency($designation_table, $cd_id, $date_submit) {
+        try {
+
+            $date_submit = '';
+            $sql = "UPDATE clearance_signatory_deficiency_record SET cd_status  = '', date_submit = :date_submit WHERE cd_id = :cd_id AND signatory_table = :signatory_table ; ";
+            $stmt = $this->conn->prepare($sql);
+            $stmt->bindparam(':cd_id', $cd_id);
+            $stmt->bindparam(':signatory_table', $designation_table);
+            $stmt->bindparam(':date_submit', $date_submit);
+
+            $stmt->execute();
+
+            return true;
+
+        }catch(PDOException $e) {
+            echo "ERROR: " . $e->getMessage();
+            return false;
+        }
+    }
+    
 
     
 }

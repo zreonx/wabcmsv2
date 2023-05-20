@@ -100,7 +100,7 @@
                 <i class='fal fa-chevron-down' id="chevron"></i>
             </div>
             <ul class="category-item p-0">
-                <li class="category-link"><a href="clearance_management.php" class="clink-text">Clerance</a></li>
+                <li class="category-link"><a href="clearance_management.php" class="clink-text">Clearance</a></li>
                 <li class="category-link"><a class="clink-text">Clearance Requests</a></li>
                 
             </ul>
@@ -239,7 +239,7 @@
                 <i class='fal fa-chevron-down' id="chevron"></i>
             </div>
             <ul class="category-item p-0">
-                <li class="category-link"><a href="clearance_management.php" class="clink-text">Clerance</a></li>
+                <li class="category-link"><a href="clearance_management.php" class="clink-text">Clearance</a></li>
                 <li class="category-link"><a class="clink-text">Clearance Requests</a></li>
                 
             </ul>
