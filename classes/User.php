@@ -118,7 +118,7 @@ class User {
     public function getStudentInfo($user_id) {
         try {
 
-            $sql = "SELECT * FROM students WHERE id = $user_id AND status = 'imported'";
+            $sql = "SELECT * FROM students WHERE student_id = '$user_id' AND status = 'imported'";
             $result = $this->conn->query($sql);
             return $result->fetch(PDO::FETCH_ASSOC);
             

@@ -9,7 +9,7 @@
     <link rel="icon" href="../images/ccc_logo.webp" type="image/x-icon">
     <link rel="stylesheet" href="../css/bootstrap.min.css?v.1">
     <link href="https://cdn.datatables.net/v/bs5/jszip-2.5.0/dt-1.13.4/b-2.3.6/b-html5-2.3.6/b-print-2.3.6/r-2.4.1/sc-2.1.1/datatables.min.css?v.1" rel="stylesheet"/>
-    <link rel="stylesheet" href="../css/main.css?v1.16">
+    <link rel="stylesheet" href="../css/main.css?v1.19">
     <link rel="stylesheet" href="../css/all.min.css">
     
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
@@ -209,40 +209,19 @@
         <div class="custom-category">
             <a class="category-btn clink-text-single" href="index.php" >
                 <div>
-                    <i class="fas fa-tachometer-slowest mx-2"></i>
-                    <span class="category-text">Dashboard</span>
+                <i class="fas fa-file-alt mx-2"></i>
+                    <span class="category-text">Clearance</span>
                 </div>
             </a>
         </div>
 
         <div class="custom-category">
-            <div class="category-btn">
+            <a class="category-btn clink-text-single" href="request_clearance.php" >
                 <div>
-                    <i class="fas fa-file-alt mx-2"></i>
-                    <span class="category-text">Clearance Management</span>
-                </div>
-                <i class='fal fa-chevron-down' id="chevron"></i>
-            </div>
-            <ul class="category-item p-0">
-                <li class="category-link"><a href="clearance_management.php" class="clink-text">Clerance</a></li>
-                <li class="category-link"><a class="clink-text">Clearance Requests</a></li>
-                
-            </ul>
-        </div>
-
-        <div class="custom-category">
-            <div class="category-btn">
-                <div>
-                    <i class="fas fa-file-alt mx-2"></i>
+                <i class="fas fa-tasks mx-2"></i>
                     <span class="category-text">Request Clearance</span>
                 </div>
-                <i class='fal fa-chevron-down' id="chevron"></i>
-            </div>
-            <ul class="category-item p-0">
-                <li class="category-link"><a href="clearance_management.php" class="clink-text">Clearance</a></li>
-                <li class="category-link"><a class="clink-text">Clearance Requests</a></li>
-                
-            </ul>
+            </a>
         </div>
 
     </div>

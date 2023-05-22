@@ -49,7 +49,7 @@
 
 /* Ready to call CSS */
 .x-border {
-    border: none;
+    border: none !important;
 }
 .default-border {
     border: 1px solid #d8d8d8;
@@ -747,6 +747,14 @@ table.dataTable.dtr-inline.collapsed>tbody>tr>td.dtr-control:before, table.dataT
     gap: 8px;
 }
 
+.card-grid-s {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(225px, 1fr));
+    gap: 5px;
+    row-gap: 14px;
+}
+
+
 
 
 
@@ -823,6 +831,39 @@ table.dataTable.dtr-inline.collapsed>tbody>tr>td.dtr-control:before, table.dataT
     top: -8px;
 }
 
+/* Student Clearance */
+
+.sc-card { 
+    position: relative;
+    padding: 10px 12px;
+    max-width: 230px;
+    height: 290px;
+    border: 1px solid #e8e8e8;
+
+    border-radius: 0 0 8px 8px;
+    cursor: pointer;
+}
+
+.sc-card:hover { 
+    box-shadow: var(--shadow-sm);
+}
+
+.sc-dash-item {
+    border-radius: 6px;
+    background-color: #b5f4dd;
+    text-align: center;
+    width: 50%;
+}
+
+.sc-footer {
+    width: 80%;
+    position: absolute;
+    bottom: 12px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+
 /* Media Queries */
 
 @media only screen and (max-width: 540px) {
@@ -832,6 +873,10 @@ table.dataTable.dtr-inline.collapsed>tbody>tr>td.dtr-control:before, table.dataT
     .page-header {
         justify-content: center !important;
         flex-direction: column !important;
+    }
+    .sc-card, .clearance-card { 
+        max-width: 100vw;
+        padding: 20px;
     }
 
 }

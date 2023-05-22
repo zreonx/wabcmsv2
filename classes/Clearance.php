@@ -550,6 +550,37 @@ class Clearance {
             return false;
         }
     }
+
+    public function getSignatorySubmitStatus($clearance_id) {
+        try {
+            $sql = "SELECT * FROM clearance_signatory_deficiency_record cr INNER JOIN clearance_signatory_deficiency_status cs ON cs.id = cr.cd_id INNER JOIN designation_table_record dr ON cr.signatory_table = dr.signatory_clearance_table_name COLLATE utf8mb4_general_ci WHERE cs.clearance_id = '$clearance_id'; ";
+            $result = $this->conn->query($sql);
+            return $result->fetchAll(PDO::FETCH_ASSOC);
+            
+        }catch(PDOException $e) {
+            echo "ERROR: " . $e->getMessage();
+            return false;
+        }
+    }
+
+    public function getSignatoryDesignation($signatory_id) {
+        try {
+            $sql = "SELECT * FROM designation_signatory ds INNER JOIN designation_meta dm ON ds.designation_id = dm.id WHERE ds.signatory_id = '$signatory_id' AND ds.status = 'active'; ";
+            $result = $this->conn->query($sql);
+
+            $designation = new Designation($this->conn);
+            
+            return $result->fetchAll(PDO::FETCH_ASSOC);
+
+
+            
+        }catch(PDOException $e) {
+            echo "ERROR: " . $e->getMessage();
+            return false;
+        }
+    }
+
+    
     
 
     

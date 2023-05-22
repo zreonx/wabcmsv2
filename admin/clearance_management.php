@@ -161,8 +161,8 @@
                         </table>
 
 
-                        <div class="modal fade custom-modal modal-dashboard" id="clearanceDashboard" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                            <div class="modal-dialog">
+                        <div class="modal fade custom-modal modal-dashboard modal-lg" id="clearanceDashboard" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                            <div class="modal-dialog ">
                                 <div class="modal-content">
                                     <div class="modal-header x-border py-1 pt-3 d-flex justify-content-between align-items-center mb-1">
                                         <h1 class="px-1 display-6 fs-5 mb-0">Clearance Status</h1>
@@ -179,8 +179,28 @@
                                                 <th>Status</th>
                                             </table>
                                         </div> -->
-
-                                        <div class="default-border py-2 px-3">
+                                        <div class="d-flex gap-2 justify-cotent-center">
+                                            <div class="default-border py-2 px-3 order-1 bg-superlight "> 
+                                                <div class="bg-white px-3 py-2 flex-column rounded d-flex justify-content-center align-items-center">
+                                                    <h1 class="display-6 f-d m-0">Signatories</h1>
+                                                    <h1 class="fs-4 m-0 text-accent">15</h1>
+                                                </div>
+                                                <div>
+                                                    <table class="table" id="submitTable">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Workplace</th>
+                                                                <th>Designation</th>
+                                                                <th>Status</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                            <div class="default-border py-2 px-3 flex-grow-1 order-0">
                                                 
                                                 <table class="table table-borderless w-auto mt-1">
                                                     <tr>
@@ -238,6 +258,7 @@
                                                 </div>
                                                 
                                             </div>
+                                        </div>
                                             
                                         
                                         <div class="d-flex my-2 mb-3 gap-2">
@@ -422,6 +443,45 @@
                                     $('#deployStudentBtn').prop('disabled', true);
                                 }
                                 
+                            }
+                        })
+
+                        $.ajax({
+                            method : "POST",
+                            url: "../controller/clearance_submit_status.php",
+                            data: {
+                                id : clearance_id,
+                            },
+                            success: function(result) {
+                                let submitData = JSON.parse(result)
+
+                                $.each(submitData, function(index, value){
+
+                                    let cd_status = value.cd_status;
+
+                                    if(cd_status == '1'){
+                                        cd_status = "Submitted";
+                                    }else{
+                                        cd_status = "";
+                                    }
+
+                                    let signatory_id = value.signatory_id;
+                                    let workplace = value.signatory_workplace_name;
+
+                                    $.ajax({
+                                        method : "POST",
+                                        url: "../controller/clearance_submitsig_info.php",
+                                        data: {
+                                            signatory_id : signatory_id,
+                                            workplace : workplace,
+                                        },
+                                        success: function(result) {
+                                            $("#submitTable tbody").append("<tr><td>" + value.signatory_workplace_name + "</td><td>" + JSON.parse(result) + "</td><td>" + cd_status + "</td></tr>");
+                                        }
+                                    })
+
+                                   
+                                })
                             }
                         })
 

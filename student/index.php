@@ -1,13 +1,54 @@
 <?php 
-    require_once '../includes/main_header.php' 
+    require_once '../includes/main_header.php'; 
 
+    $activeClearance = $clearance->getActiveClearance();
+    $user_data = $_SESSION['user_data'];
+    
 ?>
-<div class="page">
-    <div class="alert alert-dismissible alert-light" id='err'>
-        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-        <strong>WABCMS 2.0</strong> <span></span>
+    <div class="page px-4">
+        <?php if(isset($_GET['success'])){ echo '<div class="alert alert-success" id="err">Clearance has been created.</div>'; } ?>
+        <?php if(isset($_GET['delete'])){ echo '<div class="alert alert-success" id="err">Clearance has been deleted.</div>'; } ?>
+        <h1 class="page-title fs-5 display-6">Clearance (1)</h1>
+        <div class="page-content rounded">
+            <div class="card-grid-s">
+                <div class="sc-card px-3">
+                    <div class="sc-header d-flex justify-content-between align-items-center">
+                        <h1 class="fs-6 m-0">Finals Clearance</h1>
+                        <div class="info-btn">
+                            <i class="fal fa-info-circle"></i>
+                        </div>
+                    </div>
+                    <h1 class="f-s display-6"><em>May 22, 2023 at 10:00am</em></h1>
+                   
+                    <div class="text-center py-1"><strong class="py-2 f-d">1st Semester | 2020-2023</strong></div>
+                    <div class="sc-body py-2">
+                       
+                        <div class="d-flex gap-2 justify-content-center mb-3">
+                            <div class="sc-dash-item p-2">
+                                <h1 class="display-6 f-s m-0">Signatories</h1>
+                                <h1 class="f-4 m-0">21</h1>
+                            </div>
+                            <div class="sc-dash-item p-2">
+                                <h1 class="display-6 f-s m-0">Cleared</h1>
+                                <h1 class="f-4 m-0">15</h1>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="sc-footer d-flex justify-content-center">
+                        <button data-id="<?php echo $ac_signatory['clearance_id'] ?>" class="w-100 btn btn-view btn-success rounded btnsm w-50" data-bs-toggle="modal" data-bs-target="#designationModal"><i class="fa-solid fa-folder-open me-1"></i> View Clearance</button>
+                    </div>
+                    
+                </div>
+
+                
+            </div>
+
+        </div>
+
+            <script>      
+    
+               
+            </script>
     </div>
-    <h1 class="page-title fs-5 display-6">Dashboard </h1>
-</div>
-   
 <?php require_once '../includes/main_footer.php' ?>
