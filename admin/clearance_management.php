@@ -179,26 +179,37 @@
                                                 <th>Status</th>
                                             </table>
                                         </div> -->
-                                        <div class="d-flex gap-2 justify-cotent-center">
-                                            <div class="default-border py-2 px-3 order-1 bg-superlight "> 
-                                                <div class="bg-white px-3 py-2 flex-column rounded d-flex justify-content-center align-items-center">
-                                                    <h1 class="display-6 f-d m-0">Signatories</h1>
-                                                    <h1 class="fs-4 m-0 text-accent">15</h1>
+                                        <div class="d-flex gap-3 justify-content-center cdash-table-data">
+                                            <div class="order-1"> 
+                                                <h1 class="fs-6 mb-2">Submission Status</h1>
+                                                <div class="d-flex gap-2 justify-content-center mb-3">
+                                                    <div class="bg-white px-3 py-2 flex-column rounded d-flex justify-content-center align-items-center default-border">
+                                                        <h1 class="display-6 f-d m-0">Signatories</h1>
+                                                        <h1 class="fs-4 m-0 text-accent" id="submission">15</h1>
+                                                    </div>
+                                                    <div class="bg-white px-3 py-2 flex-column rounded d-flex justify-content-center align-items-center default-border">
+                                                        <h1 class="display-6 f-d m-0">Submitted</h1>
+                                                        <h1 class="fs-4 m-0 text-accent" id="submitted">15</h1>
+                                                    </div>
                                                 </div>
-                                                <div>
-                                                    <table class="table" id="submitTable">
-                                                        <thead>
-                                                            <tr>
-                                                                <th>Workplace</th>
-                                                                <th>Designation</th>
-                                                                <th>Status</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            
-                                                        </tbody>
-                                                    </table>
-                                                </div>
+                                                <div class="d-flex justify-content-start">
+                                                    <div class="form-group d-flex gap-2">
+                                                        <input class="form-control form-control-sm" type="text" id="tb-val" placeholder="Search...">
+                                                        <!-- <button class="btn btn-search btn-success btn-sm rounded" id="searchBtn">SEARCH</button> -->
+                                                    </div>
+                                                </div> 
+                                                <table class="table text-center table-bordered py-3 pt-1 w-100 mt-0" id="submitTable">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Workplace</th>
+                                                            <th>Designation</th>
+                                                            <th>Status</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        
+                                                    </tbody>
+                                                </table>
                                             </div>
                                             <div class="default-border py-2 px-3 flex-grow-1 order-0">
                                                 
@@ -242,7 +253,14 @@
                                                     
                                                 </table>
 
-                                                <div class="d-flex flex-wrap gap-2 pb-2">
+                                                
+                                                
+                                            </div>
+                                        </div>
+                                            
+                                        
+                                        <div class="d-flex my-2 mb-3 gap-2 align-items-end">
+                                                <div class="d-flex flex-wrap gap-2 cdash-controls">
                                                    <div>
                                                         <div class="f-d display-6 m-1">Step 1</div>
                                                         <button id="deploySignatoryBtn" class="btn btn-success rounded">Deploy to Signatories</button>
@@ -256,14 +274,9 @@
                                                         <button id="endClearanceBtn" class="btn btn-danger rounded">End</button>
                                                    </div>
                                                 </div>
-                                                
-                                            </div>
-                                        </div>
-                                            
-                                        
-                                        <div class="d-flex my-2 mb-3 gap-2">
-                                           
-                                            <button type="button" class="btn btn-secondary rounded ms-auto" data-bs-dismiss="modal">Cancel</button>
+                                           <div class="ms-auto">
+                                                <button type="button" class="btn btn-secondary rounded ms-auto" data-bs-dismiss="modal">Cancel</button>
+                                           </div>
                                         </div>
                                     </div>
                                 </div>
@@ -393,8 +406,24 @@
 
                     var clearance_data;
                     var clearance_id;
+
+                    let dashtable = $('#submitTable').DataTable({
+                            
+                            "pageLength": 9,
+                            "bPaginate": false,
+                            responsive: true,
+                            "targets": 'no-sort',
+                            "bSort": true,
+                            "order": [],
+                            "bInfo": false,
+                        });
+
+                    $('#tb-val').on('keyup', function() {
+                        dashtable.search($('#tb-val').val()).draw()
+                    });
                     
                     $('#my-datable tbody').on('click', '.status-btn', function(){
+                        dashtable.clear().draw();
                         clearance_id = $(this).attr('data-id');
                         $('#crn').text(clearance_id);
 
@@ -429,6 +458,11 @@
                                     let deployed_stud = new Date(result.returned_data.date_deploy_student);
                                     if(result.returned_data.date_deploy_student !== "") {
                                         $('#c-deployed-stud').text($.format.date(deployed_stud, "MMM d, yyyy") + " At " + $.format.date(deployed_stud, "h:mm a"));
+                                        $('#deploySignatoryBtn').prop('disabled', true);
+                                        $('#deployStudentBtn').prop('disabled', true);
+                                        $('#endClearanceBtn').prop('disabled', false);
+                                    }else {
+                                        $('#deployStudentBtn').prop('disabled', false);
                                     }
                                     let ended = new Date(result.returned_data.date_ended);
                                     if(result.returned_data.date_ended !== "") {
@@ -437,10 +471,11 @@
                                     }
                                     // let ended = new Date(result.clearance_info.date_created);
                                     $('#deploySignatoryBtn').prop('disabled', true);
-                                    $('#deployStudentBtn').prop('disabled', false);
+                                    
                                 }else {
                                     $('#deploySignatoryBtn').prop('disabled', false);  
                                     $('#deployStudentBtn').prop('disabled', true);
+                                    $('#endClearanceBtn').prop('disabled', true);
                                 }
                                 
                             }
@@ -454,15 +489,18 @@
                             },
                             success: function(result) {
                                 let submitData = JSON.parse(result)
+                                // console.log(submitData)
+                                $('#submission').text(submitData.count);
 
-                                $.each(submitData, function(index, value){
+                                let submittedCount = 0;
+                                $.each(submitData.submission, function(index, value){
 
                                     let cd_status = value.cd_status;
-
                                     if(cd_status == '1'){
-                                        cd_status = "Submitted";
+                                        cd_status = "<i class='fa-solid fa-check text-success'></i>";
+                                        submittedCount += 1;
                                     }else{
-                                        cd_status = "";
+                                        cd_status = "<i class='fa-solid fa-xmark text-danger'></i>";
                                     }
 
                                     let signatory_id = value.signatory_id;
@@ -476,12 +514,19 @@
                                             workplace : workplace,
                                         },
                                         success: function(result) {
-                                            $("#submitTable tbody").append("<tr><td>" + value.signatory_workplace_name + "</td><td>" + JSON.parse(result) + "</td><td>" + cd_status + "</td></tr>");
+
+                                            var newRow = [
+                                                value.signatory_workplace_name,
+                                                JSON.parse(result),
+                                                cd_status
+                                            ];
+                                            dashtable.row.add(newRow).draw(false);
+
+                                            // $("#submitTable tbody").append("<tr><td>" + value.signatory_workplace_name + "</td><td>" + JSON.parse(result) + "</td><td>" + cd_status + "</td></tr>");
                                         }
                                     })
-
-                                   
                                 })
+                                $('#submitted').text(submittedCount);
                             }
                         })
 
@@ -506,8 +551,10 @@
                             $('#c-ended').text('-');
                             $('#c-status').html('<strong class="badge-primary text-primary"><i>Initialized</i></strong>');
                     }
+                    
 
                     });
+
 
                     $('#deploySignatoryBtn').click(function(){
                         let beneficiary = clearance_data.clearance_beneficiary;
@@ -522,9 +569,26 @@
                                 academic_year: clearance_data.academic_year,
                             },
                             success: function(response) {
-                                console.log(response);
+                                // console.log(response);
                                 $('#deploySignatoryBtn').prop('disabled', true);
                                 $('#deployStudentBtn').prop('disabled', false);
+                            }
+                        });
+                    }); 
+
+                    $('#deployStudentBtn').click(function(){
+                        let beneficiary = clearance_data.clearance_beneficiary;
+                        $.ajax({
+                            method : "POST",
+                            url: "../controller/clearance_deploy_student.php",
+                            data: {
+                                id : clearance_id,
+                            },
+                            success: function(response) {
+                                 console.log(response);
+                                $('#deploySignatoryBtn').prop('disabled', true);
+                                $('#deployStudentBtn').prop('disabled', true);
+                                $('#endClearanceBtn').prop('disabled', false);
                             }
                         });
                     }); 

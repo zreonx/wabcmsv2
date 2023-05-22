@@ -288,6 +288,24 @@ class Clearance {
         }
     }
 
+    public function deployClearanceStudent($clearance_id, $date_deploy) {
+        try {
+            $status = "initialized";
+            $sql = "UPDATE clearance_status SET date_deploy_student = :date_deploy WHERE clearance_id = :clearance_id";
+            $stmt = $this->conn->prepare($sql);
+            $stmt->bindparam(':clearance_id', $clearance_id);
+            $stmt->bindparam(':date_deploy', $date_deploy);
+
+            $stmt->execute();
+
+            return true;
+
+        }catch(PDOException $e) {
+            echo "ERROR: " . $e->getMessage();
+            return false;
+        }
+    }
+
     public function checkIsClearanceDeployed($id) {
         try {
 

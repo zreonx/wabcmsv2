@@ -7,7 +7,7 @@ if(isset($_POST['id'])) {
     
     $submitStatus = $clearance->getSignatorySubmitStatus($id);
     
-
-    echo json_encode($submitStatus);
+    $result = array('count' => count($submitStatus), 'submission' => $submitStatus);
+    echo json_encode($result);
 
 }

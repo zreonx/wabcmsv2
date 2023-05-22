@@ -28,10 +28,10 @@
                         <table class="table text-center display w-100 mb-2" id="my-datable"">
                             <thead>
                                 <tr>
-                                    <th>Type</th>
                                     <th>ID</th>
+                                    <th>Type</th>
                                     <th>Email</th>
-                                    <th>Password</th>
+                                    <!-- <th>Password</th> -->
                                     <th>Status</th>
                                     <th>Action</th>
                                 </tr>
@@ -39,10 +39,10 @@
                             <tbody>
                                 <?php foreach($allUser as $user_data): ?>
                                     <tr>
-                                        <td><?php echo ucfirst($user_data['user_type']); ?></td>
                                         <td><?php echo $user_data['user_id']; ?></td>
+                                        <td><?php echo ucfirst($user_data['user_type']); ?></td>
                                         <td><?php echo $user_data['email']; ?></td>
-                                        <td><?php echo $user_data['password']; ?></td>
+                                        <!-- <td><?php //$user_data['password']; ?></td> -->
                                         <td class="text-center align-middle"><?php echo ($user_data['status'] == "active") ? '<div class="d-flex justify-content-center"><div class="badge-green"><i class="fas fa-circle i-dot i-success "></i> <span>Active</span></div></div>' : ''; ; ?></td>
                                         <td><button data-id="<?php echo $user_data['id'] ?>" class="btn btn-sm btn-success rounded btnsm edit-btn"><i class="fas fa-user-alt-slash"></i> Deactivate</button></td>
                                     </tr>
