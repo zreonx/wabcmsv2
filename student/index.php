@@ -1,7 +1,7 @@
 <?php 
     require_once '../includes/main_header.php'; 
 
-    $activeClearance = $clearance->getActiveClearance();
+    $activeClearance = $clearance->getActiveClearanceStudent();
     $user_data = $_SESSION['user_data'];
     
 ?>
@@ -11,16 +11,18 @@
         <h1 class="page-title fs-5 display-6">Clearance (1)</h1>
         <div class="page-content rounded">
             <div class="card-grid-s">
+                <?php foreach($activeClearance as $cinfo): ?>
+                    
                 <div class="sc-card px-3">
                     <div class="sc-header d-flex justify-content-between align-items-center">
-                        <h1 class="fs-6 m-0">Finals Clearance</h1>
+                        <h1 class="fs-6 m-0"><?php echo $cinfo['clearance_name'] ?></h1>
                         <div class="info-btn">
                             <i class="fal fa-info-circle"></i>
                         </div>
                     </div>
-                    <h1 class="f-s display-6"><em>May 22, 2023 at 10:00am</em></h1>
+                    <h1 class="f-s display-6"><em><?php echo date("M j, Y h:i A", strtotime($cinfo['date_deploy_student'])); ?></em></h1>
                    
-                    <div class="text-center py-1"><strong class="py-2 f-d">1st Semester | 2020-2023</strong></div>
+                    <div class="text-center py-1"><strong class="py-2 f-d"><?php echo $cinfo['semester'] ?> | <?php echo $cinfo['academic_year'] ?></strong></div>
                     <div class="sc-body py-2">
                        
                         <div class="d-flex gap-2 justify-content-center mb-3">
@@ -36,11 +38,12 @@
                     </div>
 
                     <div class="sc-footer d-flex justify-content-center">
-                        <button data-id="<?php echo $ac_signatory['clearance_id'] ?>" class="w-100 btn btn-view btn-success rounded btnsm w-50" data-bs-toggle="modal" data-bs-target="#designationModal"><i class="fa-solid fa-folder-open me-1"></i> View Clearance</button>
+                        <a href="clearance.php" class="w-100 btn btn-view btn-success rounded btnsm w-50" ><i class="fa-solid fa-folder-open me-1"></i> View Clearance</a>
                     </div>
                     
                 </div>
 
+                <?php endforeach; ?>
                 
             </div>
 
