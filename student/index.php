@@ -3,6 +3,7 @@
 
     $activeClearance = $clearance->getActiveClearanceStudent();
     $user_data = $_SESSION['user_data'];
+    print_r($user_data);
     
 ?>
     <div class="page px-4">
@@ -28,11 +29,14 @@
                         <div class="d-flex gap-2 justify-content-center mb-3">
                             <div class="sc-dash-item p-2">
                                 <h1 class="display-6 f-s m-0">Signatories</h1>
-                                <h1 class="f-4 m-0">21</h1>
+                                <?php 
+                                     $studentClearance = $dashboard->studentClearanceData($cinfo['clearance_id'], $user_data['student_id']);
+                                ?>
+                                <h1 class="f-4 m-0"><?php echo count($studentClearance); ?></h1>
                             </div>
                             <div class="sc-dash-item p-2">
                                 <h1 class="display-6 f-s m-0">Cleared</h1>
-                                <h1 class="f-4 m-0">15</h1>
+                                <h1 class="f-4 m-0"><?php $cleared_student = 0;  foreach($studentClearance as $cleared){ if($cleared['clearance_status'] == '1'){ $cleared_student++; } } echo $cleared_student; ?></h1>
                             </div>
                         </div>
                     </div>

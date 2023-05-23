@@ -211,6 +211,7 @@
                                                     </tbody>
                                                 </table>
                                             </div>
+                                            
                                             <div class="default-border py-2 px-3 flex-grow-1 order-0">
                                                 
                                                 <table class="table table-borderless w-auto mt-1">
@@ -250,7 +251,6 @@
                                                         <td><span>Status:</span></td>
                                                         <td id="c-status"><strong class="badge-green text-success"><i>-</i></strong></td>
                                                     </tr>
-                                                    
                                                 </table>
 
                                                 
@@ -569,7 +569,7 @@
                                 academic_year: clearance_data.academic_year,
                             },
                             success: function(response) {
-                                // console.log(response);
+                                console.log(response);
                                 $('#deploySignatoryBtn').prop('disabled', true);
                                 $('#deployStudentBtn').prop('disabled', false);
                             }
@@ -589,6 +589,17 @@
                                 $('#deploySignatoryBtn').prop('disabled', true);
                                 $('#deployStudentBtn').prop('disabled', true);
                                 $('#endClearanceBtn').prop('disabled', false);
+                            }
+                        });
+
+                        $.ajax({
+                            method : "POST",
+                            url: "../controller/clearance_record_student.php",
+                            data: {
+                                id : clearance_id,
+                            },
+                            success: function(response) {
+                                 console.log(response);
                             }
                         });
                     }); 

@@ -164,6 +164,21 @@ class Dashboard {
             return false;
         }
     }
+
+
+    // Students
+
+    public function studentClearanceData($clearance_id, $student_id) {
+        try {
+            $sql = "SELECT * FROM clearance_student_record WHERE student_id = '$student_id' AND clearance_id = '$clearance_id'";
+            $result = $this->conn->query($sql);
+            return $result->fetchAll(PDO::FETCH_ASSOC);
+     
+        }catch(PDOException $e) {
+            echo "ERROR: " . $e->getMessage();
+            return false;
+        }
+    }
     
     
     

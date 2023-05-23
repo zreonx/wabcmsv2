@@ -253,6 +253,8 @@ class Clearance {
     public function insertStudentToTable($table_name, $clearance_id, $semester, $academic_year, $student_id, $date_cleared) {
         try {
             $status = "initialized";
+            //$this->insertStudentClearanceRecord($clearance_id, $signatory_id, $table_name, $student_id, '1');
+
             $sql = "INSERT INTO $table_name (clearance_id, semester, academic_year, student_id, student_clearance_status, date_cleared) VALUES (:clearance_id, :semester, :academic_year, :student_id, '1', :date_cleared); ";
             $stmt = $this->conn->prepare($sql);
             $stmt->bindparam(':clearance_id', $clearance_id);
@@ -261,7 +263,8 @@ class Clearance {
             $stmt->bindparam(':student_id', $student_id);
             $stmt->bindparam(':date_cleared', $date_cleared);
             $stmt->execute();
-
+            
+            
             return true;
 
         }catch(PDOException $e) {
@@ -418,7 +421,7 @@ class Clearance {
     public function clearDeficientStudent($designation_table, $clearance_id, $student_id, $date_cleared) {
         try {
 
-            $sql = "UPDATE deficiencies SET date_cleared = :date_cleared, status='cleared' WHERE clearance_id = :clearance_id AND student_id = :student_id AND signatory_table = :designation_table ; ";
+            $sql = "UPDATE deficiencies SET date_cleared = :date_cleared, status='cleared' WHERE clearance_id = :clearance_id AND student_id = :student_id AND signatory_table = :designation_table ; UPDATE clearance_student_record SET clearance_status = '1' WHERE clearance_id = :clearance_id AND student_id = :student_id AND signatory_table = :designation_table ; ";
             $stmt = $this->conn->prepare($sql);
             $stmt->bindparam(':clearance_id', $clearance_id);
             $stmt->bindparam(':student_id', $student_id);
@@ -596,18 +599,85 @@ class Clearance {
         try {
             $sql = "SELECT * FROM designation_signatory ds INNER JOIN designation_meta dm ON ds.designation_id = dm.id WHERE ds.signatory_id = '$signatory_id' AND ds.status = 'active'; ";
             $result = $this->conn->query($sql);
-
-            $designation = new Designation($this->conn);
             
             return $result->fetchAll(PDO::FETCH_ASSOC);
-
-
             
         }catch(PDOException $e) {
             echo "ERROR: " . $e->getMessage();
             return false;
         }
     }
+
+    public function allStudentTakingClearance() {
+        try {
+            $sql = "SELECT * FROM students WHERE status = 'imported'; ";
+            $result = $this->conn->query($sql);
+            
+            return $result->fetchAll(PDO::FETCH_ASSOC);
+            
+        }catch(PDOException $e) {
+            echo "ERROR: " . $e->getMessage();
+            return false;
+        }
+    }
+
+    public function getActiveSignatoryDesignation() {
+        try {
+            $sql = "SELECT * FROM designation_table_record WHERE status = 'active'; ";
+            $result = $this->conn->query($sql);
+            
+            return $result->fetchAll(PDO::FETCH_ASSOC);
+            
+        }catch(PDOException $e) {
+            echo "ERROR: " . $e->getMessage();
+            return false;
+        }
+    }
+
+    public function activeSignatoryTableData($table_name, $clearance_id) {
+        try {
+            $sql = "SELECT * FROM $table_name WHERE clearance_id = '$clearance_id'; ";
+            $result = $this->conn->query($sql);
+            
+            return $result->fetchAll(PDO::FETCH_ASSOC);
+            
+        }catch(PDOException $e) {
+            echo "ERROR: " . $e->getMessage();
+            return false;
+        }
+    }
+
+    public function insertStudentClearanceRecord($clearance_id, $signatory_id, $signatory_designation_table, $student_id, $clearance_status) {
+        try {
+            $status = "active";
+            $sql = "INSERT INTO clearance_student_record (clearance_id, signatory_id, signatory_designation_table, student_id, clearance_status, status) VALUES (:clearance_id, :signatory_id, :signatory_designation_table, :student_id, :clearance_status, 'active'); ";
+            $stmt = $this->conn->prepare($sql);
+            $stmt->bindparam(':clearance_id', $clearance_id);
+            $stmt->bindparam(':signatory_id', $signatory_id);
+            $stmt->bindparam(':signatory_designation_table', $signatory_designation_table);
+            $stmt->bindparam(':student_id', $student_id);
+            $stmt->bindparam(':clearance_status', $clearance_status);
+            $stmt->execute();
+
+            return true;
+
+        }catch(PDOException $e) {
+            echo "ERROR: " . $e->getMessage();
+            return false;
+        }
+    }
+
+    public function getStudentClearanceStatus($table_name, $clearance_id, $student_id) {
+        try {
+            $sql = "SELECT * FROM $table_name WHERE clearance_id = '$clearance_id' AND student_id = '$student_id' ; ";
+            $result = $this->conn->query($sql);
+            return $result->fetch(PDO::FETCH_ASSOC);
+        }catch(PDOException $e) {
+            echo "ERROR: " . $e->getMessage();
+            return false;
+        }
+    }
+    
 
     
     
