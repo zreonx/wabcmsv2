@@ -17,6 +17,7 @@
 
         $clearance->cleaStudentDeficiency($designation_table, $clearance_id, $student_id, $date_cleared);
         $clearance->clearDeficientStudent($designation_table, $clearance_id, $student_id, $date_cleared);
+        $clearance->cleareStudentClearanceRecord($designation_table, $clearance_id, $student_id);
 
 
     }else {

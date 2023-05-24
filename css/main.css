@@ -83,6 +83,11 @@
     color: var(--color-gray);
 }
 
+.t-justify {
+    text-align: justify;
+    text-justify: inter-word;
+}
+
 .badge-green {
     display: flex;
     justify-content: center;
@@ -754,6 +759,13 @@ table.dataTable.dtr-inline.collapsed>tbody>tr>td.dtr-control:before, table.dataT
     row-gap: 14px;
 }
 
+.cl-grid{
+    display: grid;
+    justify-content: center;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 10px;
+}
+
 
 
 
@@ -822,6 +834,16 @@ table.dataTable.dtr-inline.collapsed>tbody>tr>td.dtr-control:before, table.dataT
     opacity: 1;
 }
 
+.btn-overlay{
+    position: absolute;
+    left: 20px;
+    opacity: 0;
+    transition: .3s ease-in-out;
+}
+
+.view-def-btn:hover .btn-overlay {
+    opacity: 1;
+}
 
 
 
@@ -867,6 +889,27 @@ table.dataTable.dtr-inline.collapsed>tbody>tr>td.dtr-control:before, table.dataT
     height: 312px;
 }
 
+.cl-page{
+
+    width: 600px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 22px 32px;
+}
+
+.c-hr{
+    width: 225px;
+}
+
+.view-def-btn {
+    position: relative;
+    cursor: pointer;
+    transition: all ease-in .3s;
+}
+
+
 
 /* Media Queries */
 
@@ -888,6 +931,18 @@ table.dataTable.dtr-inline.collapsed>tbody>tr>td.dtr-control:before, table.dataT
 
     .cdash-controls > div {
         width: 100%;
+    }
+
+    .cl-page{
+        width: 100% !important;
+    }
+
+    .be-row {
+        flex-direction: column;
+    }
+
+    .cl-grid{
+        grid-template-columns: 1fr;
     }
     
 
@@ -913,7 +968,45 @@ table.dataTable.dtr-inline.collapsed>tbody>tr>td.dtr-control:before, table.dataT
     .cdash-controls > div {
         width: 100%;
     }
-    
+
+    .cl-page{
+        width: 100%;
+    }
+
+    .cl-grid{
+        grid-template-columns: 1fr;
+    }
+
+}
+
+@media only screen and (max-width: 1280px) {
+    .input-cont .input-box:focus ~ label, .input-cont .input-box:valid ~ label {
+    }
+
+    .page-header{
+        justify-content: center !important;
+        flex-direction: column !important;
+    }
+    .sc-card, .clearance-card { 
+        max-width: 100vw;
+        padding: 20px;
+    }
+
+    .cdash-table-data {
+        flex-direction: column;
+    }
+
+    .cdash-controls > div {
+        width: 100%;
+    }
+
+    .cl-page{
+        width: 100% ;
+    }
+
+    .cl-grid{
+        grid-template-columns: 1fr;
+    }
 
 }
 

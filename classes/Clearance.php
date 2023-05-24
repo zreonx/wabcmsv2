@@ -335,6 +335,17 @@ class Clearance {
         }
     }
 
+    public function getActiveClearanceById($clearance_id) {
+        try {
+            $sql = "SELECT * FROM clearance_status cs INNER JOIN clearances c ON cs.clearance_id = c.id INNER JOIN clearance_type ct ON c.clearance_type = ct.id INNER JOIN clearance_beneficiaries cb ON c.clearance_beneficiary = cb.id   WHERE cs.clearance_id = '$clearance_id' AND cs.status = 'active'";
+            $result = $this->conn->query($sql);
+            return $result->fetch(PDO::FETCH_ASSOC);
+        }catch(PDOException $e) {
+            echo "ERROR: " . $e->getMessage();
+            return false;
+        }
+    }
+
     public function getActiveClearanceStudent() {
         try {
             $sql = "SELECT * FROM clearance_status cs INNER JOIN clearances c ON cs.clearance_id = c.id INNER JOIN clearance_type ct ON c.clearance_type = ct.id INNER JOIN clearance_beneficiaries cb ON c.clearance_beneficiary = cb.id   WHERE cs.status = 'active' AND cs.date_deploy_student != ''; ";
@@ -677,7 +688,72 @@ class Clearance {
             return false;
         }
     }
+
+    public function cleareStudentClearanceRecord($table_name, $clearance_id, $student_id) {
+        try {
+            $sql = "UPDATE clearance_student_record SET clearance_status = '1' WHERE signatory_designation_table = :signatory_designation_table AND clearance_id = :clearance_id AND student_id = :student_id ; ";
+            $stmt = $this->conn->prepare($sql);
+            $stmt->bindparam(':clearance_id', $clearance_id);
+            $stmt->bindparam(':signatory_designation_table', $table_name);
+            $stmt->bindparam(':student_id', $student_id);
+            $stmt->execute();
+
+            return true;
+        }catch(PDOException $e) {
+            echo "ERROR: " . $e->getMessage();
+            return false;
+        }
+    }
+
+    // Student Clearance
+
     
+    public function getDepartmentClearance($table_name, $clearance_id, $student_id) {
+        try {
+            $sql = "SELECT * FROM $table_name WHERE clearance_id = '$clearance_id' AND student_id = '$student_id' ; ";
+            $result = $this->conn->query($sql);
+            return $result->fetch(PDO::FETCH_ASSOC);
+        }catch(PDOException $e) {
+            echo "ERROR: " . $e->getMessage();
+            return false;
+        }
+    }
+
+    public function allActiveSignatories() {
+        try {
+            $sql = "SELECT * FROM designation_meta dm INNER JOIN designation_signatory ds ON dm.id = ds.designation_id WHERE ds.status = 'active' and dm.status = 'active'; ";
+            $result = $this->conn->query($sql);
+            return $result->fetchAll(PDO::FETCH_ASSOC);
+        }catch(PDOException $e) {
+            echo "ERROR: " . $e->getMessage();
+            return false;
+        }
+    }
+
+    public function allActiveSignatoryTable() {
+        try {
+            $sql = "SELECT * FROM designation_table_record WHERE status = 'active'; ";
+            $result = $this->conn->query($sql);
+            return $result->fetchAll(PDO::FETCH_ASSOC);
+        }catch(PDOException $e) {
+            echo "ERROR: " . $e->getMessage();
+            return false;
+        }
+    }
+
+    public function checkIfCleared($table_name, $student_id, $clearance_id) {
+        try {
+            $sql = "SELECT * FROM $table_name WHERE student_id = '$student_id' AND clearance_id = '$clearance_id'; ";
+            $result = $this->conn->query($sql);
+            return $result->fetch(PDO::FETCH_ASSOC);
+        }catch(PDOException $e) {
+            echo "ERROR: " . $e->getMessage();
+            return false;
+        }
+    }
+
+
+
 
     
     

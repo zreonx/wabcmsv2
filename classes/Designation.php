@@ -19,6 +19,19 @@ class Designation {
         }
     }
 
+    public function getCategories() {
+        try {
+
+            $sql = "SELECT * FROM designation_category WHERE status = 'active'";
+            $result = $this->conn->query($sql);
+            return $result->fetchAll(PDO::FETCH_ASSOC);
+     
+        }catch(PDOException $e) {
+            echo "ERROR: " . $e->getMessage();
+            return false;
+        }
+    }
+
     public function getAllDesignationData() {
         try {
             $sql = "SELECT * FROM designation_meta WHERE status = 'active'";

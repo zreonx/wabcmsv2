@@ -3,7 +3,6 @@
 
     $activeClearance = $clearance->getActiveClearanceStudent();
     $user_data = $_SESSION['user_data'];
-    print_r($user_data);
     
 ?>
     <div class="page px-4">
@@ -42,7 +41,7 @@
                     </div>
 
                     <div class="sc-footer d-flex justify-content-center">
-                        <a href="clearance.php" class="w-100 btn btn-view btn-success rounded btnsm w-50" ><i class="fa-solid fa-folder-open me-1"></i> View Clearance</a>
+                        <a href="clearance.php?clearance_id=<?php echo $cinfo['clearance_id']?>" class="w-100 btn btn-view btn-success rounded btnsm w-50" ><i class="fa-solid fa-folder-open me-1"></i> View Clearance</a>
                     </div>
                     
                 </div>
