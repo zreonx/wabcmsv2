@@ -62,9 +62,22 @@ class Signatory {
     public function getSignatory($id) {
         try {
 
-            $sql = "SELECT * FROM signatories WHERE id = $id";
+            $sql = "SELECT * FROM signatories WHERE id = $id AND status = 'active'";
             $result = $this->conn->query($sql);
             return $result;
+            
+        }catch(PDOException $e) {
+            echo "ERROR: " . $e->getMessage();
+            return false;
+        }
+    }
+
+    public function getAllSignatory($id) {
+        try {
+
+            $sql = "SELECT * FROM signatories WHERE id = $id AND status = 'active'";
+            $result = $this->conn->query($sql);
+            return $result->fetch(PDO::FETCH_ASSOC);
             
         }catch(PDOException $e) {
             echo "ERROR: " . $e->getMessage();

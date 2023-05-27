@@ -1,6 +1,5 @@
 <?php 
     require_once '../includes/main_header.php' 
-
 ?>
 <div class="page">
     <div class="alert alert-dismissible alert-light" id='err'>

@@ -741,6 +741,31 @@ class Clearance {
         }
     }
 
+    //for org
+    public function allActiveSignatoryTableOrg() {
+        try {
+            $sql = "SELECT * FROM designation_table_record dr INNER JOIN organizations o ON dr.signatory_workplace_name = o.organization_code WHERE dr.status = 'active' AND dr.signatory_workplace_name = o.organization_code; ";
+            $result = $this->conn->query($sql);
+            return $result->fetchAll(PDO::FETCH_ASSOC);
+        }catch(PDOException $e) {
+            echo "ERROR: " . $e->getMessage();
+            return false;
+        }
+    }
+
+
+    public function getStudentCourseId($department) {
+        try {
+            $sql = "SELECT * FROM departments WHERE department_code = '$department' AND status = 'active'";
+            $result = $this->conn->query($sql);
+            $response = $result->fetch(PDO::FETCH_ASSOC);
+            return $response['id'];
+        }catch(PDOException $e) {
+            echo "ERROR: " . $e->getMessage();
+            return false;
+        }
+    }
+
     public function checkIfCleared($table_name, $student_id, $clearance_id) {
         try {
             $sql = "SELECT * FROM $table_name WHERE student_id = '$student_id' AND clearance_id = '$clearance_id'; ";
@@ -751,6 +776,19 @@ class Clearance {
             return false;
         }
     }
+
+    public function checkIfStudentIsInside($table_name, $student_id, $clearance_id) {
+        try {
+            $sql = "SELECT * FROM $table_name WHERE student_id = '$student_id' AND clearance_id = '$clearance_id'; ";
+            $result = $this->conn->query($sql);
+            return $result->rowCount();
+        }catch(PDOException $e) {
+            echo "ERROR: " . $e->getMessage();
+            return false;
+        }
+    }
+
+
 
 
 

@@ -12,11 +12,12 @@
                 
 
                 <div class="col-lg-5 pt-2 px-4">
+                
                     <form action="../controller/sign_add.php" method="POST">
                         <label class="form-label">Manage Signatory</label>
                         <div class="p-1 px-3">
                             <div class="input-cont mb-3">
-                                <input type="text" id="firstname" name="firstname" class="input-box" required>
+                                <input type="text" id="firstname" name="firstname" class="input-box" placeholder="" required >
                                 <label class="input-label">Firstname</label>
                             </div>
                             <div class="input-cont mb-3">
@@ -24,17 +25,31 @@
                                 <label class="input-label">Middlename</label>
                             </div>
                             <div class="input-cont mb-3">
-                                <input type="text" id="lastname" name="lastname" class="input-box" required>
+                                <input type="text" id="lastname" name="lastname" class="input-box" placeholder="" required>
                                 <label class="input-label">Lastname</label>
                             </div>
                             <div class="input-cont mb">
-                                <input type="text" id="email" name="email" class="input-box" required>
+                                <input type="text" id="email" name="email" class="input-box" placeholder="" required>
                                 <label class="input-label">Email</label>
                             </div>
+
                             <button type="submit" name="submit" class="btn btn-success rounded mt-3" id="addSignatory">Add Signatory</button>
                         </div>
+
+                        <script>
+                           window.onload = function(){
+                            $('#addSignatory').on('click',function(){
+                                let middlenameInput = $('#middlename').val();
+                                if(middlenameInput ==  ''){
+                                    $("#middlename").removeAttr('required');
+                                }
+                            })
+                           }
+                        </script>
                     </form>
                 </div>
+
+               
 
                
                 <div class="col-lg-7 pt-2 px-4">

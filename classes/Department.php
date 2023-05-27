@@ -36,7 +36,7 @@ class Department {
     public function addDepartment($department_code, $department_name) {
         try {
 
-            $sql = "INSERT INTO departments (department_code, department_name) VALUES (:dept_code, :dept_name); ";
+            $sql = "INSERT INTO departments (department_code, department_name, program_head_id, status) VALUES (:dept_code, :dept_name, '', 'active'); ";
             $stmt = $this->conn->prepare($sql);
             $stmt->bindparam(':dept_code', $department_code);
             $stmt->bindparam(':dept_name', $department_name);

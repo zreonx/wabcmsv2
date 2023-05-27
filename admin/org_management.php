@@ -2,6 +2,7 @@
     require_once '../includes/main_header.php'; 
     require_once '../config/connection.php';
     $allOrg = $organization->getOrganizations();
+    $allDept = $department->getDepartments();
 ?>
     <div class="page">
         <?php if(isset($_GET['update'])){ echo '<div class="alert alert-success" id="err">Oranization has been updated.</div>'; } ?>
@@ -16,9 +17,25 @@
                             <input type="text" id="organization_code" class="input-box" required>
                             <label class="input-label">Organization Acronym</label>
                         </div>
-                        <div class="input-cont">
+                        <div class="input-cont mb-3">
                             <input type="text" id="organization_name" class="input-box" required>
                             <label class="input-label">Organization Name</label>
+                        </div>
+                        <div class="mb-2">
+                            <div class="custom-select select-clearance-beneficiaries">
+                                <input type="hidden" class="select-name" name="linked_department" id="linked_department">
+                                <button type="button" class="select-btn"> 
+                                    <span class="sbtn-text" id="crtext">Linked Department</span>
+                                    <i class="bx bx-chevron-down"></i>
+                                </button>
+                                <ul class="select-menu">
+                                    <li data-value="0">Linked Department</li>
+                                        <?php while($dept_row = $allDept->fetch(PDO::FETCH_ASSOC)): ?>
+                                            <li data-value="<?php echo $dept_row['id'] ?>"><?php echo $dept_row['department_code'] ?></li>
+                                        <?php endwhile; ?>
+                                    <li data-value="999">Other</li>
+                                </ul>
+                            </div>
                         </div>
                         <div class="btn btn-success rounded mt-3" id="addOrgBtn">Add Organization</div>
                     </div>
@@ -109,6 +126,7 @@
                     function saveChanges() {
                         let orgCode = $('#organization_code').val()
                         let orgName = $('#organization_name').val()
+                        let linkDept = $('#linked_department').val();
                         
                         if(orgCode.length !== 0 || orgName.length !== 0) {
                             $.ajax({
@@ -136,6 +154,7 @@
                     function addOrganization() {
                         let orgCode = $('#organization_code').val()
                         let orgName = $('#organization_name').val()
+                        let linkDept = $('#linked_department').val()
 
                         if(orgCode.length !== 0 || orgName.length !== 0) {
                             $.ajax({
@@ -145,6 +164,7 @@
                                     key: "add_organization",
                                     organization_code: orgCode,
                                     organization_name: orgName,
+                                    linked_department: linkDept,
                                 },
                                 success: function(result) {
                                     $('#err').remove();
@@ -152,6 +172,7 @@
 
                                     $('#organization_code').val("");    
                                     $('#organization_name').val("");
+                                    $('#linked_dept').val("");
 
                                     setTimeout(function(){
                                         $('#err').remove();

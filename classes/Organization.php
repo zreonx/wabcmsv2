@@ -48,13 +48,14 @@ class Organization {
         }
     }
 
-    public function addOrganization($organization_code, $organization_name) {
+    public function addOrganization($organization_code, $organization_name, $linked_department) {
         try {
 
-            $sql = "INSERT INTO organizations (organization_code, organization_name) VALUES (:organization_code, :organization_name); ";
+            $sql = "INSERT INTO organizations (organization_code, organization_name, linked_department, status) VALUES (:organization_code, :organization_name, :linked_department, 'active'); ";
             $stmt = $this->conn->prepare($sql);
             $stmt->bindparam(':organization_code', $organization_code);
             $stmt->bindparam(':organization_name', $organization_name);
+            $stmt->bindparam(':linked_department', $linked_department);
 
             $stmt->execute();
 

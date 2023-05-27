@@ -189,6 +189,12 @@
     background-color: var(--color-greenlight) !important;
 }
 
+.shadow-s {
+    box-shadow: var(--shadow-sm);
+}
+.shadow-m{
+    box-shadow: var(--shadow-md);
+}
 
 
 /* Dot Icon */
@@ -477,10 +483,26 @@ body {
     text-overflow: ellipsis;  
 }
 
-.input-cont .input-box:focus ~ label, .input-cont .input-box:valid ~ label {
+.input-cont .input-box:focus ~ label,
+.input-cont .input-box:valid ~ label,
+.input-cont .custom-input:focus ~ label,
+.input-cont .custom-input:valid ~ label {
+  font-size: 12px;
+  top: -8px;
+}
+
+
+
+/* .input-cont .input-box:focus ~ label,
+.input-cont .input-box:not(:placeholder-shown) ~ label {
+    font-size: 12px;
+    top: -8px;
+} */
+
+/* .input-cont .input-box:focus ~ label{
     font-size: 12px;    
     top: -8px;
-}
+} */
 
 /* Input file  */
 
@@ -770,6 +792,8 @@ table.dataTable.dtr-inline.collapsed>tbody>tr>td.dtr-control:before, table.dataT
 
 
 
+
+
 /* Signatory Clearance Card */
 
 .clearance-card { 
@@ -899,6 +923,10 @@ table.dataTable.dtr-inline.collapsed>tbody>tr>td.dtr-control:before, table.dataT
     padding: 22px 32px;
 }
 
+.cls {
+    width: 800px;
+}
+
 .c-hr{
     width: 225px;
 }
@@ -937,7 +965,7 @@ table.dataTable.dtr-inline.collapsed>tbody>tr>td.dtr-control:before, table.dataT
         width: 100% !important;
     }
 
-    .be-row {
+    .berow {
         flex-direction: column;
     }
 
@@ -973,9 +1001,13 @@ table.dataTable.dtr-inline.collapsed>tbody>tr>td.dtr-control:before, table.dataT
         width: 100%;
     }
 
-    .cl-grid{
-        grid-template-columns: 1fr;
+    .berow {
+        flex-direction: column;
     }
+
+    /* .cl-grid{
+        grid-template-columns: 1fr;
+    } */
 
 }
 
@@ -1004,9 +1036,12 @@ table.dataTable.dtr-inline.collapsed>tbody>tr>td.dtr-control:before, table.dataT
         width: 100% ;
     }
 
-    .cl-grid{
-        grid-template-columns: 1fr;
+    .berow {
+        flex-direction: column;
     }
+    /* .cl-grid{
+        grid-template-columns: 1fr;
+    } */
 
 }
 
