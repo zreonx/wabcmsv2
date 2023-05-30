@@ -1,5 +1,40 @@
+<html lang="en">
+    <?php require_once '../config/connection.php'; ?>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WABCMS V2</title>
+
+    <link rel="icon" href="../images/ccc_logo.webp" type="image/x-icon">
+    <link rel="stylesheet" href="../css/bootstrap.min.css?v.1">
+    <link href="https://cdn.datatables.net/v/bs5/jszip-2.5.0/dt-1.13.4/b-2.3.6/b-html5-2.3.6/b-print-2.3.6/r-2.4.1/sc-2.1.1/datatables.min.css?v.1" rel="stylesheet"/>
+    <link rel="stylesheet" href="../css/main.css?v1.28">
+    <link rel="stylesheet" href="../css/all.min.css">
+    
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.css" />
+
+    <script src="https://bootswatch.com/_vendor/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://bootswatch.com/_vendor/jquery/dist/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-dateFormat/1.0/jquery.dateFormat.min.js"></script>
+    <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
+    
+
+    <script src="../js/all.min.js"></script>
+    <script src="../js/main.js?v.4"></script>
+    <script src="../js/datatable.js?v1.2"></script>
+
+</head>
+<body>
+
 <?php 
-    require_once '../includes/main_header.php'; 
+    
     $clearance_id = $_GET['clearance_id'];
 
     $cl_info = $clearance->getActiveClearanceById($clearance_id);
@@ -15,31 +50,23 @@
 
 ?>
     <div class="page x-border">
-        <?php if(isset($_GET['success'])){ echo '<div class="alert alert-success" id="err">Clearance has been created.</div>'; } ?>
-        <?php if(isset($_GET['delete'])){ echo '<div class="alert alert-success" id="err">Clearance has been deleted.</div>'; } ?>
-      <div class="d-flex justify-content-between mb-2">
-        <h1 class="page-title fs-5 display-6"></h1>
-        <button class="btn btn-success rounded dl-btn" id="downloadBtn"><i class="fad fa-cloud-download me-1"></i> Download</button>
-        <!-- <a href="../controller/student_download_pdf.php?clearance_id=26" class="btn btn-success rounded dl-btn"><i class="fad fa-cloud-download me-1"></i> Download</a> -->
-      </div>
-        <div class="page-content rounded ">
+
+        <div class="page-content rounded x-border">
             <?php if($user_data['academic_level'] == 'College'): ?>
             <div class="college"> 
-                <div class="cl-page mx-auto default-border shadow-sm">
-
-                
+                <div class="cl-page mx-auto default-border">
+                    <div class="w-100 clearance-header gap-5 d-flex align-items-center mb-3 border-bottom pb-3">
+                        <div class="ccclogo">
+                            <img src="../images/ccc_logo.webp" alt="ccclogo" style="height:120px;">
+                        </div> 
+                        <div class="text-center flex-grow-1">
+                            <h1 class="m-0 fs-5">CITY COLLEGE OF CALAPAN</h1>
+                            <h1 class="m-0 f-s">(Dalubhasaan ng Lungsod ng Calapan)</h1>
+                            <h1 class="m-0 f-s"><em>Brgy. Guinobatan Calapan City, Oriental Mindoro</em></h1>
+                            <h1 class="m-0 f-s"><em>Tel No. (02) 288-7013</em></h1>
+                        </div> 
+                    </div>
                     <div class="d-flex flex-column pb-3">
-                        <div class="w-100 clearance-header gap-5 d-flex align-items-center mb-3 border-bottom pb-3">
-                            <div class="ccclogo">
-                                <img src="../images/ccc_logo.webp" alt="ccclogo" style="height:120px;">
-                            </div> 
-                            <div class="text-center flex-grow-1">
-                                <h1 class="m-0 fs-5">CITY COLLEGE OF CALAPAN</h1>
-                                <h1 class="m-0 f-s">(Dalubhasaan ng Lungsod ng Calapan)</h1>
-                                <h1 class="m-0 f-s"><em>Brgy. Guinobatan Calapan City, Oriental Mindoro</em></h1>
-                                <h1 class="m-0 f-s"><em>Tel No. (02) 288-7013</em></h1>
-                            </div> 
-                        </div>
                         <h1 class="fs-6 text-center">CLEARANCE</h1>
                         <h1 class="f-d ms-auto"><?php echo date("M j, Y"); ?></h1>
                         <div class="t-justify">This is to certify that <strong><?php echo $user_data['first_name'] . " " . $midname . $user_data['last_name'] ; ?></strong>, with student No. <strong><?php echo $user_data['student_id']; ?></strong>, is a student of the City College of Calapan and he/she is cleared from all of his/her obligations this <?php echo $cl_info['semester']; ?>, Academic Year  <?php echo $cl_info['academic_year']; ?>. </div>
@@ -144,8 +171,17 @@
                     </div>
 
                 </div>
+                <br/>
+                <br/>
+                <br/>
+                <br/>
+                <br/>
+                <br/>
+                <br/>
+                <br/>
+                <br/>
 
-                <div class="cl-page mx-auto default-border mt-5 shadow-sm">
+                <div class="cl-page mx-auto default-border mt-5 ">
                     <div class="d-flex flex-column pb-3">
                         <h1 class="fs-6 text-center m-0">CITY COLLEGE OF CALAPAN</h1>
                         <h1 class="fs-6 text-center">STUDENT AFFAIRS AND SERVICES CLEARANCE</h1>
@@ -192,11 +228,10 @@
                         <div class="d-flex flex-column justify-content-center mt-2">
                         <?php 
                                 foreach($allSignatoryOrg as $sigOrg){
-                                    $yourOrgAd = false;
                                     if(preg_match("/adviser/", $sigOrg['signatory_clearance_table_name'])){
                                         if($course_id != $sigOrg['linked_department'] AND !preg_match("/sp/", $sigOrg['signatory_clearance_table_name'])){
                                             if($checkIfRegistered > 0) {
-                                                $yourOrgAd = true;
+                                                $yourOrg = true;
                                                 if(preg_match("/adviser/", $sigOrg['signatory_clearance_table_name']) AND !preg_match("/sp/", $sigOrg['signatory_clearance_table_name'])){
                                                     $cleared_info = $clearance->checkIfCleared($sigOrg['signatory_clearance_table_name'], $user_data['student_id'], $clearance_id);
                                                     if(!empty($cleared_info)){
@@ -217,11 +252,7 @@
                                             }
                                         }
                                     }
-                                    
                                 }   
-                                if(!$yourOrgAd){
-                                    echo "You does not have other organization";
-                                }
                                
                             ?>
                             
@@ -236,8 +267,8 @@
                     <div class="d-flex gap-2 justify-content-evenly text-center px-5 mb-5">
                         <div class="d-flex flex-column justify-content-center">
                             <?php 
+                                $deptorgfoundpres = false;
                                 foreach($allSignatoryOrg as $sigOrg){
-                                    $yourOrgDeptPres = false;
                                     $course_id = $clearance->getStudentCourseId($user_data['program_course']);
 
                                     $search = strtolower($user_data['program_course']) . "_president";
@@ -247,7 +278,7 @@
                                         $checkIfRegistered = $clearance->checkIfStudentIsInside($sigOrg['signatory_clearance_table_name'], $user_data['student_id'], $clearance_id);
                                         if($checkIfRegistered > 0) {
                                             if(preg_match("/president/", $sigOrg['signatory_clearance_table_name'])){
-                                                $yourOrgDeptPres = true;
+                                                $deptorgfoundpres = true;
                                                 $cleared_info = $clearance->checkIfCleared($sigOrg['signatory_clearance_table_name'], $user_data['student_id'], $clearance_id);
                                                 if(!empty($cleared_info)){
                                                     if($cleared_info['student_clearance_status'] == '1'){
@@ -264,11 +295,13 @@
                                                 }
                                             }
 
+                                        }else{
+                                            echo "Youre not registered to your departmental organization";
                                         }
                                     }
                                 }
-                                if(!$yourOrgDeptPres){
-                                    echo "Youre not registered to your departmental organization";
+                                if(!$deptorgfoundpres){
+                                    echo "Your department does not have an organization";
                                 }
                             
                             ?>
@@ -279,7 +312,7 @@
                     <div class="d-flex gap-2 justify-content-evenly text-center px-5 mb-5">
                         <div class="d-flex flex-column justify-content-center">
                             <?php 
-                                $yourOrgDeptAd = false;
+                                $deptorgfoundadv = false;
                                 foreach($allSignatoryOrg as $sigOrg){
                                     $course_id = $clearance->getStudentCourseId($user_data['program_course']);
 
@@ -290,7 +323,7 @@
                                         $checkIfRegistered = $clearance->checkIfStudentIsInside($sigOrg['signatory_clearance_table_name'], $user_data['student_id'], $clearance_id);
                                         if($checkIfRegistered > 0) {
                                             if(preg_match("/adviser/", $sigOrg['signatory_clearance_table_name'])){
-                                                $yourOrgDeptAd = true;
+                                                $deptorgfoundadv = true;
                                                 $cleared_info = $clearance->checkIfCleared($sigOrg['signatory_clearance_table_name'], $user_data['student_id'], $clearance_id);
                                                 if(!empty($cleared_info)){
                                                     if($cleared_info['student_clearance_status'] == '1'){
@@ -307,11 +340,13 @@
                                                 }
                                             }
 
+                                        }else{
+                                            echo "Youre not registered to your departmental organization";
                                         }
                                     }
                                 }
-                                if(!$yourOrgDeptAd){
-                                    echo "Youre not registered to your departmental organization";
+                                if(!$deptorgfoundadv){
+                                    echo "Your department does not have an organization";
                                 }
                             
                             ?>
@@ -393,19 +428,19 @@
             </div>  
             <?php elseif($user_data['academic_level'] == 'SHS'): ?>
             <div class="shs">
-                <div class="cl-page cls mx-auto default-border shadow-sm">
+                <div class="cl-page cls mx-auto default-border">
+                    <div class="w-100 clearance-header gap-5 d-flex align-items-center border-bottom mb-4 pb-3">
+                        <div class="ccclogo">
+                            <img src="../images/ccc_logo.webp" alt="ccclogo" style="height:120px;">
+                        </div> 
+                        <div class="text-center flex-grow-1">
+                            <h1 class="m-0 fs-5">CITY COLLEGE OF CALAPAN</h1>
+                            <h1 class="m-0 f-s">(Dalubhasaan ng Lungsod ng Calapan)</h1>
+                            <h1 class="m-0 f-s"><em>Brgy. Guinobatan Calapan City, Oriental Mindoro</em></h1>
+                            <h1 class="m-0 f-s"><em>Tel No. (02) 288-7013</em></h1>
+                        </div> 
+                    </div>
                     <div class="d-flex flex-column pb-3">
-                        <div class="w-100 clearance-header gap-5 d-flex align-items-center border-bottom mb-4 pb-3">
-                            <div class="ccclogo">
-                                <img src="../images/ccc_logo.webp" alt="ccclogo" style="height:120px;">
-                            </div> 
-                            <div class="text-center flex-grow-1">
-                                <h1 class="m-0 fs-5">CITY COLLEGE OF CALAPAN</h1>
-                                <h1 class="m-0 f-s">(Dalubhasaan ng Lungsod ng Calapan)</h1>
-                                <h1 class="m-0 f-s"><em>Brgy. Guinobatan Calapan City, Oriental Mindoro</em></h1>
-                                <h1 class="m-0 f-s"><em>Tel No. (02) 288-7013</em></h1>
-                            </div> 
-                        </div>
                         <h1 class="fs-6 text-center">CLEARANCE</h1>
                         <h1 class="f-d ms-auto"><?php echo date("M j, Y"); ?></h1>
                         <div class="t-justify">This is to certify that <strong><?php echo $user_data['first_name'] . " " . $midname . $user_data['last_name'] ; ?></strong>, with student No. <strong><?php echo $user_data['student_id']; ?></strong>, is a student of the City College of Calapan and he/she is cleared from all of his/her obligations this <?php echo $cl_info['semester']; ?>, Academic Year  <?php echo $cl_info['academic_year']; ?>. </div>
@@ -518,7 +553,6 @@
             </div>
                     <?php endif; ?>
         </div>
-        <iframe src="clearance_download_template.php?clearance_id=<?php echo $_GET['clearance_id'] ?>" id="clearanceFrame" frameborder="0" style="height: 0; border:0; width:100%;"></iframe>
             <script>     
                 $(document).ready(function(){
                     $('.view-def-btn').on('click', function(){
@@ -539,19 +573,12 @@
                             }
                         })
                     })
-
-                    $('#downloadBtn').click(function(){
-                        let frame = document.getElementById('clearanceFrame').contentWindow;
-                        frame.focus();
-                        frame.print();
-                    });
-
-
                 }) 
                
             </script>   
             
             
+            <iframe src="clearance_template.php?clearance_id=<?php echo $_GET['clearance_id'] ?>" id="clearanceFrame" frameborder="0" style="height: 0; border:0; width:100%;"></iframe>
     </div>
 
 
@@ -577,4 +604,14 @@
             </div>
         </div>
     </div>  
-<?php require_once '../includes/main_footer.php' ?>
+
+</div>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+<script src="https://cdn.datatables.net/v/bs5/jszip-2.5.0/dt-1.13.4/b-2.3.6/b-html5-2.3.6/b-print-2.3.6/r-2.4.1/sc-2.1.1/datatables.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/wkhtmltopdf@0.4.0/index.min.js"></script>
+
+</body>
+</html>

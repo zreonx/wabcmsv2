@@ -788,6 +788,21 @@ table.dataTable.dtr-inline.collapsed>tbody>tr>td.dtr-control:before, table.dataT
     grid-gap: 10px;
 }
 
+.download-section{
+    background-color: #029c63;
+}
+
+/* .dl-btn{
+    position: sticky;
+    bottom: 12px;
+    right: 12px;
+    z-index: 5;
+} */
+
+
+
+
+
 
 
 
