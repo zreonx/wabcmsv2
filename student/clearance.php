@@ -236,8 +236,8 @@
                     <div class="d-flex gap-2 justify-content-evenly text-center px-5 mb-5">
                         <div class="d-flex flex-column justify-content-center">
                             <?php 
+                                $yourOrgDeptPres = false;
                                 foreach($allSignatoryOrg as $sigOrg){
-                                    $yourOrgDeptPres = false;
                                     $course_id = $clearance->getStudentCourseId($user_data['program_course']);
 
                                     $search = strtolower($user_data['program_course']) . "_president";
@@ -540,10 +540,26 @@
                         })
                     })
 
-                    $('#downloadBtn').click(function(){
+                    // $('#downloadBtn').click(function(){
+                    //     let frame = document.getElementById('clearanceFrame').contentWindow;
+                    //     frame.focus();
+                    //     frame.print();
+                    // });
+
+                    let frame = document.getElementById('clearanceFrame').contentWindow;
+
+                    $('#downloadBtn').click(function(e) {
+                        var ua = navigator.userAgent.toLowerCase();
+                        var isAndroid = ua.indexOf("android") > -1; //&& ua.indexOf("mobile");
                         let frame = document.getElementById('clearanceFrame').contentWindow;
-                        frame.focus();
-                        frame.print();
+                        if (isAndroid) {
+                              frame.focus();
+                            frame.print();
+                            AndroidPrintInterface.print();
+                        } else {
+                            frame.focus();
+                            frame.print();
+                        }   
                     });
 
 

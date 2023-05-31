@@ -65,8 +65,13 @@
                             </thead>
                             <?php while($sig_row = $signatories->fetch(PDO::FETCH_ASSOC)):  ?>
                                 <tr>
-                                    <th><?php echo $sig_row['last_name'] . ", " . $sig_row['first_name'] . " " . strtoupper(substr($sig_row['middle_name'], 0, 1)) ."." ?></th>
-                                    <td> 
+                                    <th>
+                                        <?php
+                                            $midname = ($sig_row['middle_name'] == '') ? '' : strtoupper(substr($sig_row['middle_name'], 0, 1) . '.');
+                                            echo $sig_row['last_name'] . ", " . $sig_row['first_name'] . " " . $midname;
+                                        ?>
+                                    </th>
+                                    <td class="long-word"> 
                                         <?php 
                                             $category_workplace = $signatory->getSignatoryDesignations($sig_row['id']);
 
@@ -83,7 +88,7 @@
                                         ?>
                                     </td>
                                     <td>
-                                        <button data-id="<?php echo $sig_row['id'] ?>" class="btn btn-sm btn-success rounded  edit-btn "><i class="fas fa-edit"></i> Edit</button>
+                                        <button data-id="<?php echo $sig_row['id'] ?>" class="btn btn-sm btn-success rounded edit-btn"> <i class="fas fa-edit"></i> Edit</button>
                                         <button data-id="<?php echo $sig_row['id']?>" class="btn btn-delete btn-sm btn-success rounded " data-bs-toggle="modal" data-bs-target="#deleteModal"><i class="fas fa-trash"></i> Delete</button>
                                     </td>
                                 </tr>

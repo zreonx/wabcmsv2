@@ -154,7 +154,8 @@
                                             <?php 
                                                 $s_info = $designation->getSignatoryInformation($d_row['id']);
                                                 if(!empty($s_info)) {
-                                                    echo $s_info['last_name'] . ", " . $s_info['first_name'] . " " . strtoupper(substr($s_info['middle_name'], 0, 1)) ."." ;
+                                                    $midname = ($s_info['middle_name'] == '') ? '' : strtoupper(substr($s_info['middle_name'], 0, 1) . '.');
+                                                    echo $s_info['last_name'] . ", " . $s_info['first_name'] . " " . $midname ;
                                                     ?>
                                                 </span>
                                                 <button data-id="<?php echo $d_row['id'] ?>" class="btn btn-sm small-btn btn-remove btn-danger" data-bs-toggle="modal" data-bs-target="#removeAssignment"><i class="fas fa-user-minus"></i></button>
@@ -175,7 +176,7 @@
                                     <td><div class="p-1"><?php echo $d_row['designation'] ?></td></div>
                                     <td>
                                         <!-- <button data-id="<?php //echo $d_row['id'] ?>" class="btn btn-sm btn-success rounded btnsm edit-btn">Edit</button> -->
-                                        <button data-id="<?php echo $d_row['id']?>" class="btn btn-delete btn-sm small-btn btn-success rounded" data-bs-toggle="modal" data-bs-target="#deleteModal"> <i class="fas fa-trash"></i> Delete</button>
+                                        <button data-id="<?php echo $d_row['id']?>" class="btn btn-delete btn-sm small-btn btn-success rounded" data-bs-toggle="modal" data-bs-target="#deleteModal"> <i class="fas fa-trash"></i> <span class="btn-text">Delete</span></button>
                                     </td>
                                 </tr>
                             <?php endwhile; ?>
