@@ -309,10 +309,49 @@ class Clearance {
         }
     }
 
+    public function endClearance($clearance_id, $date_end) {
+        try {
+            $status = "ended";
+            $sql = "UPDATE clearance_status SET date_ended = :date_end, status = :status WHERE clearance_id = :clearance_id";
+            $stmt = $this->conn->prepare($sql);
+            $stmt->bindparam(':clearance_id', $clearance_id);
+            $stmt->bindparam(':date_end', $date_end);
+            $stmt->bindparam(':status', $status);
+
+            $stmt->execute();
+
+            $this->endClearanceStatus($clearance_id, $status);
+
+            return true;
+
+        }catch(PDOException $e) {
+            echo "ERROR: " . $e->getMessage();
+            return false;
+        }
+    }
+
+    public function endClearanceStatus($clearance_id, $status) {
+        try {
+            
+            $sql = "UPDATE clearances SET status = :status WHERE clearance_id = :clearance_id";
+            $stmt = $this->conn->prepare($sql);
+            $stmt->bindparam(':clearance_id', $clearance_id);
+            $stmt->bindparam(':status', $status);
+
+            $stmt->execute();
+
+            return true;
+
+        }catch(PDOException $e) {
+            echo "ERROR: " . $e->getMessage();
+            return false;
+        }
+    }
+
     public function checkIsClearanceDeployed($id) {
         try {
 
-            $sql = "SELECT * FROM clearance_status WHERE clearance_id = '$id' AND status = 'active'";
+            $sql = "SELECT * FROM clearance_status WHERE clearance_id = '$id' AND status IN ('active','ended')";
             $result = $this->conn->query($sql);
             $count = $result->rowCount();
             $query = $result->fetch(PDO::FETCH_ASSOC);
@@ -326,7 +365,7 @@ class Clearance {
 
     public function getActiveClearance() {
         try {
-            $sql = "SELECT * FROM clearance_status cs INNER JOIN clearances c ON cs.clearance_id = c.id INNER JOIN clearance_type ct ON c.clearance_type = ct.id INNER JOIN clearance_beneficiaries cb ON c.clearance_beneficiary = cb.id   WHERE cs.status = 'active'";
+            $sql = "SELECT * FROM clearance_status cs INNER JOIN clearances c ON cs.clearance_id = c.id INNER JOIN clearance_type ct ON c.clearance_type = ct.id INNER JOIN clearance_beneficiaries cb ON c.clearance_beneficiary = cb.id   WHERE cs.status IN ('active','ended')";
             $result = $this->conn->query($sql);
             return $result->fetchAll(PDO::FETCH_ASSOC);
         }catch(PDOException $e) {

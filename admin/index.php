@@ -77,38 +77,151 @@
     <!-- <div class="bg-white rounded py-3 px-3 mb-2 ">
     </div> -->
 
-    <div class="d-workplace px-3 py-2 pb-3 mt-3">
-        <div class="d-flex justify-content-between align-items-center mb-1">
-            <div class="f-d">Workplace</div>
-            <div class="info-btn">
-                <i class="fal fa-info-circle"></i>
+    <div class="d-charts d-flex gap-3">
+        
+        <div class="d-workplace px-3 py-2 pb-3 mt-3">
+            <div class="d-flex justify-content-between align-items-center mb-1">
+                <div class="f-d">Workplace</div>
+                <div class="info-btn">
+                    <i class="fal fa-info-circle"></i>
+                </div>
+            </div>
+            <div class="px-2 bg-white rounded py-1">
+                <?php 
+                    $workplace = $dashboard->getWorkplace();
+                ?>
+                <table class="table table-borderless">
+                    <tr>
+                        <td> Organizations </td>
+                        <td><?php echo $workplace['org_count'] ?></td>
+                    </tr>
+                    <tr>
+                        <td> Department </td>
+                        <td><?php echo $workplace['dept_count'] ?></td>
+                    </tr>
+                    <tr>
+                        <td> Offices </td>
+                        <td><?php echo $workplace['ofc_count'] ?></td>
+                    </tr>
+                    <tr>
+                        <td> SHS </td>
+                        <td><?php echo $workplace['shs_count'] ?></td>
+                    </tr>
+                    
+                </table>
             </div>
         </div>
-        <div class="px-2 bg-white rounded py-1">
-            <?php 
-                $workplace = $dashboard->getWorkplace();
-            ?>
-            <table class="table table-borderless">
-                <tr>
-                    <td> Organizations </td>
-                    <td><?php echo $workplace['org_count'] ?></td>
-                </tr>
-                <tr>
-                    <td> Department </td>
-                    <td><?php echo $workplace['dept_count'] ?></td>
-                </tr>
-                <tr>
-                    <td> Offices </td>
-                    <td><?php echo $workplace['ofc_count'] ?></td>
-                </tr>
-                <tr>
-                    <td> SHS </td>
-                    <td><?php echo $workplace['shs_count'] ?></td>
-                </tr>
-                
-            </table>
+        <div class="mt-3 flex-grow-1 p-3">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+                <div class="fs-6 text-success">Active Clearance <i class="fas fa-check-circle pt-1 fs-5"></i></div>
+                <div class="f-d badge bg-success rounded" data-bs-toggle="tooltip" title="Clearance Reference Number">CRN 12</div>
+            </div>
+            <div class="dc-overview d-flex gap-3">
+                <div class="d-workplace px-3 py-2 pb-3 flex-grow-1">
+                    <div class="d-flex justify-content-between align-items-center mb-1">
+                        <div class="f-d">Workplace</div>
+                        <div class="info-btn">
+                            <i class="fal fa-info-circle"></i>
+                        </div>
+                    </div>
+                    <div class="bg-white rounded py-1">
+                        <canvas id="myChartBar"></canvas>
+                    </div>
+                </div>
+
+                <div class="d-workplace px-3 py-2 pb-3">
+                    <div class="d-flex justify-content-between align-items-center mb-1">
+                        <div class="f-d">Clearance Status</div>
+                        <div class="info-btn">
+                            <i class="fal fa-info-circle"></i>
+                        </div>
+                    </div>
+                    <div class="bg-white rounded py-1">
+                    <canvas id="myChartPie"></canvas>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
+    
 </div>
+
+<script>
+    $(document).ready(function(){
+        var barGraph = document.getElementById('myChartBar').getContext('2d');
+		var myChartBar = new Chart(barGraph, {
+		    type: 'bar',
+		    data: {
+		        labels: ['January', 'February', 'March', 'April', 'May', 'June'],
+		        datasets: [{
+		            label: 'Sales',
+		            data: [1500, 1200, 1800, 2000, 1300, 1900],
+		            backgroundColor: [
+		                'rgba(255, 99, 132, 0.2)',
+		                'rgba(54, 162, 235, 0.2)',
+		                'rgba(255, 206, 86, 0.2)',
+		                'rgba(75, 192, 192, 0.2)',
+		                'rgba(153, 102, 255, 0.2)',
+		                'rgba(255, 159, 64, 0.2)'
+		            ],
+		            borderColor: [
+		                'rgba(255, 99, 132, 1)',
+		                'rgba(54, 162, 235, 1)',
+		                'rgba(255, 206, 86, 1)',
+		                'rgba(75, 192, 192, 1)',
+		                'rgba(153, 102, 255, 1)',
+		                'rgba(255, 159, 64, 1)'
+		            ],
+		            borderWidth: 1
+		        }]
+		    },
+		    options: {
+		        scales: {
+		            yAxes: [{
+		                ticks: {
+		                    beginAtZero: true
+		                }
+		            }]
+		        }
+		    }
+		});
+
+
+        var pieGraph = document.getElementById('myChartPie').getContext('2d');
+
+		var myChartPie = new Chart(pieGraph, {
+			type: 'pie',
+			data: {
+				labels: ['Red', 'Blue', 'Yellow'],
+				datasets: [{
+					label: '# of Votes',
+					data: [12, 19, 3],
+					backgroundColor: [
+						'rgba(255, 99, 132, 0.2)',
+						'rgba(54, 162, 235, 0.2)',
+						'rgba(255, 206, 86, 0.2)'
+					],
+					borderColor: [
+						'rgba(255, 99, 132, 1)',
+						'rgba(54, 162, 235, 1)',
+						'rgba(255, 206, 86, 1)'
+					],
+					borderWidth: 1
+				}]
+			},
+			options: {
+				responsive: true,
+				legend: {
+					position: 'top'
+				},
+				animation: {
+					animateScale: true,
+					animateRotate: true
+				}
+			}
+		});
+        
+    });
+</script>
    
 <?php require_once '../includes/main_footer.php' ?>

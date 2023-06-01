@@ -468,6 +468,9 @@
                                     if(result.returned_data.date_ended !== "") {
                                         $('#c-ended').text($.format.date(ended, "MMM d, yyyy") + " At " + $.format.date(ended, "h:mm a"));
                                         $('#c-status').html('<strong class="badge-danger text-danger"><i>Ended</i></strong>');
+                                        $('#deploySignatoryBtn').prop('disabled', true);
+                                        $('#deployStudentBtn').prop('disabled', true);
+                                        $('#endClearanceBtn').prop('disabled', true);
                                     }
                                     // let ended = new Date(result.clearance_info.date_created);
                                     $('#deploySignatoryBtn').prop('disabled', true);
@@ -603,6 +606,20 @@
                             }
                         });
                     }); 
+
+                    $('#endClearanceBtn').click(function(){
+                        $.ajax({
+                            method : "POST",
+                            url: "../controller/clearance_end.php",
+                            data: {
+                                id : clearance_id,
+                            },
+                            success: function(response) {
+                                 console.log(response);
+                                $('#endClearanceBtn').prop('disabled', true);
+                            }
+                        });
+                    });
 
                    
 

@@ -989,7 +989,24 @@ table.dataTable.dtr-inline.collapsed>tbody>tr>td.dtr-control:before, table.dataT
     .cl-grid{
         grid-template-columns: 1fr;
     }
-    
+
+    .d-card {
+        width: 75%;
+    }
+
+    .d-charts {
+        flex-direction: column !important;
+        justify-content: center;
+        align-items: center;
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+
+    .dc-overview {
+        flex-direction: column !important;
+        
+    }
+
 }
 
 @media only screen and (max-width: 1000px) {
@@ -1019,6 +1036,23 @@ table.dataTable.dtr-inline.collapsed>tbody>tr>td.dtr-control:before, table.dataT
 
     .berow {
         flex-direction: column;
+    }
+
+    .d-charts {
+        flex-direction: column !important;
+        justify-content: center;
+        align-items: center;
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+
+    .dc-overview {
+        flex-direction: column !important;
+        flex-grow: 2 !important;
+    }
+
+    .dc-overview > .d-workplace {
+        width: 100%;
     }
 
 
@@ -1066,6 +1100,22 @@ table.dataTable.dtr-inline.collapsed>tbody>tr>td.dtr-control:before, table.dataT
     .btn-text {
         display: none;
         width: 45px !important;
+    }
+     .d-charts {
+        flex-direction: column !important;
+        justify-content: center;
+        align-items: center;
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+
+    .dc-overview {
+        flex-direction: column !important;
+        flex-grow: 2 !important;
+    }
+
+    .dc-overview > .d-workplace {
+        width: 100%;
     }
     /* .cl-grid{
         grid-template-columns: 1fr;
