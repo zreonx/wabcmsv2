@@ -192,7 +192,7 @@
 		var myChartPie = new Chart(pieGraph, {
 			type: 'pie',
 			data: {
-				labels: ['Red', 'Blue', 'Yellow'],
+				labels: ['Defficient', 'Cleared', 'Unsigned'],
 				datasets: [{
 					label: '# of Votes',
 					data: [12, 19, 3],

@@ -12,16 +12,23 @@
                 <div class="card-title mb-0">
                     <h1 class="text-center">CCCWABCMS</h1>
                     <?php
-                        // if(isset($_GET['empty']) and $_GET['empty'] == true) { Errormessage::input_empty() ;}
-                        // if(isset($_GET['email']) and $_GET['email'] == "notexist") { Errormessage::email_exist() ;}
-                        // if(isset($_GET['login']) and $_GET['login'] == "failed") { Errormessage::login_failed() ;}
+                        if(isset($_GET['error']) and $_GET['error'] == "notfound") { echo '<div class="alert alert-danger alert-dismissible fade show d-flex align-items-center mb-0" role="alert">
+                            The account you are trying to sign in does not exist.
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                          </div>' ;}
+                        if(isset($_GET['login']) and $_GET['login'] == "failed") { echo '<div class="alert alert-danger alert-dismissible fade show d-flex align-items-center mb-0" role="alert">
+                            Invalid username or password.
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                          </div>' ;}
                     ?>
+                    
                 </div>
                 <div class="card-body">
+                    
                     <form action="controller/user_login.php" method="POST">
                         <div class="mb-3">
                             <label class="form-label">Email</label>
-                            <input type="text" name="email" placeholder="Email" class="form-control" required>
+                            <input type="text" name="email" placeholder="Email" value="<?php if(isset($_GET['email'])){ echo $_GET['email']; } ?>" class="form-control" required>
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Password</label>

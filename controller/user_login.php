@@ -9,11 +9,11 @@
        $user_type = $user->getUserType($email);
 
        if(!$user_type) {
-            header("location: ../login.php?error=notfound");
+            header("location: ../login.php?email=$email&error=notfound");
         }else {
             $result = $user->loginUser($user_type, $email, $password);
         if(!$result) {
-            header("location: ../login.php?login=failed");
+            header("location: ../login.php?email=$email&login=failed");
         }else {
             if($user_type == 'admin') {
                 

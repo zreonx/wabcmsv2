@@ -43,7 +43,7 @@
                                         <td><?php echo ucfirst($user_data['user_type']); ?></td>
                                         <td><?php echo $user_data['email']; ?></td>
                                         <!-- <td><?php //$user_data['password']; ?></td> -->
-                                        <td class="text-center align-middle"><?php echo ($user_data['status'] == "active") ? '<div class="d-flex justify-content-center"><div class="badge-green"><i class="fas fa-circle i-dot i-success "></i> <span>Active</span></div></div>' : ''; ; ?></td>
+                                        <td class="text-center align-middle"><?php echo ($user_data['status'] == "active") ? '<div class="d-flex justify-content-center"><div class="badge-secondary"><i class="fas fa-circle i-dot i-success "></i> <span>Active</span></div></div>' : ''; ; ?></td>
                                         <td><button data-id="<?php echo $user_data['id'] ?>" class="btn btn-sm btn-success rounded btnsm edit-btn"><i class="fas fa-user-alt-slash"></i> <span class="btn-text">Deactivate</span></button></td>
                                     </tr>
                                 <?php endforeach; ?>

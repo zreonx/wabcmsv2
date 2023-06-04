@@ -1,7 +1,7 @@
 <?php 
     require_once '../includes/main_header.php'; 
 
-    $activeClearance = $clearance->getActiveClearance();
+    $activeClearance = $clearance->getActiveClearanceSignatories();
     $user_data = $_SESSION['user_data'];
     
 ?>

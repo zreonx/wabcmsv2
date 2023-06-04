@@ -255,7 +255,7 @@ class Clearance {
             $status = "initialized";
             //$this->insertStudentClearanceRecord($clearance_id, $signatory_id, $table_name, $student_id, '1');
 
-            $sql = "INSERT INTO $table_name (clearance_id, semester, academic_year, student_id, student_clearance_status, date_cleared) VALUES (:clearance_id, :semester, :academic_year, :student_id, '1', :date_cleared); ";
+            $sql = "INSERT INTO $table_name (clearance_id, semester, academic_year, student_id, student_clearance_status, date_cleared) VALUES (:clearance_id, :semester, :academic_year, :student_id, '2', :date_cleared); ";
             $stmt = $this->conn->prepare($sql);
             $stmt->bindparam(':clearance_id', $clearance_id);
             $stmt->bindparam(':semester', $semester);
@@ -366,6 +366,17 @@ class Clearance {
     public function getActiveClearance() {
         try {
             $sql = "SELECT * FROM clearance_status cs INNER JOIN clearances c ON cs.clearance_id = c.id INNER JOIN clearance_type ct ON c.clearance_type = ct.id INNER JOIN clearance_beneficiaries cb ON c.clearance_beneficiary = cb.id   WHERE cs.status IN ('active','ended')";
+            $result = $this->conn->query($sql);
+            return $result->fetchAll(PDO::FETCH_ASSOC);
+        }catch(PDOException $e) {
+            echo "ERROR: " . $e->getMessage();
+            return false;
+        }
+    }
+
+    public function getActiveClearanceSignatories() {
+        try {
+            $sql = "SELECT * FROM clearance_status cs INNER JOIN clearances c ON cs.clearance_id = c.id INNER JOIN clearance_type ct ON c.clearance_type = ct.id INNER JOIN clearance_beneficiaries cb ON c.clearance_beneficiary = cb.id   WHERE cs.status IN ('active')";
             $result = $this->conn->query($sql);
             return $result->fetchAll(PDO::FETCH_ASSOC);
         }catch(PDOException $e) {
@@ -501,6 +512,17 @@ class Clearance {
 
             return true;
 
+        }catch(PDOException $e) {
+            echo "ERROR: " . $e->getMessage();
+            return false;
+        }
+    }
+
+    public function getUnclearedStudents($table_name, $clearance_id) {
+        try {
+            $sql = "SELECT * FROM $table_name WHERE clearance_id = '$clearance_id' AND student_clearance_status IN ('2','0') ; ";
+            $result = $this->conn->query($sql);
+            return $result->fetchAll(PDO::FETCH_ASSOC);
         }catch(PDOException $e) {
             echo "ERROR: " . $e->getMessage();
             return false;

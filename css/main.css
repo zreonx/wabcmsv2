@@ -127,6 +127,19 @@
     font-size: var(--small-font-size);
 }
 
+.badge-secondary {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+
+    border: 1px solid var(--color-gray);
+    border-radius: 24px;
+
+    padding: 3px 6px;
+    font-size: var(--small-font-size);
+}
+
 .badge-danger {
     display: flex;
     justify-content: center;
@@ -208,6 +221,10 @@
 
 .i-danger {
     color: var(--color-danger);
+}
+
+.i-secondary {
+    color: var(--color-gray);
 }
 
 /* Plackards */
@@ -770,8 +787,11 @@ table.dataTable.dtr-inline.collapsed>tbody>tr>td.dtr-control:before, table.dataT
 
 .d-grid {
     display: grid;
+    justify-content: start;
+    align-items: start;
     grid-template-columns: repeat(auto-fill, minmax(225px, 1fr));
-    gap: 8px;
+    row-gap: 8px;
+
 }
 
 .card-grid-s {

@@ -70,23 +70,28 @@
                         </div>
                         <div class="d-flex flex-column justify-content-center mt-2">
                             <?php 
+                             $guidanceexist = false;
                             foreach($allSignatory as $sigTable){
-                                    if(preg_match("/guidance_office/", $sigTable['signatory_clearance_table_name'])){
-                                        $cleared_info = $clearance->checkIfCleared($sigTable['signatory_clearance_table_name'], $user_data['student_id'], $clearance_id);
-                                        if($cleared_info['student_clearance_status'] == '1'){
-                                            echo '<div><i class="far fs-4 fa-check"></i></div>';
-                                        }else{
-                                            echo '<div data-bs-toggle="tooltip" title="View Deficiency"><div class="d-flex align-items-center gap-2 justify-content-center view-def-btn" data-value="'. $sigTable['signatory_clearance_table_name'] .'" id="view-def-btn" data-bs-toggle="modal" data-bs-target="#viewMessage"><i class="fal fs-4 text-danger fa-exclamation-circle"></i><a class="f-s text-decoration-none text-success">View Message<a></div></div>';
-                                        }
-
-                                        $sig_info = $signatory->getAllSignatory($sigTable['signatory_id']);
-                                        echo '
-                                                <hr class="my-2 c-hr mx-auto"/>
-                                                <h1 class="f-d m-0">'. $sig_info['first_name'] . ' ' . $sig_info['middle_name'] . ' ' . $sig_info['last_name'].'</h1>
-                                            ';
+                                $guidanceexist = true;
+                                if(preg_match("/guidance_office/", $sigTable['signatory_clearance_table_name'])){
+                                    $cleared_info = $clearance->checkIfCleared($sigTable['signatory_clearance_table_name'], $user_data['student_id'], $clearance_id);
+                                    if($cleared_info['student_clearance_status'] == '1'){
+                                        echo '<div><i class="far fs-4 fa-check"></i></div>';
+                                    }else{
+                                        echo '<div data-bs-toggle="tooltip" title="View Deficiency"><div class="d-flex align-items-center gap-2 justify-content-center view-def-btn" data-value="'. $sigTable['signatory_clearance_table_name'] .'" id="view-def-btn" data-bs-toggle="modal" data-bs-target="#viewMessage"><i class="fal fs-4 text-danger fa-exclamation-circle"></i><a class="f-s text-decoration-none text-success">View Message<a></div></div>';
                                     }
-                                
+
+                                    $sig_info = $signatory->getAllSignatory($sigTable['signatory_id']);
+                                    echo '
+                                            <hr class="my-2 c-hr mx-auto"/>
+                                            <h1 class="f-d m-0">'. $sig_info['first_name'] . ' ' . $sig_info['middle_name'] . ' ' . $sig_info['last_name'].'</h1>
+                                        ';
+                                }
                             }
+                            if(!$guidanceexist){
+                                echo "Guidance does not set yet.";
+                            }
+                            
                             ?>
                             <span class="fs-d">Guidance Office</span>
                         </div>
@@ -95,9 +100,12 @@
                     <div class="d-flex gap-2 justify-content-evenly text-center px-5 mb-5">
                         <div class="d-flex flex-column justify-content-center">
                             <?php 
+                            $phexist = false;
                             foreach($allSignatory as $sigTable){
+                                
                                     $search = '/' . strtolower($user_data['program_course']) . '_program_head/' ;
                                     if(preg_match($search , $sigTable['signatory_clearance_table_name'])){
+                                        $phexist = true;
                                         $cleared_info = $clearance->checkIfCleared($sigTable['signatory_clearance_table_name'], $user_data['student_id'], $clearance_id);
                                         if($cleared_info['student_clearance_status'] == '1'){
                                             echo '<div><i class="far fs-4 fa-check"></i></div>';
@@ -108,21 +116,30 @@
                                         echo '
                                                 <hr class="my-2 c-hr mx-auto"/>
                                                 <h1 class="f-d m-0">'. $sig_info['first_name'] . ' ' . $sig_info['middle_name'] . ' ' . $sig_info['last_name'].'</h1>
+                                                <span class="fs-d">Program Head</span>
                                             ';
                                         
                                     }   
                                     
                             }
+
+                            if(!$phexist){
+                                echo "Your Program Head does not set yet.";
+                            }
+                           
+                           
                             ?>
-                            <span class="fs-d">Program Head</span>
+                            
                         </div>
                     </div>
 
                     <div class="d-flex gap-2 justify-content-evenly text-center px-5 mb-5">
                         <div class="d-flex flex-column justify-content-center">
                         <?php 
+                            $sasexist = false;
                             foreach($allSignatory as $sigTable){
                                     if(preg_match("/sas/", $sigTable['signatory_clearance_table_name'])){
+                                        $sasexist = true;
                                         $cleared_info = $clearance->checkIfCleared($sigTable['signatory_clearance_table_name'], $user_data['student_id'], $clearance_id);
                                         if($cleared_info['student_clearance_status'] == '1'){
                                             echo '<div><i class="far fs-4 fa-check"></i></div>';
@@ -134,12 +151,16 @@
                                         echo '
                                                 <hr class="my-2 c-hr mx-auto"/>
                                                 <h1 class="f-d m-0">'. $sig_info['first_name'] . ' ' . $sig_info['middle_name'] . ' ' . $sig_info['last_name'].'</h1>
-                                            ';
+                                                <span class="fs-d">Director, Student Affair and Services</span>
+                                                ';
                                     }
                                 
                             }
+                            if(!$sasexist){
+                                echo "Sas does not set yet.";
+                            }
                             ?>
-                            <span class="fs-d">Director, Student Affair and Services</span>
+                           
                         </div>
                     </div>
 
@@ -323,13 +344,14 @@
                     <div class="d-flex gap-2 justify-content-evenly text-center px-5 mb-5">
                         <div class="d-flex flex-column justify-content-center">
                             <?php
-                            
+                             $spexistpres = false;
                             foreach($allSignatoryOrg as $sigOrg){
                                 $course_id = $clearance->getStudentCourseId($user_data['program_course']);
                                 $search = strtolower($user_data['program_course']) . "_president";
                                 if($course_id != $sigOrg['linked_department']){
                                     $checkIfRegistered = $clearance->checkIfStudentIsInside($sigOrg['signatory_clearance_table_name'], $user_data['student_id'], $clearance_id);
                                     if($checkIfRegistered > 0) {
+                                        $spexistpres = true;
                                         if(preg_match("/sp_president/", $sigOrg['signatory_clearance_table_name'])){
                                             $cleared_info = $clearance->checkIfCleared($sigOrg['signatory_clearance_table_name'], $user_data['student_id'], $clearance_id);
                                             if(!empty($cleared_info)){
@@ -349,6 +371,9 @@
                                     }
                                 }
                             }
+                            if(!$spexistpres){
+                                echo "SP does not set yet.";
+                            }
                             ?>
                             
                         </div>
@@ -357,15 +382,14 @@
                     <div class="d-flex gap-2 justify-content-evenly text-center px-5 mb-5">
                         <div class="d-flex flex-column justify-content-center">
                             <?php
-                            
+                            $spexistadv = false;
                             foreach($allSignatoryOrg as $sigOrg){
-                                $yourOrg = false;
                                 $course_id = $clearance->getStudentCourseId($user_data['program_course']);
                                 $search = strtolower($user_data['program_course']) . "_president";
                                 if($course_id != $sigOrg['linked_department']){
                                     $checkIfRegistered = $clearance->checkIfStudentIsInside($sigOrg['signatory_clearance_table_name'], $user_data['student_id'], $clearance_id);
                                     if($checkIfRegistered > 0) {
-                                        $yourOrg = true;
+                                        $spexistadv = true;
                                         if(preg_match("/sp_adviser/", $sigOrg['signatory_clearance_table_name'])){
                                             $cleared_info = $clearance->checkIfCleared($sigOrg['signatory_clearance_table_name'], $user_data['student_id'], $clearance_id);
                                             if(!empty($cleared_info)){
@@ -384,6 +408,9 @@
                                         }
                                     }
                                 }
+                            }
+                            if(!$spexistadv){
+                                echo "SP does not set yet.";
                             }
                             ?>
                             
@@ -416,7 +443,7 @@
                         <div class="d-flex flex-column justify-content-center mt-2">
                             <?php 
                                 $adviserFound = false;
-                            foreach($allSignatory as $sigTable){
+                                foreach($allSignatory as $sigTable){
                                     $adv = strtolower($user_data['program_course']) . "_adviser";
                                     if(preg_match("/$adv/", $sigTable['signatory_clearance_table_name'])){
                                         $adviserFound = true;
@@ -434,33 +461,37 @@
                                             <span class="fs-d">'. $user_data['program_course'] .' Adviser</span>
                                             ';
                                     }
-                            }
-                            if(!$adviserFound){
-                                
-                                    echo '<span class="text-center c-hr mt-3">Adviser not found</span>'; 
-                            }
+                                }
+                                if(!$adviserFound){
+                                        echo '<span class="text-center c-hr mt-3">Adviser not found</span>'; 
+                                }
                             ?>
                             
                         </div>
 
                         <div class="d-flex flex-column justify-content-center mt-2">
                             <?php 
+                            $shslib = false;
                             foreach($allSignatory as $sigTable){
-                                    if(preg_match("/librarian/", $sigTable['signatory_clearance_table_name'])){
-                                        $cleared_info = $clearance->checkIfCleared($sigTable['signatory_clearance_table_name'], $user_data['student_id'], $clearance_id);
-                                        if($cleared_info['student_clearance_status'] == '1'){
-                                            echo '<div><i class="far fs-4 fa-check"></i></div>';
-                                        }else{
-                                            echo '<div data-bs-toggle="tooltip" title="View Deficiency"><div class="d-flex align-items-center gap-2 justify-content-center view-def-btn" data-value="'. $sigTable['signatory_clearance_table_name'] .'" id="view-def-btn" data-bs-toggle="modal" data-bs-target="#viewMessage"><i class="fal fs-4 text-danger fa-exclamation-circle"></i><a class="f-s text-decoration-none text-success">View Message<a></div></div>';
-                                        }
-                                        $sig_info = $signatory->getAllSignatory($sigTable['signatory_id']);
-                                        
-                                        echo '
-                                            <hr class="my-2 c-hr mx-auto"/>
-                                            <h1 class="f-d m-0">'. $sig_info['first_name'] . ' ' . $sig_info['middle_name'] . $sig_info['last_name'].'</h1>
-                                        ';
+                                if(preg_match("/librarian/", $sigTable['signatory_clearance_table_name'])){
+                                    $shslib = true;
+                                    $cleared_info = $clearance->checkIfCleared($sigTable['signatory_clearance_table_name'], $user_data['student_id'], $clearance_id);
+                                    if($cleared_info['student_clearance_status'] == '1'){
+                                        echo '<div><i class="far fs-4 fa-check"></i></div>';
+                                    }else{
+                                        echo '<div data-bs-toggle="tooltip" title="View Deficiency"><div class="d-flex align-items-center gap-2 justify-content-center view-def-btn" data-value="'. $sigTable['signatory_clearance_table_name'] .'" id="view-def-btn" data-bs-toggle="modal" data-bs-target="#viewMessage"><i class="fal fs-4 text-danger fa-exclamation-circle"></i><a class="f-s text-decoration-none text-success">View Message<a></div></div>';
                                     }
+                                    $sig_info = $signatory->getAllSignatory($sigTable['signatory_id']);
                                     
+                                    echo '
+                                        <hr class="my-2 c-hr mx-auto"/>
+                                        <h1 class="f-d m-0">'. $sig_info['first_name'] . ' ' . $sig_info['middle_name'] . $sig_info['last_name'].'</h1>
+                                    ';
+                                }
+                                    
+                            }
+                            if(!$shslib){
+                                echo "Librarian not found";
                             }
                             ?>
                             <span class="fs-d">College Librarian</span>
@@ -468,22 +499,27 @@
 
                         <div class="d-flex flex-column justify-content-center mt-2">
                             <?php 
-                            foreach($allSignatory as $sigTable){
-                                    if(preg_match("/guidance_office/", $sigTable['signatory_clearance_table_name'])){
-                                        $cleared_info = $clearance->checkIfCleared($sigTable['signatory_clearance_table_name'], $user_data['student_id'], $clearance_id);
-                                        if($cleared_info['student_clearance_status'] == '1'){
-                                            echo '<div><i class="far fs-4 fa-check"></i></div>';
-                                        }else{
-                                            echo '<div data-bs-toggle="tooltip" title="View Deficiency"><div class="d-flex align-items-center gap-2 justify-content-center view-def-btn" data-value="'. $sigTable['signatory_clearance_table_name'] .'" id="view-def-btn" data-bs-toggle="modal" data-bs-target="#viewMessage"><i class="fal fs-4 text-danger fa-exclamation-circle"></i><a class="f-s text-decoration-none text-success">View Message<a></div></div>';
-                                        }
-
-                                        $sig_info = $signatory->getAllSignatory($sigTable['signatory_id']);
-                                        echo '
-                                                <hr class="my-2 c-hr mx-auto"/>
-                                                <h1 class="f-d m-0">'. $sig_info['first_name'] . ' ' . $sig_info['middle_name'] . ' ' . $sig_info['last_name'].'</h1>
-                                            ';
+                            $shsgui = false;
+                            foreach($allSignatory as $sigTable){    
+                                if(preg_match("/guidance_office/", $sigTable['signatory_clearance_table_name'])){
+                                    $shsgui = true; 
+                                    $cleared_info = $clearance->checkIfCleared($sigTable['signatory_clearance_table_name'], $user_data['student_id'], $clearance_id);
+                                    if($cleared_info['student_clearance_status'] == '1'){
+                                        echo '<div><i class="far fs-4 fa-check"></i></div>';
+                                    }else{
+                                        echo '<div data-bs-toggle="tooltip" title="View Deficiency"><div class="d-flex align-items-center gap-2 justify-content-center view-def-btn" data-value="'. $sigTable['signatory_clearance_table_name'] .'" id="view-def-btn" data-bs-toggle="modal" data-bs-target="#viewMessage"><i class="fal fs-4 text-danger fa-exclamation-circle"></i><a class="f-s text-decoration-none text-success">View Message<a></div></div>';
                                     }
+
+                                    $sig_info = $signatory->getAllSignatory($sigTable['signatory_id']);
+                                    echo '
+                                            <hr class="my-2 c-hr mx-auto"/>
+                                            <h1 class="f-d m-0">'. $sig_info['first_name'] . ' ' . $sig_info['middle_name'] . ' ' . $sig_info['last_name'].'</h1>
+                                        ';
+                                }
                                 
+                            }
+                            if(!$shsgui){
+                                echo "Guidance not found";
                             }
                             ?>
                             <span class="fs-d">Guidance Office</span>
@@ -494,22 +530,27 @@
                     
                         <div class="d-flex flex-column justify-content-center mt-2">
                             <?php 
+                            $shsprin = false;
                             foreach($allSignatory as $sigTable){
-                                    if(preg_match("/shs_principal/", $sigTable['signatory_clearance_table_name'])){
-                                        $cleared_info = $clearance->checkIfCleared($sigTable['signatory_clearance_table_name'], $user_data['student_id'], $clearance_id);
-                                        if($cleared_info['student_clearance_status'] == '1'){
-                                            echo '<div><i class="far fs-4 fa-check"></i></div>';
-                                        }else{
-                                            echo '<div data-bs-toggle="tooltip" title="View Deficiency"><div class="d-flex align-items-center gap-2 justify-content-center view-def-btn" data-value="'. $sigTable['signatory_clearance_table_name'] .'" id="view-def-btn" data-bs-toggle="modal" data-bs-target="#viewMessage"><i class="fal fs-4 text-danger fa-exclamation-circle"></i><a class="f-s text-decoration-none text-success">View Message<a></div></div>';
-                                        }
-                                        $sig_info = $signatory->getAllSignatory($sigTable['signatory_id']);
-                                        
-                                        echo '
-                                            <hr class="my-2 c-hr mx-auto"/>
-                                            <h1 class="f-d m-0">'. $sig_info['first_name'] . ' ' . $sig_info['middle_name'] . ' ' . $sig_info['last_name'].'</h1>
-                                            <span class="fs-d">SHS Principal</span>
-                                            ';
+                                $shsprin = true;
+                                if(preg_match("/shs_principal/", $sigTable['signatory_clearance_table_name'])){
+                                    $cleared_info = $clearance->checkIfCleared($sigTable['signatory_clearance_table_name'], $user_data['student_id'], $clearance_id);
+                                    if($cleared_info['student_clearance_status'] == '1'){
+                                        echo '<div><i class="far fs-4 fa-check"></i></div>';
+                                    }else{
+                                        echo '<div data-bs-toggle="tooltip" title="View Deficiency"><div class="d-flex align-items-center gap-2 justify-content-center view-def-btn" data-value="'. $sigTable['signatory_clearance_table_name'] .'" id="view-def-btn" data-bs-toggle="modal" data-bs-target="#viewMessage"><i class="fal fs-4 text-danger fa-exclamation-circle"></i><a class="f-s text-decoration-none text-success">View Message<a></div></div>';
                                     }
+                                    $sig_info = $signatory->getAllSignatory($sigTable['signatory_id']);
+                                    
+                                    echo '
+                                        <hr class="my-2 c-hr mx-auto"/>
+                                        <h1 class="f-d m-0">'. $sig_info['first_name'] . ' ' . $sig_info['middle_name'] . ' ' . $sig_info['last_name'].'</h1>
+                                        <span class="fs-d">SHS Principal</span>
+                                        ';
+                                }
+                            }
+                            if(!$shsprin){
+                                echo "Principal not found";
                             }
                             ?>
                         </div>

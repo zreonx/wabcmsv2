@@ -41,7 +41,10 @@
                     if($is_org):
                 ?>
                     <!-- <div class="btn btn-success rounded mb-3" id="addOrgBtn" data-bs-toggle="modal" data-bs-target="#importOrg"><i class="fas fa-user-plus"></i> Add Member</div> -->
-                    <div class="btn btn-success rounded mb-3" id="addOrgBtn" data-bs-toggle="modal" data-bs-target="#importOrg"><i class="fas me-1 fa-plus"></i> Import Organization Member</div>
+                    <div id="imports">
+                        <div class="btn btn-success rounded mb-3" id="addOrgBtn" data-bs-toggle="modal" data-bs-target="#importOrg"><i class="fas me-1 fa-plus"></i> Import Organization Member</div>
+                        <div class="btn btn-success rounded mb-3" id="addOrgBtn" data-bs-toggle="modal" data-bs-target="#importOther"><i class="fas me-1 fa-plus"></i> Import Deficient Student</div>
+                    </div>
                 <?php else: ?>
                     <div class="btn btn-success rounded mb-3" id="addOrgBtn" data-bs-toggle="modal" data-bs-target="#importOther"><i class="fas me-1 fa-plus"></i> Import Deficient Student</div>
                 <?php endif; ?>
@@ -55,16 +58,39 @@
         <div class="page-content p-2 rounded">
             <div class="d-flex justify-content-between align-items-center mb-2">
                 <h1 class="fs-5 display-6 py-1 m-0"><i class="fas fa-mail-bulk text-success"></i> <?php echo (isset($_GET['designation_workplace'])) ? strtoupper(str_replace("_", " ", substr($_GET['designation_workplace'], 3, -1))) : 'Not Available'; ?></h1>
-                
-                <?php if($sumitDeficiencyStatus['cd_status'] == "1"): ?>
+                <div>
+                    <div type="button" data-id="<?php echo $_GET['clearance_id']; ?>" data-value="<?php echo $_GET['designation_workplace']; ?>" class="btn btn-success rounded mb-3" id="clearAllBtn"  data-bs-toggle="modal" data-bs-target="#clearAllConfirm"><i class="fad fa-check me-1"></i>Clear All</div>
+                    <?php if($sumitDeficiencyStatus['cd_status'] == "1"): ?>
 
-                    <div data-id="<?php echo $_GET['clearance_id']; ?>" data-value="<?php echo $_GET['designation_workplace']; ?>" class="btn btn-success rounded mb-3" id="submitDeficiencyBtn">Cancel</div>
+                        <div data-id="<?php echo $_GET['clearance_id']; ?>" data-value="<?php echo $_GET['designation_workplace']; ?>" class="btn btn-danger rounded mb-3" id="submitDeficiencyBtn">Cancel</div>
 
-                <?php else: ?>
+                    <?php else: ?>
+                        
+                        <div data-id="<?php echo $_GET['clearance_id']; ?>" data-value="<?php echo $_GET['designation_workplace']; ?>" class="btn btn-success rounded mb-3" id="submitDeficiencyBtn"><i class="fas me-1 fa-thumbs-up"></i> Submit Deficiency</div>
                     
-                    <div data-id="<?php echo $_GET['clearance_id']; ?>" data-value="<?php echo $_GET['designation_workplace']; ?>" class="btn btn-success rounded mb-3" id="submitDeficiencyBtn"><i class="fas me-1 fa-thumbs-up"></i> Submit Deficiency</div>
-                
-                <?php endif; ?>
+                    <?php endif; ?>
+                </div>
+                <div class="modal fade custom-modal " id="clearAllConfirm" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content ">
+                            <div class="modal-header x-border py-1 pt-3">
+                                <h1 class="px-1 display-6 fs-5">Clear All Students</h1>
+                            </div>
+                            <div class="modal-body x-border py-0">
+                                <div class="d-flex gap-2justify-content-center align-items-center success-notice p-3">
+                                    <div class="fs-1 text-success p-2">
+                                        <i class="fas fa-check"></i>
+                                    </div>
+                                    <div class="p-2 f-d">Notice! This will clear students with and without deficiencies. Are you sure you want to continue?</div>
+                                </div>
+                                <div class="d-flex justify-content-end my-2 mb-3 gap-2">
+                                    <button id="clearAllConfirmModal" class="btn btn-success rounded confirm-remove">Yes</button>
+                                    <button type="button" class="btn btn-secondary rounded" data-bs-dismiss="modal">No</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
 
            
@@ -123,7 +149,7 @@
                                             }
                                         ?>
                                     </td>
-                                    <td><?php echo ($des_student['student_clearance_status'] == "1") ? '<div class=""><div class="badge-green"><i class="fas fa-check-circle i-dot i-success "></i> <span>Cleared</span></div></div>' : '<div class=""><div class="badge-danger"><i class="fas fa-exclamation-circle i-dot i-danger "></i> <span class="text-gray">Deficient</span></div></div>'; ; ?></td>
+                                    <td><?php if ($des_student['student_clearance_status'] == "1"){ echo '<div class=""><div class="badge-green"><i class="fas fa-check-circle i-dot i-success "></i> <span>Cleared</span></div></div>'; }else if($des_student['student_clearance_status'] == "2"){ echo '<div class=""><div class="badge-secondary"><i class="fas fa-star i-dot i-secondary "></i> <span>Unsigned</span></div></div>'; } else{ echo '<div class=""><div class="badge-danger"><i class="fas fa-exclamation-circle i-dot i-danger "></i> <span class="text-gray">Deficient</span></div></div>';}?></td>
                                     <td>
                                         <?php if($des_student['student_clearance_status'] == "1"): ?>
                                             <span data-bs-toggle="tooltip" title="Add Deficiency">
@@ -378,7 +404,9 @@
                                             },
                                             success: function(response) {
                                                 $('#submitDeficiencyBtn').html("<i class='fas me-1 fa-thumbs-up'></i> Submit Deficiency");
-                                                $('#addOrgBtn').show();
+                                                $("#submitDeficiencyBtn").removeClass("btn-danger");
+                                                $("#submitDeficiencyBtn").addClass("btn-success");
+                                                $('#imports').show();
                                             }
                                         })
                                     }else {
@@ -392,7 +420,9 @@
                                             },
                                             success: function(response) {
                                                 $('#submitDeficiencyBtn').text("Cancel");
-                                                $('#addOrgBtn').hide();
+                                                $("#submitDeficiencyBtn").removeClass("btn-success");
+                                                $("#submitDeficiencyBtn").addClass("btn-danger");
+                                                $('#imports').hide();
                                             }
                                         })
 
@@ -455,6 +485,36 @@
                             success: function(result) {
                                 console.log(result);
                                 window.location.replace("clearance_signatory_designation.php?" + url_info_string);
+                            }
+                        })
+                    });
+
+                    $('#clearAllBtn').on('click', function(){
+                        let cid = $(this).attr('data-id');
+                        let table = $(this).attr('data-value');
+
+                        $('#clearAllConfirmModal').attr('data-id', cid);
+                        $('#clearAllConfirmModal').attr('data-value', table);
+
+                    });
+
+                    $('#clearAllConfirmModal').on('click', function(){
+                        let cid = $(this).attr('data-id');
+                        let table = $(this).attr('data-value');
+                        let workplace = '<?php echo $_GET['workplace']; ?>';
+
+                        let url_string = "clearance_id=" + cid + "&workplace=" + workplace + "&designation_workplace=" + table; 
+                        let url_info_string = url_string.replace(/\s+/g, '');
+
+                        $.ajax({
+                            type: "POST",
+                            url: "../controller/signatory_deficiency_clear_all.php",
+                            data: {
+                                clearance_id : cid,
+                                designation_table: table,
+                            },
+                            success: function(result) {
+                                window.location.replace("clearance_signatory_designation.php?" + url_info_string + "&clear_all=success");
                             }
                         })
                     });
