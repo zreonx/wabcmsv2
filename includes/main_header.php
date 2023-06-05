@@ -9,7 +9,7 @@
     <link rel="icon" href="../images/ccc_logo.webp" type="image/x-icon">
     <link rel="stylesheet" href="../css/bootstrap.min.css?v.1">
     <link href="https://cdn.datatables.net/v/bs5/jszip-2.5.0/dt-1.13.4/b-2.3.6/b-html5-2.3.6/b-print-2.3.6/r-2.4.1/sc-2.1.1/datatables.min.css?v.1" rel="stylesheet"/>
-    <link rel="stylesheet" href="../css/main.css?v1.2">
+    <link rel="stylesheet" href="../css/main.css?v1.4">
     <link rel="stylesheet" href="../css/all.min.css">
     
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
@@ -238,8 +238,7 @@
             </div>
             <div class="profile-menu">
                <ul>
-                    <li><i class="fas fa-address-card profile-icon"></i><a href="#">Information</a></li>
-                    <li><i class="fas fa-sliders-h profile-icon"></i><a href="#">Change Password</a></li>
+                    <li><i class="fas fa-sliders-h profile-icon"></i><a href="settings.php">Settings</a></li>
                     <li><i class="fas fa-sign-out-alt profile-icon"></i><a href="../logout.php">Logout</a></li>
                </ul>
             </div>

@@ -128,6 +128,65 @@ class User {
         }
     }
 
+    // Change Password Functions
+
+    public function checkUserType($user_id, $user_type) {
+        try {
+            $sql = "SELECT * FROM users WHERE user_id = '$user_id' AND user_type = '$user_type' ;";
+            $result = $this->conn->query($sql);
+
+            $query = $result->fetch(PDO::FETCH_ASSOC);
+
+            return $query;
+
+        }catch(PDOException $e) {
+            echo $e->getMessage();
+        }
+    }
+
+    public function getUserData($user_id, $user_type) {
+        try {
+
+            $userData = $this->checkUserType($user_id, $user_type);
+
+            $userId = $userData['user_id'];
+            $userType = $userData['user_type'];
+
+
+            if($userType == 'student') {
+                $sql = "SELECT * FROM students WHERE student_id = '$user_id' ;";
+            }else if($userType == 'signatory') {
+                $sql = "SELECT * FROM signatories WHERE id = '$user_id' ;";
+            }else if($userType == 'admin') {
+                $sql = "SELECT * FROM admin WHERE admin_id = '$user_id' ;";
+            }
+           
+
+            $result = $this->conn->query($sql);
+            $queryData = $result->fetch(PDO::FETCH_ASSOC);
+            return array('userdata' => $queryData, 'old_pass' => $userData['password']) ;
+
+        }catch(PDOException $e) {
+            echo $e->getMessage();
+        }
+    }
+
+    public function changePassword($user_id, $new_password) {
+        try {
+
+            $sql = "UPDATE users SET password = :new_password WHERE user_id = :user_id ;";
+            $stmt = $this->conn->prepare($sql);
+            $stmt->bindparam(':user_id', $user_id);
+            $stmt->bindparam(':new_password', $new_password);
+            $stmt->execute();
+            return true;
+
+        }catch(PDOException $e) {
+            echo $e->getMessage();
+            return false;
+        }
+    }
+
     
 
     public function getOffice($id) {

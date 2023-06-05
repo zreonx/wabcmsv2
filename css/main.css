@@ -209,6 +209,16 @@
     box-shadow: var(--shadow-md);
 }
 
+.shadow-l{
+    box-shadow: var(--shadow-lg);
+}
+.shadow-xl{
+    box-shadow: var(--shadow-xl);
+}
+.shadow-xl2{
+    box-shadow: var(--shadow-2xl);
+}
+
 
 /* Dot Icon */
 
@@ -241,6 +251,15 @@
     border-radius:  0 8px 8px 0;
     padding: 10px 20px;
     background-color: #16cf7934;
+}
+
+.popup-message {
+    position: absolute;
+    top: 25vh;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 999;
+    opacity: 0;
 }
 
 /* Text */
@@ -1073,6 +1092,10 @@ table.dataTable.dtr-inline.collapsed>tbody>tr>td.dtr-control:before, table.dataT
 
     .dc-overview > .d-workplace {
         width: 100%;
+    }
+
+    .pwf {
+        width: 100% !important;
     }
 
 
