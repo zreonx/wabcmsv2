@@ -31,6 +31,7 @@
     $user = new User($conn);
     $filter = new Filter($conn);
     $dashboard = new Dashboard($conn);
+    $request = new ClearanceRequest($conn);
 
 
     // $clearance = new Clearance($conn);
