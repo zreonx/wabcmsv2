@@ -71,10 +71,10 @@ class Shs {
         }
     }
 
-    public function deleteOrg($id) {
+    public function deleteSHS($id) {
         try {
 
-            $sql = "UPDATE organizations SET status = 'inactive' WHERE id = :id ; ";
+            $sql = "UPDATE shs SET status = 'inactive' WHERE id = :id ; ";
             $stmt = $this->conn->prepare($sql);
             $stmt->bindparam(':id', $id);
 

@@ -20,7 +20,7 @@
         <?php if(isset($_GET['confirm_pass_match'])){ echo '<div class="popup-message"><div class="alert alert-danger shadow-xl" role="alert">Confirm password does not match!</div>'; } ?>
         <?php if(isset($_GET['change_pass']) && $_GET['change_pass'] == 'success'){ echo '<div class="popup-message"><div class="alert alert-success shadow-xl" role="alert">Password Changed Successfully!</div>'; } ?>
         </div>
-        <h1 class="page-title fs-5 display-6">Settings</h1>
+        <h1 class="page-title fs-5 display-6 mx-3">Settings</h1>
         <div class="page-content rounded x-border">
         <div class="account-setting p-3 py-0">
             <div class="row shadow-m py-3 px-2 rounded" style="background-color: #fff;">

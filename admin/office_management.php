@@ -63,7 +63,7 @@
                                             <div class="p-2 f-d">Notice! This action cannot be undone. Are you sure you want to delete this office?</div>
                                         </div>
                                         <div class="d-flex justify-content-end my-2 mb-3 gap-2">
-                                            <button id="removeSignatory" class="btn btn-danger rounded confirm-remove">Confirm</button>
+                                            <button id="removeSignatory" class="btn btn-danger rounded confirm-delete">Confirm</button>
                                             <button type="button" class="btn btn-secondary rounded" data-bs-dismiss="modal">Cancel</button>
                                         </div>
                                     </div>
@@ -132,7 +132,7 @@
                 }
 
                 
-                $('.btn-delete').click(function() {
+                $('#my-datable tbody').on('click', '.btn-delete', function(){
                     let id = $(this).attr('data-id');
                     $('.confirm-delete').attr('data-id',id);
                 });

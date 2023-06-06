@@ -24,7 +24,7 @@
             <div class="d-flex justify-content-evenly">
                 <span class="fs-3"><?php echo $dashboard->allStudents(); ?></span>
                 <div class="s-card-pic">
-                    <img class=" p-2 rounded-circle bg-light" src="https://festisso.sirv.com/wabcms_images/multiple-users-silhouette.png" style="height: 42px;" alt="">
+                    <img class=" p-2 rounded-circle bg-light" src="https://zreonph.sirv.com/wabcms_images/multiple-users-silhouette.png" style="height: 42px;" alt="">
                 </div>
             </div>
             <div class="d-overlay position-absolute w-100" >
@@ -37,7 +37,7 @@
             <div class="d-flex justify-content-evenly">
                 <span class="fs-3"><?php echo $dashboard->assignedSignatories(); ?></span>
                 <div class="s-card-pic">
-                    <img class=" p-2 rounded-circle bg-light" src="https://festisso.sirv.com/wabcms_images/writing.png" style="height: 42px;" alt="">
+                    <img class=" p-2 rounded-circle bg-light" src="https://zreonph.sirv.com/wabcms_images/writing.png" style="height: 42px;" alt="">
                 </div>
             </div>
             <div class="d-overlay position-absolute w-100" >
@@ -50,7 +50,7 @@
             <div class="d-flex justify-content-evenly">
                 <span class="fs-3"><?php echo $dashboard->allDesignation(); ?></span>
                 <div class="s-card-pic ">
-                    <img class=" p-2 bg-light rounded-circle" src="https://festisso.sirv.com/wabcms_images/man-working-on-a-laptop-from-side-view.png" style="height: 42px;" alt="">
+                    <img class=" p-2 bg-light rounded-circle" src="https://zreonph.sirv.com/wabcms_images/man-working-on-a-laptop-from-side-view.png" style="height: 42px;" alt="">
                 </div>
             </div>
             <div class="d-overlay position-absolute w-100" >
@@ -63,7 +63,7 @@
             <div class="d-flex justify-content-evenly">
                 <span class="fs-3"><?php echo $dashboard->allClearance(); ?></span>
                 <div class="s-card-pic ">
-                    <img class=" p-2 bg-light rounded-circle" src="https://festisso.sirv.com/wabcms_images/copy.png" style="height: 42px;" alt="">
+                    <img class=" p-2 bg-light rounded-circle" src="https://zreonph.sirv.com/wabcms_images/copy.png" style="height: 42px;" alt="">
                 </div>
             </div>
             <div class="d-overlay position-absolute w-100" >
