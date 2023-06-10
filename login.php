@@ -28,7 +28,7 @@
                     <form action="controller/user_login.php" method="POST">
                         <div class="mb-3">
                             <label class="form-label">Email</label>
-                            <input type="text" name="email" placeholder="Email" value="<?php if(isset($_GET['email'])){ echo $_GET['email']; } ?>" class="form-control" required>
+                            <input type="text" name="email" placeholder="Email" value="<?php if(isset($_SESSION['email'])){ echo $_SESSION['email']; } ?>" class="form-control" required>
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Password</label>

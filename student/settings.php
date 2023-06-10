@@ -27,6 +27,10 @@
                 <div class="col">
                     <h1 class="fs-6 display-6 mb-2">Personal Information</h1>
                     <div class="form-group mb-2">
+                        <label class="form-label mb-0 f-d">Student ID</label>
+                        <input type="text" class="form-control form-control-sm py-2 px-3" value="<?php echo $user_data['student_id'];?>" disabled>
+                    </div>
+                    <div class="form-group mb-2">
                         <label class="form-label mb-0 f-d">Name</label>
                         <input type="text" class="form-control form-control-sm py-2 px-3" value="<?php echo $user_data['first_name'] . " " . $midname . $user_data['last_name'] ;?>" disabled>
                     </div>

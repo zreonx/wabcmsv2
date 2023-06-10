@@ -179,6 +179,205 @@ class Dashboard {
             return false;
         }
     }
+
+
+    public function getActiveClearance() {
+        try {
+            $sql = "SELECT * FROM clearance_status cs INNER JOIN clearances c ON cs.clearance_id = c.id INNER JOIN clearance_type ct ON c.clearance_type = ct.id WHERE cs.date_deploy_signatory != '' AND cs.date_deploy_student != '' AND cs.status = 'active'";
+            $result = $this->conn->query($sql);
+            return $result->fetch(PDO::FETCH_ASSOC);
+     
+        }catch(PDOException $e) {
+            echo "ERROR: " . $e->getMessage();
+            return false;
+        }
+    }
+
+    public function getAllDesignation() {
+        try {
+            $sql = "SELECT * FROM designation_table_record WHERE status = 'active'";
+            $result = $this->conn->query($sql);
+            $allRecords = $result->fetchAll(PDO::FETCH_ASSOC);
+
+            $workplace_names = array();
+
+            for($i = 0; $i < count($allRecords); $i++) {
+                //echo strtoupper(str_replace("_", " ", substr($allRecords[$i]['signatory_clearance_table_name'], 3, -2)))
+                $workplace_names[$i] = strtoupper(str_replace("_", " ", substr($allRecords[$i]['signatory_clearance_table_name'], 4, -2)));
+            }
+
+            $response = json_encode($workplace_names);
+
+            return $response;
+
+
+     
+        }catch(PDOException $e) {
+            echo "ERROR: " . $e->getMessage();
+            return false;
+        }
+    }
+
+    public function allSignatories() {
+        try {
+            $sql = "SELECT * FROM designation_table_record WHERE status = 'active'";
+            $result = $this->conn->query($sql);
+            $allRecords = $result->fetchAll(PDO::FETCH_ASSOC);
+
+            return $allRecords;
+     
+        }catch(PDOException $e) {
+            echo "ERROR: " . $e->getMessage();
+            return false;
+        }
+    }
+
+    public function allSignatoryTable() {
+        try {
+            $sql = "SELECT * FROM designation_table_record WHERE status = 'active'";
+            $result = $this->conn->query($sql);
+            $allRecords = $result->fetchAll(PDO::FETCH_ASSOC);
+
+            return $allRecords;
+     
+        }catch(PDOException $e) {
+            echo "ERROR: " . $e->getMessage();
+            return false;
+        }
+    }
+
+    public function allSignatoryProgress($clearance_id) {
+        try {
+
+            $allSignatory = $this->allSignatoryTable();
+
+            $all = 0;
+            $deficient = 0;
+            $unsigned = 0;
+            $cleared = 0;
+            $unclear = 0;
+
+            $percentage = 0;
+
+            $signatory_percentage = array();
+            $i = 0;
+            foreach($allSignatory as $sig){
+               
+                $table_name = $sig['signatory_clearance_table_name'];
+                $sql = "SELECT * FROM $table_name WHERE clearance_id =  '$clearance_id'; ";
+                $result = $this->conn->query($sql);
+                $students = $result->fetchAll(PDO::FETCH_ASSOC);
+
+                
+                $all = 0;
+                $deficient = 0;
+                $unsigned = 0;
+                $cleared = 0;
+
+               
+
+                $percentage = 0;
+
+                $all = count($students);
+                foreach($students as $stud){
+                    if($stud['student_clearance_status'] == '1'){
+                        $cleared++;
+                    }else if($stud['student_clearance_status'] == '0'){
+                        $deficient++;
+                    }else if($stud['student_clearance_status'] == '2'){
+                        $unsigned++;
+                    }
+                }
+                $unclear = $deficient + $unsigned;
+
+                if($unclear == 0){
+                    $percentage = 100;
+                }else {
+                    $percentage = ($unclear / $all) * 100;
+                }
+
+
+                
+                $signatory_percentage[$i] = round($percentage);
+                $i++;
+
+                //print_r($sig['signatory_clearance_table_name'] . " - " . round($percentage) . "%\n");
+            }
+
+            return $signatory_percentage;
+
+    
+     
+        }catch(PDOException $e) {
+            echo "ERROR: " . $e->getMessage();
+            return false;
+        }
+    }
+
+    public function sinatoryStatus($clearance_id) {
+        try {
+
+            $activeSignatory = $this->allSignatories();
+
+            $response = 
+
+            $all = 0;
+            $deficient = 0;
+            $unsigned = 0;
+            $cleared = 0;
+            $unclear = 0;
+            $alltotal = 0;
+
+            $percentage = 0;
+
+            foreach($activeSignatory as $sig) {
+                $table_name = $sig['signatory_clearance_table_name'];
+                $sql = "SELECT COUNT(*) as 'deficient' FROM $table_name WHERE student_clearance_status = '0' AND clearance_id = '$clearance_id'; ";
+                $result = $this->conn->query($sql);
+                $query = $result->fetch(PDO::FETCH_ASSOC);
+                $deficient += $query['deficient'];
+            }
+
+            foreach($activeSignatory as $sig) {
+                $table_name = $sig['signatory_clearance_table_name'];
+                $sql = "SELECT COUNT(*) as 'unsigned' FROM $table_name WHERE student_clearance_status = '2' AND clearance_id = '$clearance_id'; ";
+                $result = $this->conn->query($sql);
+                $query = $result->fetch(PDO::FETCH_ASSOC);
+                $unsigned += $query['unsigned'];
+            }
+
+            foreach($activeSignatory as $sig) {
+                $table_name = $sig['signatory_clearance_table_name'];
+                $sql = "SELECT COUNT(*) as 'cleared' FROM $table_name WHERE student_clearance_status = '1' AND clearance_id = '$clearance_id'; ";
+                $result = $this->conn->query($sql);
+                $query = $result->fetch(PDO::FETCH_ASSOC);
+                $cleared += $query['cleared'];
+            }
+
+            foreach($activeSignatory as $sig) {
+                $table_name = $sig['signatory_clearance_table_name'];
+                $sql = "SELECT COUNT(*) as 'all' FROM $table_name WHERE clearance_id = '$clearance_id'; ";
+                $result = $this->conn->query($sql);
+                $query = $result->fetch(PDO::FETCH_ASSOC);
+                $all += $query['all'];
+                $alltotal += $query['all'];
+            }
+
+            
+            $deficient = round(($deficient / $all) * 100);
+            $cleared = round(($cleared / $all) * 100);
+            $unsigned = round(($unsigned / $all) * 100);
+           
+            $all = round(($all / $all) * 100);
+
+            return array('deficient' => $deficient, 'cleared' => $cleared, 'unsigned' => $unsigned, 'all' => $all, 'total' => $alltotal);
+
+     
+        }catch(PDOException $e) {
+            echo "ERROR: " . $e->getMessage();
+            return false;
+        }
+    }
     
     
     

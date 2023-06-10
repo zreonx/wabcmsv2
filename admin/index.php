@@ -1,5 +1,8 @@
 <?php 
-    require_once '../includes/main_header.php' 
+    require_once '../includes/main_header.php' ;
+
+    $active_claerance = $dashboard->getActiveClearance();
+
 ?>
 <style>
     body {
@@ -77,9 +80,9 @@
     <!-- <div class="bg-white rounded py-3 px-3 mb-2 ">
     </div> -->
 
-    <div class="d-charts d-flex gap-3">
+    <div class="d-charts d-flex gap-2">
         
-        <div class="d-workplace px-3 py-2 pb-3 mt-3">
+        <div class="mt-3 py-2 pb-3">
             <div class="d-flex justify-content-between align-items-center mb-1">
                 <div class="f-d">Workplace</div>
                 <div class="info-btn">
@@ -111,10 +114,11 @@
                 </table>
             </div>
         </div>
-        <div class="mt-3 flex-grow-1 p-3">
+        <?php if(!empty($active_claerance) && $active_claerance['clearance_name'] == "Finals Clearance"): ?>
+        <div class=" flex-grow-1 p-3">
             <div class="d-flex justify-content-between align-items-center mb-2">
                 <div class="fs-6 text-success">Active Clearance <i class="fas fa-check-circle pt-1 fs-5"></i></div>
-                <div class="f-d badge bg-success rounded" data-bs-toggle="tooltip" title="Clearance Reference Number">CRN 12</div>
+                <div class="f-d badge bg-success rounded" data-bs-toggle="tooltip" title="Clearance Reference Number">CRN  <?php echo $active_claerance['clearance_id']; ?></div>
             </div>
             <div class="dc-overview d-flex gap-3">
                 <div class="d-workplace px-3 py-2 pb-3 flex-grow-1">
@@ -125,101 +129,133 @@
                         </div>
                     </div>
                     <div class="bg-white rounded py-1">
-                        <canvas id="myChartBar"></canvas>
+                        <div id="my-bar"></div>
+                        <!-- <canvas id="myChartBar"></canvas> -->
                     </div>
                 </div>
-
-                <div class="d-workplace px-3 py-2 pb-3">
+            </div>
+            <div>
+                <div class="px-3 py-2 pb-3 mt-3">
                     <div class="d-flex justify-content-between align-items-center mb-1">
                         <div class="f-d">Clearance Status</div>
                         <div class="info-btn">
                             <i class="fal fa-info-circle"></i>
                         </div>
                     </div>
-                    <div class="bg-white rounded py-1">
-                    <canvas id="myChartPie"></canvas>
+                    <div class="d-flex justify-content-center align-items-center flex-column bg-white rounded py-2">
+                        <!-- <canvas id="myChartPie"></canvas> -->
+
+                        <div id="my-pie"></div>
+                        <div class="mt-2 mx-2 text-center">Total Student: <span id="total_pie">200</span></div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+    <?php else: ?>
+        <?php echo "<h1 class='display-6 fs-6 mt-2'><em><i class='fal fa-info-circle'></i>  There is no active finals clearance</div></em>" ?>
+    <?php endif; ?>
     
 </div>
 
 <script>
+        
     $(document).ready(function(){
-        var barGraph = document.getElementById('myChartBar').getContext('2d');
-		var myChartBar = new Chart(barGraph, {
-		    type: 'bar',
-		    data: {
-		        labels: ['January', 'February', 'March', 'April', 'May', 'June'],
-		        datasets: [{
-		            label: 'Sales',
-		            data: [1500, 1200, 1800, 2000, 1300, 1900],
-		            backgroundColor: [
-		                'rgba(255, 99, 132, 0.2)',
-		                'rgba(54, 162, 235, 0.2)',
-		                'rgba(255, 206, 86, 0.2)',
-		                'rgba(75, 192, 192, 0.2)',
-		                'rgba(153, 102, 255, 0.2)',
-		                'rgba(255, 159, 64, 0.2)'
-		            ],
-		            borderColor: [
-		                'rgba(255, 99, 132, 1)',
-		                'rgba(54, 162, 235, 1)',
-		                'rgba(255, 206, 86, 1)',
-		                'rgba(75, 192, 192, 1)',
-		                'rgba(153, 102, 255, 1)',
-		                'rgba(255, 159, 64, 1)'
-		            ],
-		            borderWidth: 1
-		        }]
-		    },
-		    options: {
-		        scales: {
-		            yAxes: [{
-		                ticks: {
-		                    beginAtZero: true
-		                }
-		            }]
-		        }
-		    }
-		});
+        
+        var all_signatory;
+        var active_clearance = '<?php echo $active_claerance['clearance_id']; ?>';
+
+        $.ajax({
+            method : "POST",
+            url: "../controller/dashboard_all_signatories.php",
+            data: {
+                key : "key",
+            },
+            success: function(result) {
+                all_signatory = JSON.parse(result);
+
+                $.ajax({
+                    method : "POST",
+                    url: "../controller/dashboard_all_signatory_progress.php",
+                    data: {
+                        key : "key",
+                        clearance_id: active_clearance,
+                    },
+                    success: function(result) {
+                        let sig_percentage = JSON.parse(result);
+                        console.log(sig_percentage);
+
+                        var sig_decimals = sig_percentage.map(function(percent) {
+                            return percent / 100;
+                        });
 
 
-        var pieGraph = document.getElementById('myChartPie').getContext('2d');
+                        var data = [
+                            {
+                                x: all_signatory,
+                                y: sig_decimals,
+                                type: 'bar',
+                                marker: {
+                                    color: 'limegreen',
+                                }
+                            }
+                        ];
 
-		var myChartPie = new Chart(pieGraph, {
-			type: 'pie',
-			data: {
-				labels: ['Defficient', 'Cleared', 'Unsigned'],
-				datasets: [{
-					label: '# of Votes',
-					data: [12, 19, 3],
-					backgroundColor: [
-						'rgba(255, 99, 132, 0.2)',
-						'rgba(54, 162, 235, 0.2)',
-						'rgba(255, 206, 86, 0.2)'
-					],
-					borderColor: [
-						'rgba(255, 99, 132, 1)',
-						'rgba(54, 162, 235, 1)',
-						'rgba(255, 206, 86, 1)'
-					],
-					borderWidth: 1
-				}]
-			},
-			options: {
-				responsive: true,
-				legend: {
-					position: 'top'
-				},
-				animation: {
-					animateScale: true,
-					animateRotate: true
-				}
-			}
-		});
+                        var layout = {
+                            yaxis: {
+                                tickformat: ',.0%',
+                            }
+                        };
+
+                        Plotly.newPlot('my-bar', data, layout);
+
+                        
+                    }
+                })
+
+                
+            }
+        })
+
+
+        $.ajax({
+            method : "POST",
+            url: "../controller/dashboard_signatory_status.php",
+            data: {
+                key : "key",
+                clearance_id: active_clearance,
+            },
+            success: function(result) {
+ 
+                var pie_status = JSON.parse(result);
+                $('#total_pie').html(pie_status['total']);
+
+                var data = [{
+                    type: "pie",
+                    values: [pie_status['cleared'], pie_status['deficient'], pie_status['unsigned']],
+                    labels: ["Cleared", "Deficient", "Unsigned"],
+                    textinfo: "label+percent",
+                    textposition: "outside",
+                    automargin: true
+                    }]
+
+                    var layout = {
+                    height: 400,
+                    width: 400,
+                    margin: {"t": 0, "b": 0, "l": 0, "r": 0},
+                    showlegend: false
+                    }
+
+                Plotly.newPlot('my-pie', data, layout)
+            }
+        })
+
+       
+
+       
+
+
+        
         
     });
 </script>

@@ -887,7 +887,7 @@ table.dataTable.dtr-inline.collapsed>tbody>tr>td.dtr-control:before, table.dataT
 /* Dashboard Admin */
 
 .d-workplace {
-    width: 300px;
+    width: 50%;
     background-color: #fff;
     border-radius: 5px;
 }
