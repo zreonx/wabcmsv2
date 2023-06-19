@@ -10,6 +10,7 @@
     $midname = ($user_data['middle_name'] == '') ? ' ' : $midinit;
 
     $allSignatory = $clearance->allActiveSignatoryTable();
+    $allSignatoryById = $clearance->allActiveSignatoryTableById($clearance_id);
 
     $allSignatoryOrg = $clearance->allActiveSignatoryTableOrg();
 
@@ -48,13 +49,13 @@
                     <div class="d-flex justify-content-center gap-2 text-center mb-5 berow">
                         <div class="d-flex flex-column justify-content-center mt-2">
                             <?php 
-                            foreach($allSignatory as $sigTable){
-                                    if(preg_match("/librarian/", $sigTable['signatory_clearance_table_name'])){
-                                        $cleared_info = $clearance->checkIfCleared($sigTable['signatory_clearance_table_name'], $user_data['student_id'], $clearance_id);
+                            foreach($allSignatoryById as $sigTable){
+                                    if(preg_match("/librarian/", $sigTable['designation_table'])){
+                                        $cleared_info = $clearance->checkIfCleared($sigTable['designation_table'], $user_data['student_id'], $clearance_id);
                                         if($cleared_info['student_clearance_status'] == '1'){
                                             echo '<div><i class="far fs-4 fa-check"></i></div>';
                                         }else{
-                                            echo '<div data-bs-toggle="tooltip" title="View Deficiency"><div class="d-flex align-items-center gap-2 justify-content-center view-def-btn" data-value="'. $sigTable['signatory_clearance_table_name'] .'" id="view-def-btn" data-bs-toggle="modal" data-bs-target="#viewMessage"><i class="fal fs-4 text-danger fa-exclamation-circle"></i><a class="f-s text-decoration-none text-success">View Message<a></div></div>';
+                                            echo '<div data-bs-toggle="tooltip" title="View Deficiency"><div class="d-flex align-items-center gap-2 justify-content-center view-def-btn" data-value="'. $sigTable['designation_table'] .'" id="view-def-btn" data-bs-toggle="modal" data-bs-target="#viewMessage"><i class="fal fs-4 text-danger fa-exclamation-circle"></i><a class="f-s text-decoration-none text-success">View Message<a></div></div>';
                                         }
                                         $sig_info = $signatory->getAllSignatory($sigTable['signatory_id']);
                                         
@@ -71,14 +72,14 @@
                         <div class="d-flex flex-column justify-content-center mt-2">
                             <?php 
                              $guidanceexist = false;
-                            foreach($allSignatory as $sigTable){
+                            foreach($allSignatoryById as $sigTable){
                                 $guidanceexist = true;
-                                if(preg_match("/guidance_office/", $sigTable['signatory_clearance_table_name'])){
-                                    $cleared_info = $clearance->checkIfCleared($sigTable['signatory_clearance_table_name'], $user_data['student_id'], $clearance_id);
+                                if(preg_match("/guidance_office/", $sigTable['designation_table'])){
+                                    $cleared_info = $clearance->checkIfCleared($sigTable['designation_table'], $user_data['student_id'], $clearance_id);
                                     if($cleared_info['student_clearance_status'] == '1'){
                                         echo '<div><i class="far fs-4 fa-check"></i></div>';
                                     }else{
-                                        echo '<div data-bs-toggle="tooltip" title="View Deficiency"><div class="d-flex align-items-center gap-2 justify-content-center view-def-btn" data-value="'. $sigTable['signatory_clearance_table_name'] .'" id="view-def-btn" data-bs-toggle="modal" data-bs-target="#viewMessage"><i class="fal fs-4 text-danger fa-exclamation-circle"></i><a class="f-s text-decoration-none text-success">View Message<a></div></div>';
+                                        echo '<div data-bs-toggle="tooltip" title="View Deficiency"><div class="d-flex align-items-center gap-2 justify-content-center view-def-btn" data-value="'. $sigTable['designation_table'] .'" id="view-def-btn" data-bs-toggle="modal" data-bs-target="#viewMessage"><i class="fal fs-4 text-danger fa-exclamation-circle"></i><a class="f-s text-decoration-none text-success">View Message<a></div></div>';
                                     }
 
                                     $sig_info = $signatory->getAllSignatory($sigTable['signatory_id']);
@@ -101,16 +102,16 @@
                         <div class="d-flex flex-column justify-content-center">
                             <?php 
                             $phexist = false;
-                            foreach($allSignatory as $sigTable){
+                            foreach($allSignatoryById as $sigTable){
                                 
                                     $search = '/' . strtolower($user_data['program_course']) . '_program_head/' ;
-                                    if(preg_match($search , $sigTable['signatory_clearance_table_name'])){
+                                    if(preg_match($search , $sigTable['designation_table'])){
                                         $phexist = true;
-                                        $cleared_info = $clearance->checkIfCleared($sigTable['signatory_clearance_table_name'], $user_data['student_id'], $clearance_id);
+                                        $cleared_info = $clearance->checkIfCleared($sigTable['designation_table'], $user_data['student_id'], $clearance_id);
                                         if($cleared_info['student_clearance_status'] == '1'){
                                             echo '<div><i class="far fs-4 fa-check"></i></div>';
                                         }else{
-                                            echo '<div data-bs-toggle="tooltip" title="View Deficiency"><div class="d-flex align-items-center gap-2 justify-content-center view-def-btn" data-value="'. $sigTable['signatory_clearance_table_name'] .'" id="view-def-btn" data-bs-toggle="modal" data-bs-target="#viewMessage"><i class="fal fs-4 text-danger fa-exclamation-circle"></i><a class="f-s text-decoration-none text-success">View Message<a></div></div>';
+                                            echo '<div data-bs-toggle="tooltip" title="View Deficiency"><div class="d-flex align-items-center gap-2 justify-content-center view-def-btn" data-value="'. $sigTable['designation_table'] .'" id="view-def-btn" data-bs-toggle="modal" data-bs-target="#viewMessage"><i class="fal fs-4 text-danger fa-exclamation-circle"></i><a class="f-s text-decoration-none text-success">View Message<a></div></div>';
                                         }
                                         $sig_info = $signatory->getAllSignatory($sigTable['signatory_id']);
                                         echo '
@@ -137,14 +138,14 @@
                         <div class="d-flex flex-column justify-content-center">
                         <?php 
                             $sasexist = false;
-                            foreach($allSignatory as $sigTable){
-                                    if(preg_match("/sas/", $sigTable['signatory_clearance_table_name'])){
+                            foreach($allSignatoryById as $sigTable){
+                                    if(preg_match("/sas/", $sigTable['designation_table'])){
                                         $sasexist = true;
-                                        $cleared_info = $clearance->checkIfCleared($sigTable['signatory_clearance_table_name'], $user_data['student_id'], $clearance_id);
+                                        $cleared_info = $clearance->checkIfCleared($sigTable['designation_table'], $user_data['student_id'], $clearance_id);
                                         if($cleared_info['student_clearance_status'] == '1'){
                                             echo '<div><i class="far fs-4 fa-check"></i></div>';
                                         }else{
-                                            echo '<div data-bs-toggle="tooltip" title="View Deficiency"><div class="d-flex align-items-center gap-2 justify-content-center view-def-btn" data-value="'. $sigTable['signatory_clearance_table_name'] .'" id="view-def-btn" data-bs-toggle="modal" data-bs-target="#viewMessage"><i class="fal fs-4 text-danger fa-exclamation-circle"></i><a class="f-s text-decoration-none text-success">View Message<a></div></div>';
+                                            echo '<div data-bs-toggle="tooltip" title="View Deficiency"><div class="d-flex align-items-center gap-2 justify-content-center view-def-btn" data-value="'. $sigTable['designation_table'] .'" id="view-def-btn" data-bs-toggle="modal" data-bs-target="#viewMessage"><i class="fal fs-4 text-danger fa-exclamation-circle"></i><a class="f-s text-decoration-none text-success">View Message<a></div></div>';
                                         }
 
                                         $sig_info = $signatory->getAllSignatory($sigTable['signatory_id']);
@@ -443,15 +444,15 @@
                         <div class="d-flex flex-column justify-content-center mt-2">
                             <?php 
                                 $adviserFound = false;
-                                foreach($allSignatory as $sigTable){
+                                foreach($allSignatoryById as $sigTable){
                                     $adv = strtolower($user_data['program_course']) . "_adviser";
-                                    if(preg_match("/$adv/", $sigTable['signatory_clearance_table_name'])){
+                                    if(preg_match("/$adv/", $sigTable['designation_table'])){
                                         $adviserFound = true;
-                                        $cleared_info = $clearance->checkIfCleared($sigTable['signatory_clearance_table_name'], $user_data['student_id'], $clearance_id);
+                                        $cleared_info = $clearance->checkIfCleared($sigTable['designation_table'], $user_data['student_id'], $clearance_id);
                                         if($cleared_info['student_clearance_status'] == '1'){
                                             echo '<div><i class="far fs-4 fa-check"></i></div>';
                                         }else{
-                                            echo '<div data-bs-toggle="tooltip" title="View Deficiency"><div class="d-flex align-items-center gap-2 justify-content-center view-def-btn" data-value="'. $sigTable['signatory_clearance_table_name'] .'" id="view-def-btn" data-bs-toggle="modal" data-bs-target="#viewMessage"><i class="fal fs-4 text-danger fa-exclamation-circle"></i><a class="f-s text-decoration-none text-success">View Message<a></div></div>';
+                                            echo '<div data-bs-toggle="tooltip" title="View Deficiency"><div class="d-flex align-items-center gap-2 justify-content-center view-def-btn" data-value="'. $sigTable['designation_table'] .'" id="view-def-btn" data-bs-toggle="modal" data-bs-target="#viewMessage"><i class="fal fs-4 text-danger fa-exclamation-circle"></i><a class="f-s text-decoration-none text-success">View Message<a></div></div>';
                                         }
                                         $sig_info = $signatory->getAllSignatory($sigTable['signatory_id']);
                                         
@@ -472,14 +473,14 @@
                         <div class="d-flex flex-column justify-content-center mt-2">
                             <?php 
                             $shslib = false;
-                            foreach($allSignatory as $sigTable){
-                                if(preg_match("/librarian/", $sigTable['signatory_clearance_table_name'])){
+                            foreach($allSignatoryById as $sigTable){
+                                if(preg_match("/librarian/", $sigTable['designation_table'])){
                                     $shslib = true;
-                                    $cleared_info = $clearance->checkIfCleared($sigTable['signatory_clearance_table_name'], $user_data['student_id'], $clearance_id);
+                                    $cleared_info = $clearance->checkIfCleared($sigTable['designation_table'], $user_data['student_id'], $clearance_id);
                                     if($cleared_info['student_clearance_status'] == '1'){
                                         echo '<div><i class="far fs-4 fa-check"></i></div>';
                                     }else{
-                                        echo '<div data-bs-toggle="tooltip" title="View Deficiency"><div class="d-flex align-items-center gap-2 justify-content-center view-def-btn" data-value="'. $sigTable['signatory_clearance_table_name'] .'" id="view-def-btn" data-bs-toggle="modal" data-bs-target="#viewMessage"><i class="fal fs-4 text-danger fa-exclamation-circle"></i><a class="f-s text-decoration-none text-success">View Message<a></div></div>';
+                                        echo '<div data-bs-toggle="tooltip" title="View Deficiency"><div class="d-flex align-items-center gap-2 justify-content-center view-def-btn" data-value="'. $sigTable['designation_table'] .'" id="view-def-btn" data-bs-toggle="modal" data-bs-target="#viewMessage"><i class="fal fs-4 text-danger fa-exclamation-circle"></i><a class="f-s text-decoration-none text-success">View Message<a></div></div>';
                                     }
                                     $sig_info = $signatory->getAllSignatory($sigTable['signatory_id']);
                                     
@@ -500,14 +501,14 @@
                         <div class="d-flex flex-column justify-content-center mt-2">
                             <?php 
                             $shsgui = false;
-                            foreach($allSignatory as $sigTable){    
-                                if(preg_match("/guidance_office/", $sigTable['signatory_clearance_table_name'])){
+                            foreach($allSignatoryById as $sigTable){    
+                                if(preg_match("/guidance_office/", $sigTable['designation_table'])){
                                     $shsgui = true; 
-                                    $cleared_info = $clearance->checkIfCleared($sigTable['signatory_clearance_table_name'], $user_data['student_id'], $clearance_id);
+                                    $cleared_info = $clearance->checkIfCleared($sigTable['designation_table'], $user_data['student_id'], $clearance_id);
                                     if($cleared_info['student_clearance_status'] == '1'){
                                         echo '<div><i class="far fs-4 fa-check"></i></div>';
                                     }else{
-                                        echo '<div data-bs-toggle="tooltip" title="View Deficiency"><div class="d-flex align-items-center gap-2 justify-content-center view-def-btn" data-value="'. $sigTable['signatory_clearance_table_name'] .'" id="view-def-btn" data-bs-toggle="modal" data-bs-target="#viewMessage"><i class="fal fs-4 text-danger fa-exclamation-circle"></i><a class="f-s text-decoration-none text-success">View Message<a></div></div>';
+                                        echo '<div data-bs-toggle="tooltip" title="View Deficiency"><div class="d-flex align-items-center gap-2 justify-content-center view-def-btn" data-value="'. $sigTable['designation_table'] .'" id="view-def-btn" data-bs-toggle="modal" data-bs-target="#viewMessage"><i class="fal fs-4 text-danger fa-exclamation-circle"></i><a class="f-s text-decoration-none text-success">View Message<a></div></div>';
                                     }
 
                                     $sig_info = $signatory->getAllSignatory($sigTable['signatory_id']);
@@ -531,14 +532,14 @@
                         <div class="d-flex flex-column justify-content-center mt-2">
                             <?php 
                             $shsprin = false;
-                            foreach($allSignatory as $sigTable){
+                            foreach($allSignatoryById as $sigTable){
                                 $shsprin = true;
-                                if(preg_match("/shs_principal/", $sigTable['signatory_clearance_table_name'])){
-                                    $cleared_info = $clearance->checkIfCleared($sigTable['signatory_clearance_table_name'], $user_data['student_id'], $clearance_id);
+                                if(preg_match("/shs_principal/", $sigTable['designation_table'])){
+                                    $cleared_info = $clearance->checkIfCleared($sigTable['designation_table'], $user_data['student_id'], $clearance_id);
                                     if($cleared_info['student_clearance_status'] == '1'){
                                         echo '<div><i class="far fs-4 fa-check"></i></div>';
                                     }else{
-                                        echo '<div data-bs-toggle="tooltip" title="View Deficiency"><div class="d-flex align-items-center gap-2 justify-content-center view-def-btn" data-value="'. $sigTable['signatory_clearance_table_name'] .'" id="view-def-btn" data-bs-toggle="modal" data-bs-target="#viewMessage"><i class="fal fs-4 text-danger fa-exclamation-circle"></i><a class="f-s text-decoration-none text-success">View Message<a></div></div>';
+                                        echo '<div data-bs-toggle="tooltip" title="View Deficiency"><div class="d-flex align-items-center gap-2 justify-content-center view-def-btn" data-value="'. $sigTable['designation_table'] .'" id="view-def-btn" data-bs-toggle="modal" data-bs-target="#viewMessage"><i class="fal fs-4 text-danger fa-exclamation-circle"></i><a class="f-s text-decoration-none text-success">View Message<a></div></div>';
                                     }
                                     $sig_info = $signatory->getAllSignatory($sigTable['signatory_id']);
                                     

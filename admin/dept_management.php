@@ -140,12 +140,12 @@
                 }
 
                 
-                $('.btn-delete').click(function() {
+                $('#my-datable tbody').on('click', '.btn-delete', function(){
                     let id = $(this).attr('data-id');
-                    $('.confirm-delete').attr('data-id',id);
+                    $('.confirm-remove').attr('data-id',id);
                 });
 
-                $('.confirm-delete').click(function() {
+                $('.confirm-remove').click(function() {
                     let id = $(this).attr('data-id');
                     $('#deleteModal').modal('hide');
                     window.location.replace("../controller/dept_delete.php?id="+id);

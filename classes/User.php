@@ -20,6 +20,19 @@ class User {
         }
     }
 
+    public function getStudentAccount() {
+        try {
+
+            $sql = "SELECT * FROM users WHERE status = 'active' AND user_type = 'student'";
+            $result = $this->conn->query($sql);
+            return $result;
+     
+        }catch(PDOException $e) {
+            echo "ERROR: " . $e->getMessage();
+            return false;
+        }
+    }
+
     public function makeUserAccount($user_id, $user_type, $email) {
         try {
             

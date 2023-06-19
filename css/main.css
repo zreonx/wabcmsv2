@@ -270,6 +270,7 @@
     opacity: 0;
 }
 
+
 /* Text */
 .long-word {
     max-width: 148px; /* or any other value that fits your design */
@@ -1005,7 +1006,47 @@ table.dataTable.dtr-inline.collapsed>tbody>tr>td.dtr-control:before, table.dataT
     border: 1px solid gray;
 }
 
+/* Reports */
 
+.report-items{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.grid-item {
+    margin: 0;
+}
+
+.r-acc{
+    border-radius: 5px;
+    padding: 22px 25px;
+    transition: all ease-in .3s;
+    background-color: #fff;
+    cursor: pointer;
+}
+
+.r-acc h1 {
+    transition: all ease-in .3s;
+}
+.r-acc:hover{
+    background-color: #10e094;
+    box-shadow: var(--shadow-md);
+}
+.r-acc:hover h1{
+    color: #fff;
+}
+
+.r-icon{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #ececec;;
+    padding: 8px;
+    border-radius: 50%;
+    height: 40px;
+    width: 40px;
+}
 
 /* Media Queries */
 
@@ -1088,6 +1129,12 @@ table.dataTable.dtr-inline.collapsed>tbody>tr>td.dtr-control:before, table.dataT
     .berow {
         flex-direction: column;
     }
+
+    .report-items{
+        flex-direction: column;
+        width: 100% !important;
+    }
+    
 
     .d-charts {
         flex-direction: column !important;

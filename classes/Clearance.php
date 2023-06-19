@@ -1,6 +1,7 @@
 <?php
 
 class Clearance {
+    
     private $conn;
 
     public function __construct($conn) {
@@ -794,6 +795,17 @@ class Clearance {
     public function allActiveSignatoryTable() {
         try {
             $sql = "SELECT * FROM designation_table_record WHERE status = 'active'; ";
+            $result = $this->conn->query($sql);
+            return $result->fetchAll(PDO::FETCH_ASSOC);
+        }catch(PDOException $e) {
+            echo "ERROR: " . $e->getMessage();
+            return false;
+        }
+    }
+
+    public function allActiveSignatoryTableById($clearance_id) {
+        try {
+            $sql = "SELECT * FROM designation_clearance_signatory WHERE clearance_id = '$clearance_id'AND status = 'active'; ";
             $result = $this->conn->query($sql);
             return $result->fetchAll(PDO::FETCH_ASSOC);
         }catch(PDOException $e) {

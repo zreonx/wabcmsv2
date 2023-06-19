@@ -263,15 +263,15 @@
                                                 <div class="d-flex flex-wrap gap-2 cdash-controls">
                                                    <div>
                                                         <div class="f-d display-6 m-1">Step 1</div>
-                                                        <button id="deploySignatoryBtn" class="btn btn-success rounded">Deploy to Signatories</button>
+                                                        <button id="deploySignatoryBtn" class="btn btn-success rounded dis-btn">Deploy to Signatories</button>
                                                    </div>
                                                    <div>
                                                         <div class="f-d display-6 m-1">Step 2</div>
-                                                        <button id="deployStudentBtn" class="btn btn-success rounded">Deploy to Students</button>
+                                                        <button id="deployStudentBtn" class="btn btn-success rounded dis-btn">Deploy to Students</button>
                                                    </div>
                                                    <div>
                                                         <div class="f-d display-6 m-1">Step 3</div>
-                                                        <button id="endClearanceBtn" class="btn btn-danger rounded">End</button>
+                                                        <button id="endClearanceBtn" class="btn btn-danger rounded dis-btn">End</button>
                                                    </div>
                                                 </div>
                                            <div class="ms-auto">
