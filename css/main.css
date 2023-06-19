@@ -1226,5 +1226,8 @@ table.dataTable.dtr-inline.collapsed>tbody>tr>td.dtr-control:before, table.dataT
 }
 
 @media only screen and (max-width: 1980px) {
-
+    .btn-sm {
+        width: 80px;
+        margin-bottom: 5px;
+    }
 }
