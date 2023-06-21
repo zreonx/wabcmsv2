@@ -9,8 +9,6 @@
     $prev_year = $current_year - 1;
     $next_year = date('Y', strtotime($current_year . ' +1 year'));
 
-    echo $prev_year;
-
 ?>
     <div class="page">
         <?php if(isset($_GET['success'])){ echo '<div class="alert alert-success" id="err">Clearance has been created.</div>'; } ?>
@@ -167,7 +165,7 @@
                         
                         </table>
 
-
+                        
                         <div class="modal fade custom-modal modal-dashboard modal-lg" id="clearanceDashboard" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                             <div class="modal-dialog ">
                                 <div class="modal-content">
@@ -175,7 +173,7 @@
                                         <h1 class="px-1 display-6 fs-5 mb-0">Clearance Status</h1>
                                         <div class="f-d badge bg-success " data-bs-toggle="tooltip" title="Clearance Reference Number">CRN <span id="crn"></span></div>
                                     </div>
-                                    <div class="modal-body x-border py-0">
+                                        <div class="modal-body x-border py-0">
                                     
                                         <!-- <div id="search-list">
                                             <table class="table">
@@ -281,7 +279,8 @@
                                                         <button id="endClearanceBtn" class="btn btn-danger rounded dis-btn">End</button>
                                                    </div>
                                                 </div>
-                                           <div class="ms-auto">
+                                           <div class="ms-auto d-flex gap-2 berow">
+                                                <button id="printReport" class="btn btn-success rounded dis-btn fs-5" data-bs-toggle="tooltip" title="Print Student Clearance"><i class="fas fa-print"></i></button>
                                                 <button type="button" class="btn btn-secondary rounded ms-auto" data-bs-dismiss="modal">Cancel</button>
                                            </div>
                                         </div>
@@ -595,7 +594,7 @@
                                 id : clearance_id,
                             },
                             success: function(response) {
-                                 console.log(response);
+                                console.log(response);
                                 $('#deploySignatoryBtn').prop('disabled', true);
                                 $('#deployStudentBtn').prop('disabled', true);
                                 $('#endClearanceBtn').prop('disabled', false);
@@ -624,6 +623,27 @@
                             success: function(response) {
                                  console.log(response);
                                 $('#endClearanceBtn').prop('disabled', true);
+                            }
+                        });
+                    });
+
+                    $('#printReport').click(function() {
+                        $.ajax({
+                            url: 'student_clearance_report.php',
+                            type: "GET",
+                            data: {clearance_id: clearance_id},
+                            success: function(response) {
+                                // Create a new window and write the response content to it
+                                let printWindow = window.open('', 'Print Window');
+                                printWindow.document.write(response);
+
+                                // Wait for the new window to finish loading before calling the print() function
+                                
+                                setTimeout(function(){
+                                    printWindow.print();
+                                    // Close the new window
+                                    printWindow.close();
+                                }, 1000);
                             }
                         });
                     });

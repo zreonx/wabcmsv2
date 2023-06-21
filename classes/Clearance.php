@@ -262,7 +262,7 @@ class Clearance {
             $stmt->bindparam(':semester', $semester);
             $stmt->bindparam(':academic_year', $academic_year);
             $stmt->bindparam(':student_id', $student_id);
-            $stmt->bindparam(':date_cleared', $date_cleared);
+            $stmt->bindparam(':date_cleared', '');
             $stmt->execute();
             
             

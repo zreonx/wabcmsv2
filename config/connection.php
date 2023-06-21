@@ -32,6 +32,7 @@
     $filter = new Filter($conn);
     $dashboard = new Dashboard($conn);
     $request = new ClearanceRequest($conn);
+    $report = new Report($conn);
 
 
     // $clearance = new Clearance($conn);
