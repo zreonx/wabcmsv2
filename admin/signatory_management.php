@@ -134,6 +134,7 @@
                 var id;
 
                 $('#my-datable tbody').on('click', '.edit-btn',function(){
+                    $('#email').prop("readonly", true);
                     id = $(this).attr('data-id')
                     $.ajax({
                         type: "GET",

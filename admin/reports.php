@@ -8,6 +8,7 @@
     }
 </style>
     <div class="page">
+
         <?php if(isset($_GET['update'])){ echo '<div class="alert alert-success" id="err">Oranization has been updated.</div>'; } ?>
         <?php if(isset($_GET['delete'])){ echo '<div class="alert alert-success" id="err">Oranization has been deleted.</div>'; } ?>
         <h1 class="page-title fs-5 display-6">Reports</h1>

@@ -10,7 +10,7 @@ class User {
     public function getAllUser() {
         try {
 
-            $sql = "SELECT * FROM users WHERE status = 'active'";
+            $sql = "SELECT * FROM users WHERE status = 'active' and user_type NOT IN ('admin')";
             $result = $this->conn->query($sql);
             return $result->fetchAll(PDO::FETCH_ASSOC);
      
@@ -251,21 +251,74 @@ class User {
         }
     }
 
-    public function deleteOffice($id) {
+    public function getAllCourse() {
         try {
 
-            $sql = "UPDATE offices SET status = 'inactive' WHERE id = :id ; ";
-            $stmt = $this->conn->prepare($sql);
-            $stmt->bindparam(':id', $id);
-
-            $stmt->execute();
-
-            return true;
-
+            $sql = "SELECT * FROM departments WHERE status = 'active'";
+            $result = $this->conn->query($sql);
+            return $result->fetchAll(PDO::FETCH_ASSOC);
+     
         }catch(PDOException $e) {
             echo "ERROR: " . $e->getMessage();
             return false;
         }
     }
+
+    public function getAllSHS() {
+        try {
+
+            $sql = "SELECT * FROM shs WHERE status = 'active'";
+            $result = $this->conn->query($sql);
+            return $result->fetchAll(PDO::FETCH_ASSOC);
+     
+        }catch(PDOException $e) {
+            echo "ERROR: " . $e->getMessage();
+            return false;
+        }
+    }
+
+    public function getStudentAccounts($year_level, $program_course) {
+
+        try {
+
+            $sql = "SELECT * FROM students s INNER JOIN users u ON u.user_id = s.student_id  WHERE s.status = 'imported' AND s.year_level = '$year_level' AND s.program_course = '$program_course'";
+            $result = $this->conn->query($sql);
+            return $result->fetchAll(PDO::FETCH_ASSOC);
+     
+        }catch(PDOException $e) {
+            echo "ERROR: " . $e->getMessage();
+            return false;
+        }
+
+    }
+
+    public function getSignatoryAccount() {
+        try {
+
+            $sql = "SELECT * FROM users u INNER JOIN signatories s ON u.user_id = s.id WHERE u.user_type = 'signatory' AND u.status = 'active'";
+            $result = $this->conn->query($sql); 
+            return $result->fetchAll(PDO::FETCH_ASSOC);
+     
+        }catch(PDOException $e) {
+            echo "ERROR: " . $e->getMessage();
+            return false;
+        }
+    }
+
+    public function allDesignation() {
+        try {
+            $sql = "SELECT * FROM designation_meta dm INNER JOIN designation_signatory ds ON dm.id = ds.designation_id INNER JOIN signatories s ON ds.signatory_id = s.id INNER JOIN users u ON s.id = u.user_id WHERE dm.status = 'active' AND ds.status = 'active'";
+            $result = $this->conn->query($sql);
+            return $result->fetchAll(PDO::FETCH_ASSOC);
+     
+        }catch(PDOException $e) {
+            echo "ERROR: " . $e->getMessage();
+            return false;
+        }
+    }
+
+
+
+
       
 }

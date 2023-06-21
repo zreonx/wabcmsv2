@@ -531,7 +531,8 @@ body {
 .input-cont .input-box:focus ~ label,
 .input-cont .input-box:valid ~ label,
 .input-cont .custom-input:focus ~ label,
-.input-cont .custom-input:valid ~ label {
+.input-cont .custom-input:valid ~ label, 
+.input-cont .input-box:read-only ~ label  {
   font-size: 12px;
   top: -8px;
 }

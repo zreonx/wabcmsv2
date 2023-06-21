@@ -4,6 +4,13 @@
     $clearanceTypes = $clearance->getClearanceType();
     $clearances = $clearance->getAllClearance();
     $beneficiaries = $clearance->getBeneficiaries();
+
+    $current_year = date('Y');
+    $prev_year = $current_year - 1;
+    $next_year = date('Y', strtotime($current_year . ' +1 year'));
+
+    echo $prev_year;
+
 ?>
     <div class="page">
         <?php if(isset($_GET['success'])){ echo '<div class="alert alert-success" id="err">Clearance has been created.</div>'; } ?>
@@ -67,8 +74,8 @@
                                     </button>
                                     <ul class="select-menu">
                                         <li data-value="0">Academic Year</li>
-                                        <li data-value="2022-2023">2022-2023</li>
-                                        <li data-value="2023-2024">2023-2024</li>
+                                        <li data-value="2022-2023"><?php echo $prev_year ?>-<?php echo $current_year ?></li>
+                                        <li data-value="2023-2024"><?php echo $current_year ?>-<?php echo $next_year ?></li>
                                     </ul>
                                 </div>
                            </div>
