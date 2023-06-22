@@ -24,7 +24,7 @@
                                 <h1 class="display-6 fs-6 m-0">Generate Accounts</h1>
                         </div>
                    </a>
-                   <a href="generate_accounts.php" class="text-decoration-none text-dark">
+                   <a href="#" id="clearanceReportBtn" class="text-decoration-none text-dark">
                         <div class="r-acc d-flex gap-3 justify-content-center align-items-center">
                                 <div class="r-icon fs-5 text-success">
                                     <i class="fas fa-file-alt"></i>
@@ -32,7 +32,7 @@
                                 <h1 class="display-6 fs-6 m-0">Clearance Report</h1>
                         </div>
                     </a>
-                    <a href="generate_accounts.php" class="text-decoration-none text-dark">
+                    <a href="#" id="generateSignatoryBtn" class="text-decoration-none text-dark">
                         <div class="r-acc d-flex gap-3 justify-content-center align-items-center">
                                 <div class="r-icon fs-5 text-success">
                                     <i class="fas fa-file-alt"></i>
@@ -40,7 +40,7 @@
                                 <h1 class="display-6 fs-6 m-0">Signatory Report</h1>
                         </div>
                    </a>
-                   <a href="generate_accounts.php" class="text-decoration-none text-dark">
+                   <a href="clearance_management.php" class="text-decoration-none text-dark">
                         <div class="r-acc d-flex gap-3 justify-content-center align-items-center">
                                 <div class="r-icon fs-5 text-success">
                                     <i class="fas fa-file-alt"></i>
@@ -48,7 +48,7 @@
                                 <h1 class="display-6 fs-6 m-0">Student Clearance Report</h1>
                         </div>
                     </a>
-                    <a href="generate_accounts.php" class="text-decoration-none text-dark">
+                    <a href="student_management.php" class="text-decoration-none text-dark">
                         <div class="r-acc d-flex gap-3 justify-content-center align-items-center">
                                 <div class="r-icon fs-5 text-success">
                                     <i class="fas fa-file-alt"></i>
@@ -58,6 +58,23 @@
                     </a>
                 </div>
            </div>
+           <iframe src="signatory_report.php" id="signatoryData" frameborder="0" style="height: 0; border:0; width:100%;"></iframe>
+           <iframe src="clearance_report.php" id="clearanceData" frameborder="0" style="height: 0; border:0; width:100%;"></iframe>
         </div>
+
+        <script>
+            $(document).ready(function() {
+                $('#clearanceReportBtn').click(function(){
+                    let clearanceFrame = document.getElementById('clearanceData').contentWindow;
+                    clearanceFrame.focus();
+                    clearanceFrame.print();
+                });
+                $('#generateSignatoryBtn').click(function(){
+                    let signtoryReportFrame = document.getElementById('signatoryData').contentWindow;
+                    signtoryReportFrame.focus();
+                    signtoryReportFrame.print();
+                });
+            })
+        </script>
     </div>
 <?php require_once '../includes/main_footer.php' ?>

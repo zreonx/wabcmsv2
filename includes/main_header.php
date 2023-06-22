@@ -187,7 +187,7 @@
         </div>
 
         
-        <div class="custom-category">
+        <!-- <div class="custom-category">
             <div class="category-btn">
                 <div>
                     <i class="fal fa-chart-line mx-2"></i>
@@ -198,7 +198,7 @@
             <ul class="category-item p-0">
                 <li class="category-link"><a href="reports.php" class="clink-text">Report Records</a></li>              
             </ul>
-        </div>
+        </div> -->
     </div>
 
 

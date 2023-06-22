@@ -58,6 +58,7 @@ class Report {
         }
     }
 
+
     public function getSignatoryStudents($table_name, $clearance_id) {
         try {
             $sql = "SELECT * FROM  $table_name tb INNER JOIN students s ON tb.student_id  COLLATE utf8mb4_general_ci = s.student_id  COLLATE utf8mb4_general_ci WHERE tb.clearance_id = '$clearance_id'";
@@ -69,6 +70,20 @@ class Report {
             return false;
         }
     }
+
+
+    public function getAllClearance() {
+        try {
+            $sql = "SELECT * FROM  clearances c INNER JOIN clearance_type ct ON c.clearance_type = ct.id INNER JOIN clearance_beneficiaries cb ON c.clearance_beneficiary = cb.id INNER JOIN clearance_status cs ON c.id = cs.clearance_id  WHERE c.status = 'initialized'";
+            $result = $this->conn->query($sql);
+            return $result->fetchAll(PDO::FETCH_ASSOC);
+     
+        }catch(PDOException $e) {
+            echo "ERROR: " . $e->getMessage();
+            return false;
+        }
+    }
+
 
 
 

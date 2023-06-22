@@ -390,6 +390,7 @@
 
                     $('.confirm-remove').on("click", function(){     
                         let removeId = $(this).attr('data-id');
+                        $('#activateDesignations').click();
                         window.location.replace("../controller/designation_remove.php?designation_id=" + removeId);
                     })
 
@@ -429,6 +430,7 @@
                                 assigned_signatory: assignedSignatoryId,
                             },
                             success: function(response){
+                                $('#activateDesignations').click();
                                 window.location.replace('add_designation_information.php?assign=success');
                             }
                         });
@@ -480,6 +482,7 @@
                             success: function(result) {
                                 let response = JSON.parse(result);
                                 $('.page-content').before(response.message);
+                                $('#activateDesignations').click();
                                 setTimeout(function(){
                                     $('#err').remove();
                                 },10000);

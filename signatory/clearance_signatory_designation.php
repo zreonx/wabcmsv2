@@ -94,13 +94,14 @@
             </div>
 
            
-            <div class="default-border rounded-end mb-2 w-100 d-flex ">
+            <div class="default-border rounded-end mb-2 w-100 d-flex berow gap-3">
                 <div class="f-d badge bg-success rounded-0 rounded-start" data-bs-toggle="tooltip" title="Clearance Reference Number">CRN <?php echo($_GET['clearance_id']); ?></div>
                 <div class="d-flex justify-content-between align-items-center flex-grow-1 px-2">
                     <h1 class="f-d display-6 mb-0"><?php echo $clearanceInfo['clearance_name'] ?></h1>
                     <h1 class="f-d display-6 mb-0"><?php echo $clearanceInfo['semester'] ?></h1>
                     <h1 class="f-d display-6 mb-0">A.Y. <?php echo $clearanceInfo['academic_year'] ?></h1>
                 </div>
+                <button id="printReport" class="btn btn-success rounded dis-btn fs-5" data-bs-toggle="tooltip" title="Print Student Clearance"><i class="fas fa-print"></i></button>
             </div>
             <div class="d-flex justify-content-between align-items-end mb-2 ">
                 <h1 class="fs-6 display-6 mb-0">Students</h1>
@@ -517,6 +518,31 @@
                                 window.location.replace("clearance_signatory_designation.php?" + url_info_string + "&clear_all=success");
                             }
                         })
+                    });
+
+                    $('#printReport').click(function() {
+                        var clearance_id = '<?php echo $_GET['clearance_id']; ?>';
+                        var designation_table = '<?php echo $_GET['designation_workplace']; ?>';
+                        $.ajax({
+                            url: 'student_clearance_report.php',
+                            type: "GET",
+                            data: {clearance_id: clearance_id,
+                                   designation_table: designation_table
+                                },
+                            success: function(response) {
+                                // Create a new window and write the response content to it
+                                let printWindow = window.open('', 'Print Window');
+                                printWindow.document.write(response);
+
+                                // Wait for the new window to finish loading before calling the print() function
+                                
+                                setTimeout(function(){
+                                    printWindow.print();
+                                    // Close the new window
+                                    printWindow.close();
+                                }, 1000);
+                            }
+                        });
                     });
                 })
                
