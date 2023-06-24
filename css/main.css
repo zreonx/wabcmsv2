@@ -1049,6 +1049,11 @@ table.dataTable.dtr-inline.collapsed>tbody>tr>td.dtr-control:before, table.dataT
     width: 40px;
 }
 
+ul li.clickable {
+    cursor: not-allowed;
+    pointer-events: none;
+    background-color: rgb(230, 230, 230);
+  }
 /* Media Queries */
 
 @media only screen and (max-width: 540px) {

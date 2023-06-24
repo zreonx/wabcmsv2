@@ -9,7 +9,7 @@
     <link rel="icon" href="../images/ccc_logo.webp" type="image/x-icon">
     <link rel="stylesheet" href="../css/bootstrap.min.css?v.1">
     <link href="https://cdn.datatables.net/v/bs5/jszip-2.5.0/dt-1.13.4/b-2.3.6/b-html5-2.3.6/b-print-2.3.6/r-2.4.1/sc-2.1.1/datatables.min.css?v.1" rel="stylesheet"/>
-    <link rel="stylesheet" href="../css/main.css?v1.12">
+    <link rel="stylesheet" href="../css/main.css?v1.13">
     <link rel="stylesheet" href="../css/all.min.css">
     
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
@@ -164,14 +164,14 @@
 
     <!-- Signatory sidebar -->
     <div class="sidenav-category mt-2">
-        <div class="custom-category">
+        <!-- <div class="custom-category">
             <a class="category-btn clink-text-single" href="index.php" >
                 <div>
                     <i class="fas fa-tachometer-slowest mx-2"></i>
                     <span class="category-text">Dashboard</span>
                 </div>
             </a>
-        </div>
+        </div> -->
         
         <div class="custom-category">
             <div class="category-btn">

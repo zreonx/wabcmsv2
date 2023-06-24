@@ -3,6 +3,7 @@
     require_once '../config/connection.php';
     $allOrg = $organization->getOrganizations();
     $allDept = $department->getDepartments();
+    $linkedDept = $organization->alreadyLinkedDepartment();
 ?>
     <div class="page">
         <?php if(isset($_GET['update'])){ echo '<div class="alert alert-success" id="err">Oranization has been updated.</div>'; } ?>
@@ -31,7 +32,13 @@
                                 <ul class="select-menu">
                                     <li data-value="0">Linked Department</li>
                                         <?php while($dept_row = $allDept->fetch(PDO::FETCH_ASSOC)): ?>
-                                            <li data-value="<?php echo $dept_row['id'] ?>"><?php echo $dept_row['department_code'] ?></li>
+                                            <li class="<?php 
+                                                    foreach($linkedDept as $orgs){
+                                                        if($dept_row['id'] == $orgs['linked_department'] && $orgs['linked_department'] != '999'){
+                                                            echo "clickable";
+                                                        }
+                                                    }
+                                                ?>" data-value="<?php echo $dept_row['id'] ?>"><?php echo $dept_row['department_code']  ?></li>
                                         <?php endwhile; ?>
                                     <li data-value="999">Other</li>
                                 </ul>
@@ -117,8 +124,38 @@
                             success: function(result) {
                                 $('#addOrgBtn').text("Save Changes");
                                 let org_info = JSON.parse(result);
+                                console.log(org_info);
                                 $('#organization_code').val(org_info.organization_code)
                                 $('#organization_name').val(org_info.organization_name)
+                                if(org_info.linked_department == '999') {
+                                    $('#linked_department').val(org_info.linked_department)
+                                    $('#crtext').text("Other")
+                                }else {
+                                    $.ajax({
+                                        type: "GET",
+                                        url: "../controller/org_edit_get_linked.php",
+                                        data: {
+                                            id : editId,
+                                        },
+                                        success: function(result) {
+                                            let dept_info = JSON.parse(result); 
+                                            console.log(dept_info);
+                                            $('#linked_department').val(dept_info.linked_department)
+                                            $('#crtext').text(dept_info.department_code)
+                                        }
+                                    });
+                                    
+                                }
+                               
+
+                                
+                               if(org_info.linked_department == '999') {
+                                $('#linked_department').val(org_info.linked_department)
+                                $('#crtext').text("Other")
+                               }else {
+                                $('#linked_department').val(org_info.linked_department)
+                                $('#crtext').text(org_info.department_code)
+                               }
                             }
                         })
                     })
@@ -136,6 +173,7 @@
                                     id : editId,
                                     organization_code: orgCode,
                                     organization_name: orgName,
+                                    linked_department: linkDept
                                 },
                                 success: function(result) {
                                     window.location.replace('org_management.php?update=success');

@@ -38,8 +38,22 @@ class Organization {
     public function getOrganization($id) {
         try {
 
-            $sql = "SELECT * FROM organizations WHERE id = $id";
+            $sql = "SELECT * FROM  organizations WHERE id = $id";
             $result = $this->conn->query($sql);
+            return $result;
+            
+        }catch(PDOException $e) {
+            echo "ERROR: " . $e->getMessage();
+            return false;
+        }
+    }
+
+    public function getOrganizationLinked($id) {
+        try {
+
+            $sql = "SELECT * FROM  organizations o INNER JOIN departments d ON o.linked_department = d.id WHERE o.id = $id";
+            $result = $this->conn->query($sql);
+            $count = $result->rowCount();
             return $result;
             
         }catch(PDOException $e) {
@@ -67,13 +81,14 @@ class Organization {
         }
     }
 
-    public function updateOrganization($id, $organization_code, $organization_name) {
+    public function updateOrganization($id, $organization_code, $organization_name, $linked_department) {
         try {
 
-            $sql = "UPDATE organizations SET organization_code = :org_code, organization_name = :org_name WHERE id = :id ; ";
+            $sql = "UPDATE organizations SET organization_code = :org_code, organization_name = :org_name, linked_department = :linked_department WHERE id = :id ; ";
             $stmt = $this->conn->prepare($sql);
             $stmt->bindparam(':org_code', $organization_code);
             $stmt->bindparam(':org_name', $organization_name);
+            $stmt->bindparam(':linked_department', $linked_department);
             $stmt->bindparam(':id', $id);
 
             $stmt->execute();
@@ -97,6 +112,20 @@ class Organization {
 
             return true;
 
+        }catch(PDOException $e) {
+            echo "ERROR: " . $e->getMessage();
+            return false;
+        }
+    }
+
+    public function alreadyLinkedDepartment() {
+        try {
+
+            $sql = "SELECT * FROM organizations WHERE status = 'active'";
+            $result = $this->conn->query($sql);
+            $data = $result->fetchAll(PDO::FETCH_ASSOC);
+            return $data;
+     
         }catch(PDOException $e) {
             echo "ERROR: " . $e->getMessage();
             return false;
