@@ -210,7 +210,23 @@
                     $('#deleteModal').modal('hide');
                     window.location.replace("../controller/sign_delete.php?id="+id);
                 });
-                
+
+                var timeoutId;
+
+                $('#email').keyup(function(){
+                    clearTimeout(timeoutId); 
+                    
+                    timeoutId = setTimeout(function() {
+                        var email = $('#email').val();
+                        var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; 
+                        if (!emailRegex.test(email)) {
+                            $('.text-danger.f-s').remove();
+                            $('#email').after('<div class="px-2 mt-1"><span class="text-danger f-s">Email is not valid</span></div>');
+                        } else {
+                            $('.text-danger.f-s').remove();
+                        }
+                    }, 500);
+                });
 
             </script>
             
