@@ -826,7 +826,7 @@ table.dataTable.dtr-inline.collapsed>tbody>tr>td.dtr-control:before, table.dataT
 .card-grid-s {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(225px, 1fr));
-    gap: 5px;
+    gap: 10px;
     row-gap: 14px;
 }
 
@@ -839,6 +839,14 @@ table.dataTable.dtr-inline.collapsed>tbody>tr>td.dtr-control:before, table.dataT
 
 .download-section{
     background-color: #029c63;
+}
+
+.b-pc {
+    position: absolute; 
+    bottom: 0; 
+    left: 0; 
+    right: 0;
+    width: 100%;
 }
 
 
@@ -871,6 +879,10 @@ table.dataTable.dtr-inline.collapsed>tbody>tr>td.dtr-control:before, table.dataT
     cursor: pointer;
 }
 
+.clearance-card-inactive { 
+    border-top: 4px solid var(--color-gray);
+}
+
 .clearance-card:hover { 
     box-shadow: var(--shadow-sm);
 }
@@ -879,11 +891,22 @@ table.dataTable.dtr-inline.collapsed>tbody>tr>td.dtr-control:before, table.dataT
     padding: 5px;
     cursor: pointer;
     border-radius: 50%;
-    color: var(--color-gray)
+    color:
+     var(--color-gray)
 }
 
 .info-btn:hover { 
     box-shadow: var(--shadow-sm);
+}
+
+.setoptions {
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--color-gray)
 }
 
 /* Dashboard Admin */
@@ -954,6 +977,11 @@ table.dataTable.dtr-inline.collapsed>tbody>tr>td.dtr-control:before, table.dataT
 
     border-radius: 0 0 8px 8px;
     cursor: pointer;
+}
+
+.arch-card { 
+    
+    height: 180px !important;
 }
 
 .sc-card:hover { 
@@ -1055,6 +1083,11 @@ ul li.clickable {
     background-color: rgb(240, 239, 239);
     color: #717171;
   }
+
+
+  .dropdown-menu {
+    --bs-dropdown-link-active-bg: #8ee8c5;
+  }
 /* Media Queries */
 
 @media only screen and (max-width: 540px) {
@@ -1104,6 +1137,10 @@ ul li.clickable {
     .dc-overview {
         flex-direction: column !important;
         
+    }
+
+    .b-pc {
+        position: relative; 
     }
 
 }
@@ -1164,6 +1201,9 @@ ul li.clickable {
         width: 100% !important;
     }
 
+    .b-pc {
+        position: relative; 
+    }
 
 
     /* .cl-grid{
