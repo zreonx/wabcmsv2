@@ -14,9 +14,9 @@
                    <div class="page-filter d-flex flex-wrap justify-content-sm-between gap-2 align-items-center">
                         <div class="d-flex gap-2 justify-content-sm-center mb-2 align-items-center">
                             <span class="f-d">Filter</span>
-                            <button class="btn btn-search btn-success btn-sm btn-rounded">All</button>
-                            <button class="btn btn-search btn-success btn-sm btn-rounded">Student</button>
-                            <button class="btn btn-search btn-success btn-sm btn-rounded">Signatory</button>
+                            <button class="btn btn-search btn-success btn-sm btn-rounded" id="filterAllUser">All</button>
+                            <button class="btn btn-search btn-success btn-sm btn-rounded" id="filterAllStudent">Student</button>
+                            <button class="btn btn-search btn-success btn-sm btn-rounded" id="filterAllSignatory">Signatory</button>
                         </div>
                         <div class="d-flex align-self-start gap-2 mb-2">
                             <input class="form-control form-control-sm" type="text" id="search-val" placeholder="Search...">
@@ -75,6 +75,7 @@
                     </div>
                 </div>
             </div>
+            <script src="../js/filter_student.js?v.2"></script>
             <script>
                 $(document).ready(function(){
                     var editId;

@@ -10,7 +10,7 @@
     $next_year = date('Y', strtotime($current_year . ' +1 year'));
 
 ?>
-    <div class="page">
+    <div class="page position-relative">
         <?php if(isset($_GET['success'])){ echo '<div class="alert alert-success" id="err">Clearance has been created.</div>'; } ?>
         <?php if(isset($_GET['delete'])){ echo '<div class="alert alert-success" id="err">Clearance has been deleted.</div>'; } ?>
         <h1 class="page-title fs-5 display-6">Clearance Management</h1>
@@ -280,6 +280,7 @@
                                                    </div>
                                                 </div>
                                            <div class="ms-auto d-flex gap-2 berow">
+                                                <a href="student_clearance_record.php" class="btn btn-success rounded dis-btn fs-5" data-bs-toggle="tooltip" title="View Student Clearance"><i class="fas fa-external-link"></i></a>
                                                 <button id="printReport" class="btn btn-success rounded dis-btn fs-5" data-bs-toggle="tooltip" title="Print Student Clearance"><i class="fas fa-print"></i></button>
                                                 <button type="button" class="btn btn-secondary rounded ms-auto" data-bs-dismiss="modal">Cancel</button>
                                            </div>
@@ -587,30 +588,70 @@
 
                     $('#deployStudentBtn').click(function(){
                         let beneficiary = clearance_data.clearance_beneficiary;
-                        $.ajax({
-                            method : "POST",
-                            url: "../controller/clearance_deploy_student.php",
-                            data: {
-                                id : clearance_id,
-                            },
-                            success: function(response) {
-                                console.log(response);
-                                $('#deploySignatoryBtn').prop('disabled', true);
-                                $('#deployStudentBtn').prop('disabled', true);
-                                $('#endClearanceBtn').prop('disabled', false);
-                            }
-                        });
 
                         $.ajax({
                             method : "POST",
-                            url: "../controller/clearance_record_student.php",
+                            url: "../controller/clearance_submit_status.php",
                             data: {
                                 id : clearance_id,
                             },
                             success: function(response) {
-                                 console.log(response);
+                                let submissionStatus = JSON.parse(response);
+
+                                let submittedCount = 0;
+                                $.each(submissionStatus.submission, function(index, value){
+
+                                    let cd_status = value.cd_status;
+                                    if(cd_status == '1'){
+                                        submittedCount += 1;
+                                    }
+                                })
+
+                                console.log(submittedCount);
+
+                                if(submittedCount < submissionStatus.count){
+                                    $('.page').prepend('<div class="popup-message"><div class="alert alert-danger shadow-xl" role="alert">Signatories are not yet submitting!</div>');
+                                    $('.popup-message').animate({opacity: 1}, 800)
+                                    setTimeout(function(){
+                                        $('.popup-message').animate({opacity: 0}, 800, function() {
+                                            $(this).remove();
+                                        });
+                                    },3000);
+                                }else{
+                                    $.ajax({
+                                        method : "POST",
+                                        url: "../controller/clearance_deploy_student.php",
+                                        data: {
+                                            id : clearance_id,
+                                        },
+                                        success: function(response) {
+                                            console.log(response);
+                                            $('#deploySignatoryBtn').prop('disabled', true);
+                                            $('#deployStudentBtn').prop('disabled', true);
+                                            $('#endClearanceBtn').prop('disabled', false);
+                                        }
+                                    });
+
+                                    $.ajax({
+                                        method : "POST",
+                                        url: "../controller/clearance_record_student.php",
+                                        data: {
+                                            id : clearance_id,
+                                        },
+                                        success: function(response) {
+                                            console.log(response);
+                                        }
+                                    });
+                                }
+                                
                             }
                         });
+
+
+
+                       
+
+                        
                     }); 
 
                     $('#endClearanceBtn').click(function(){

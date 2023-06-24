@@ -131,6 +131,21 @@ class Organization {
             return false;
         }
     }
+
+    public function orgLinkedDepartmentInformation($department_id) {
+        try {
+            $sql = "SELECT * FROM organizations WHERE linked_department = '$department_id' AND status = 'active'";
+            $result = $this->conn->query($sql);
+            $data = $result->fetch(PDO::FETCH_ASSOC);
+            return $data;
+     
+        }catch(PDOException $e) {
+            echo "ERROR: " . $e->getMessage();
+            return false;
+        }
+    }
+
+    
     
     
     

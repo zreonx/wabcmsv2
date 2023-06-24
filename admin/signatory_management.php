@@ -12,7 +12,6 @@
                 
 
                 <div class="col-lg-5 pt-2 px-4">
-                
                     <form action="../controller/sign_add.php" method="POST">
                         <label class="form-label">Manage Signatory</label>
                         <div class="p-1 px-3">
@@ -53,7 +52,13 @@
 
                
                 <div class="col-lg-7 pt-2 px-4">
-                    <label class="form-label">List of Signatories</label>
+                       <div class="d-flex flex-wrap justify-content-between">
+                            <label class="form-label">List of Signatories</label>
+                            <div class="d-flex gap-2 mb-2">
+                                <input class="form-control form-control-sm" type="text" id="search-val" placeholder="Search...">
+                                <!-- <button class="btn btn-search btn-success btn-sm rounded" id="searchBtn">SEARCH</button> -->
+                            </div>
+                       </div>
                     <div class="custom-table px-3 pb-3">
                         <table class="table text-center display w-100 mb-2" id="my-datable"">
                             <thead>

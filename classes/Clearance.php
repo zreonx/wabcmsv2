@@ -251,18 +251,17 @@ class Clearance {
         }
     }
 
-    public function insertStudentToTable($table_name, $clearance_id, $semester, $academic_year, $student_id, $date_cleared) {
+    public function insertStudentToTable($table_name, $clearance_id, $semester, $academic_year, $student_id) {
         try {
             $status = "initialized";
             //$this->insertStudentClearanceRecord($clearance_id, $signatory_id, $table_name, $student_id, '1');
 
-            $sql = "INSERT INTO $table_name (clearance_id, semester, academic_year, student_id, student_clearance_status, date_cleared) VALUES (:clearance_id, :semester, :academic_year, :student_id, '2', :date_cleared); ";
+            $sql = "INSERT INTO $table_name (clearance_id, semester, academic_year, student_id, student_clearance_status, date_cleared) VALUES (:clearance_id, :semester, :academic_year, :student_id, '2', ''); ";
             $stmt = $this->conn->prepare($sql);
             $stmt->bindparam(':clearance_id', $clearance_id);
             $stmt->bindparam(':semester', $semester);
             $stmt->bindparam(':academic_year', $academic_year);
             $stmt->bindparam(':student_id', $student_id);
-            $stmt->bindparam(':date_cleared', '');
             $stmt->execute();
             
             
@@ -826,6 +825,17 @@ class Clearance {
         }
     }
 
+    public function allActiveSignatoryTableOrgById($clearance_id) {
+        try {
+            $sql = "SELECT * FROM designation_clearance_signatory dr INNER JOIN organizations o ON dr.workplace COLLATE utf8mb4_general_ci = o.organization_code  WHERE dr.status = 'active' AND dr.workplace COLLATE utf8mb4_general_ci = o.organization_code AND dr.clearance_id = '$clearance_id'; ";
+            $result = $this->conn->query($sql);
+            return $result->fetchAll(PDO::FETCH_ASSOC);
+        }catch(PDOException $e) {
+            echo "ERROR: " . $e->getMessage();
+            return false;
+        }
+    }
+
 
     public function getStudentCourseId($department) {
         try {
@@ -862,12 +872,4 @@ class Clearance {
     }
 
 
-
-
-
-
-    
-    
-
-    
 }

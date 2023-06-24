@@ -69,7 +69,7 @@ class User {
 
     public function getUserType($email) {
         try {
-            $sql = "SELECT * FROM users WHERE email = '$email' AND status = 'active' ";
+            $sql = "SELECT * FROM users WHERE email = '$email' OR user_id = '$email' AND status = 'active' ";
             $result = $this->conn->query($sql);
             $user_type = $result->fetch(PDO::FETCH_ASSOC);
             
@@ -84,13 +84,24 @@ class User {
     public function loginUser($user_type, $email, $password) {
         try {
 
-            $sql = 'SELECT * FROM users WHERE user_type = :type AND email = :email AND password = :password ;';
-            $stmt = $this->conn->prepare($sql);
-            $stmt->bindparam(':type', $user_type);
-            $stmt->bindparam(':email', $email);
-            $stmt->bindparam(':password', $password);
-            $stmt->execute();
-            $result = $stmt->fetch(PDO::FETCH_ASSOC);
+            if($user_type == "student"){
+                $sql = 'SELECT * FROM users WHERE user_type = :type AND email = :email OR user_id = :email AND password = :password ;';
+                $stmt = $this->conn->prepare($sql);
+                $stmt->bindparam(':type', $user_type);
+                $stmt->bindparam(':email', $email);
+                $stmt->bindparam(':password', $password);
+                $stmt->execute();
+                $result = $stmt->fetch(PDO::FETCH_ASSOC);
+            }else {
+                $sql = 'SELECT * FROM users WHERE user_type = :type AND email = :email AND password = :password ;';
+                $stmt = $this->conn->prepare($sql);
+                $stmt->bindparam(':type', $user_type);
+                $stmt->bindparam(':email', $email);
+                $stmt->bindparam(':password', $password);
+                $stmt->execute();
+                $result = $stmt->fetch(PDO::FETCH_ASSOC);
+            }
+           
             return $result;
 
 

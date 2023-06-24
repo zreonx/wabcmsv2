@@ -11,7 +11,9 @@
 
     $allSignatory = $clearance->allActiveSignatoryTable();
     $allSignatoryById = $clearance->allActiveSignatoryTableById($clearance_id);
-    $allSigOrgById = $clearance->allActiveSignatoryTableOrgById($clearance_id);
+    $allSignatoryOrgById = $clearance->allActiveSignatoryTableOrgById($clearance_id);
+
+    print_r($allSignatoryOrgById);
 
     $allSignatoryOrg = $clearance->allActiveSignatoryTableOrg();
 
@@ -26,10 +28,6 @@
       </div>
         <div class="page-content rounded ">
             <?php if($user_data['academic_level'] == 'College'): ?>
-            <?php
-               $course_id = $clearance->getStudentCourseId($user_data['program_course']);
-               $deptOrg = $organization->orgLinkedDepartmentInformation($course_id);             
-            ?>
             <div class="college"> 
                 <div class="cl-page mx-auto default-border shadow-sm">
 
@@ -178,231 +176,251 @@
                         <h1 class="fs-6 text-center">STUDENT AFFAIRS AND SERVICES CLEARANCE</h1>
                     </div>
 
-                    <div class="d-flex gap-4 text-center mb-3 berow">
+                    <div class="cl-grid gap-4 text-center mb-5 berow">
                         <div class="d-flex flex-column justify-content-center mt-2">
                             <?php 
-                                $yourOrgPres = false;
-                                foreach($allSigOrgById as $sigOrg){
-                                   if($course_id == $sigOrg['linked_department']){
-                                        $search = strtolower($deptOrg['organization_code']) . "_president";
-                                        if(preg_match("/$search/", $sigOrg['designation_table'])){
-                                            $checkIfRegistered = $clearance->checkIfStudentIsInside($sigOrg['designation_table'], $user_data['student_id'], $clearance_id);
-                                            if($checkIfRegistered > 0) {
-                                                $yourOrgPres = true;
-                                                $cleared_info = $clearance->checkIfCleared($sigOrg['designation_table'], $user_data['student_id'], $clearance_id);
+                                foreach($allSignatoryOrg as $sigOrg){
+                                    $yourOrg = false;
+                                    $course_id = $clearance->getStudentCourseId($user_data['program_course']);
+                                    $search = strtolower($user_data['program_course']) . "_president";
+                                    if($course_id != $sigOrg['linked_department']){
+                                        $checkIfRegistered = $clearance->checkIfStudentIsInside($sigOrg['signatory_clearance_table_name'], $user_data['student_id'], $clearance_id);
+                                        if($checkIfRegistered > 0) {
+                                            $yourOrg = true;
+                                            if(preg_match("/president/", $sigOrg['signatory_clearance_table_name']) AND !preg_match("/sp/", $sigOrg['signatory_clearance_table_name'])){
+                                                $cleared_info = $clearance->checkIfCleared($sigOrg['signatory_clearance_table_name'], $user_data['student_id'], $clearance_id);
                                                 if(!empty($cleared_info)){
                                                     if($cleared_info['student_clearance_status'] == '1'){
                                                         echo '<div><i class="far fs-4 fa-check"></i></div>';
                                                     }else{
-                                                        echo '<div data-bs-toggle="tooltip" title="View Deficiency"><div class="d-flex align-items-center gap-2 justify-content-center view-def-btn" data-value="'. $sigOrg['designation_table'] .'" id="view-def-btn" data-bs-toggle="modal" data-bs-target="#viewMessage"><i class="fal fs-4 text-danger fa-exclamation-circle"></i><a class="f-s text-decoration-none text-success">View Message<a></div></div>';
+                                                        echo '<div data-bs-toggle="tooltip" title="View Deficiency"><div class="d-flex align-items-center gap-2 justify-content-center view-def-btn" data-value="'. $sigTable['designation_table'] .'" id="view-def-btn" data-bs-toggle="modal" data-bs-target="#viewMessage"><i class="fal fs-4 text-danger fa-exclamation-circle"></i><a class="f-s text-decoration-none text-success">View Message<a></div></div>';
                                                     }
                                                     $sig_info = $signatory->getAllSignatory($sigOrg['signatory_id']);
                                                     echo '
                                                     <hr class="my-2 c-hr mx-auto"/>
                                                     <h1 class="f-d m-0">'. $sig_info['first_name'] . ' ' . $sig_info['middle_name'] . ' ' . $sig_info['last_name'].'</h1>
                                                     ';
-                                                    echo '<span class="fs-d">'. $sigOrg['workplace']. ' ' .'President</span>';
+                                                    echo '<span class="fs-d">'. $sigOrg['signatory_workplace_name']. ' ' .'President</span>';
                                                 }
                                             }
                                             break;
                                         }
-                                       
-                                   }
-
+                                    }
                                 }
-    
+                                if(!$yourOrg){
+                                    echo "You does not have other organization";
+                                }
+                            
                             ?>
-                        </div>  
+                            
+                        </div>
+                        <div class="d-flex flex-column justify-content-center mt-2">
+                            <?php 
+                                foreach($allSignatoryOrg as $sigOrg){
+                                    $yourOrgAd = false;
+                                    if(preg_match("/adviser/", $sigOrg['signatory_clearance_table_name'])){
+                                        if($course_id != $sigOrg['linked_department'] AND !preg_match("/sp/", $sigOrg['signatory_clearance_table_name'])){
+                                            if($checkIfRegistered > 0) {
+                                                $yourOrgAd = true;
+                                                if(preg_match("/adviser/", $sigOrg['signatory_clearance_table_name']) AND !preg_match("/sp/", $sigOrg['signatory_clearance_table_name'])){
+                                                    $cleared_info = $clearance->checkIfCleared($sigOrg['signatory_clearance_table_name'], $user_data['student_id'], $clearance_id);
+                                                    if(!empty($cleared_info)){
+                                                        if($cleared_info['student_clearance_status'] == '1'){
+                                                            echo '<div><i class="far fs-4 fa-check"></i></div>';
+                                                        }else{
+                                                            echo '<div data-bs-toggle="tooltip" title="View Deficiency"><div class="d-flex align-items-center gap-2 justify-content-center view-def-btn" data-value="'. $sigTable['designation_table'] .'" id="view-def-btn" data-bs-toggle="modal" data-bs-target="#viewMessage"><i class="fal fs-4 text-danger fa-exclamation-circle"></i><a class="f-s text-decoration-none text-success">View Message<a></div></div>';
+                                                        }
+                                                        $sig_info = $signatory->getAllSignatory($sigOrg['signatory_id']);
+                                                        echo '
+                                                        <hr class="my-2 c-hr mx-auto"/>
+                                                        <h1 class="f-d m-0">'. $sig_info['first_name'] . ' ' . $sig_info['middle_name'] . ' ' . $sig_info['last_name'].'</h1>
+                                                        ';
+                                                        echo '<span class="fs-d">'. $sigOrg['signatory_workplace_name']. ' ' .'President</span>';
+                                                    }
+                                                }
+                                                break;
+                                            }
+                                        }
+                                    }
+                                    
+                                }   
+                                if(!$yourOrgAd){
+                                    echo "You does not have other organization";
+                                }
+                               
+                            ?>
+                            
+                        </div>
+
+                        
+                        
+
+                        
+                    </div>
+
+                    <div class="d-flex gap-2 justify-content-evenly text-center px-5 mb-5">
                         <div class="d-flex flex-column justify-content-center">
                             <?php 
-                                $yourOrgPres = false;
-                                foreach($allSigOrgById as $sigOrg){
-                                   if($course_id == $sigOrg['linked_department']){
-                                        $search = strtolower($deptOrg['organization_code']) . "_adviser";
-                                        if(preg_match("/$search/", $sigOrg['designation_table'])){
-                                            $checkIfRegistered = $clearance->checkIfStudentIsInside($sigOrg['designation_table'], $user_data['student_id'], $clearance_id);
-                                            if($checkIfRegistered > 0) {
-                                                $yourOrgPres = true;
-                                                $cleared_info = $clearance->checkIfCleared($sigOrg['designation_table'], $user_data['student_id'], $clearance_id);
-                                                if(!empty($cleared_info)){
-                                                    if($cleared_info['student_clearance_status'] == '1'){
-                                                        echo '<div><i class="far fs-4 fa-check"></i></div>';
-                                                    }else{
-                                                        echo '<div data-bs-toggle="tooltip" title="View Deficiency"><div class="d-flex align-items-center gap-2 justify-content-center view-def-btn" data-value="'. $sigOrg['designation_table'] .'" id="view-def-btn" data-bs-toggle="modal" data-bs-target="#viewMessage"><i class="fal fs-4 text-danger fa-exclamation-circle"></i><a class="f-s text-decoration-none text-success">View Message<a></div></div>';
-                                                    }
-                                                    $sig_info = $signatory->getAllSignatory($sigOrg['signatory_id']);
-                                                    echo '
-                                                    <hr class="my-2 c-hr mx-auto"/>
-                                                    <h1 class="f-d m-0">'. $sig_info['first_name'] . ' ' . $sig_info['middle_name'] . ' ' . $sig_info['last_name'].'</h1>
-                                                    ';
-                                                    echo '<span class="fs-d">'. $sigOrg['workplace']. ' ' .'President</span>';
-                                                }
-                                            }
-                                            break;
-                                        }
-                                       
-                                   }
+                                $yourOrgDeptPres = false;
+                                foreach($allSignatoryOrg as $sigOrg){
+                                    $course_id = $clearance->getStudentCourseId($user_data['program_course']);
 
-                                }
-    
-                            ?>
-                        </div>  
-                    </div>
+                                    $search = strtolower($user_data['program_course']) . "_president";
 
-                    <div class="d-flex gap-4 text-center mb-3 berow">
-                        <div class="d-flex flex-column justify-content-center mt-2">
-                            <?php 
-                                $yourOrgPres = false;
-                                foreach($allSigOrgById as $sigOrg){
-                                   if($course_id != $sigOrg['linked_department']){
-                                        $search = "";
-                                        $checkIfRegistered = $clearance->checkIfStudentIsInside($sigOrg['designation_table'], $user_data['student_id'], $clearance_id);
+                                    if($course_id == $sigOrg['linked_department']){
+
+                                        $checkIfRegistered = $clearance->checkIfStudentIsInside($sigOrg['signatory_clearance_table_name'], $user_data['student_id'], $clearance_id);
                                         if($checkIfRegistered > 0) {
-                                            if(preg_match("/president/", $sigOrg['designation_table']) AND !preg_match("/sp/", $sigOrg['designation_table'])){
-                                                $checkIfRegistered = $clearance->checkIfStudentIsInside($sigOrg['designation_table'], $user_data['student_id'], $clearance_id);
-                                                $yourOrgPres = true;
-                                                $cleared_info = $clearance->checkIfCleared($sigOrg['designation_table'], $user_data['student_id'], $clearance_id);
+                                            if(preg_match("/president/", $sigOrg['signatory_clearance_table_name'])){
+                                                $yourOrgDeptPres = true;
+                                                $cleared_info = $clearance->checkIfCleared($sigOrg['signatory_clearance_table_name'], $user_data['student_id'], $clearance_id);
                                                 if(!empty($cleared_info)){
                                                     if($cleared_info['student_clearance_status'] == '1'){
                                                         echo '<div><i class="far fs-4 fa-check"></i></div>';
                                                     }else{
-                                                        echo '<div data-bs-toggle="tooltip" title="View Deficiency"><div class="d-flex align-items-center gap-2 justify-content-center view-def-btn" data-value="'. $sigOrg['designation_table'] .'" id="view-def-btn" data-bs-toggle="modal" data-bs-target="#viewMessage"><i class="fal fs-4 text-danger fa-exclamation-circle"></i><a class="f-s text-decoration-none text-success">View Message<a></div></div>';
+                                                        echo '<div data-bs-toggle="tooltip" title="View Deficiency"><div class="d-flex align-items-center gap-2 justify-content-center view-def-btn" data-value="'. $sigTable['designation_table'] .'" id="view-def-btn" data-bs-toggle="modal" data-bs-target="#viewMessage"><i class="fal fs-4 text-danger fa-exclamation-circle"></i><a class="f-s text-decoration-none text-success">View Message<a></div></div>';
                                                     }
                                                     $sig_info = $signatory->getAllSignatory($sigOrg['signatory_id']);
                                                     echo '
                                                     <hr class="my-2 c-hr mx-auto"/>
                                                     <h1 class="f-d m-0">'. $sig_info['first_name'] . ' ' . $sig_info['middle_name'] . ' ' . $sig_info['last_name'].'</h1>
                                                     ';
-                                                    echo '<span class="fs-d">'. $sigOrg['workplace']. ' ' .'President</span>';
+                                                    echo '<span class="fs-d">'. $sigOrg['signatory_workplace_name']. ' ' .'President</span>';
                                                 }
-                                                break;
                                             }
-                                        }
-                                        
-                                       
-                                   }
 
+                                        }
+                                    }
                                 }
-    
+                                if(!$yourOrgDeptPres){
+                                    echo "Youre not registered to your departmental organization";
+                                }
+                            
                             ?>
-                        </div>  
+                            
+                        </div>
                     </div>
-                    <div class="d-flex gap-4 text-center mb-3 berow">
-                        <div class="d-flex flex-column justify-content-center mt-2">
+
+                    <div class="d-flex gap-2 justify-content-evenly text-center px-5 mb-5">
+                        <div class="d-flex flex-column justify-content-center">
                             <?php 
-                                $yourOrgPres = false;
-                                foreach($allSigOrgById as $sigOrg){
-                                   if($course_id != $sigOrg['linked_department']){
-                                        $search = "";
-                                        $checkIfRegistered = $clearance->checkIfStudentIsInside($sigOrg['designation_table'], $user_data['student_id'], $clearance_id);
+                                $yourOrgDeptAd = false;
+                                foreach($allSignatoryOrg as $sigOrg){
+                                    $course_id = $clearance->getStudentCourseId($user_data['program_course']);
+
+                                    $search = strtolower($user_data['program_course']) . "_president";
+
+                                    if($course_id == $sigOrg['linked_department']){
+
+                                        $checkIfRegistered = $clearance->checkIfStudentIsInside($sigOrg['signatory_clearance_table_name'], $user_data['student_id'], $clearance_id);
                                         if($checkIfRegistered > 0) {
-                                            if(preg_match("/adviser/", $sigOrg['designation_table']) AND !preg_match("/sp/", $sigOrg['designation_table'])){
-                                                $checkIfRegistered = $clearance->checkIfStudentIsInside($sigOrg['designation_table'], $user_data['student_id'], $clearance_id);
-                                                $yourOrgPres = true;
-                                                $cleared_info = $clearance->checkIfCleared($sigOrg['designation_table'], $user_data['student_id'], $clearance_id);
+                                            if(preg_match("/adviser/", $sigOrg['signatory_clearance_table_name'])){
+                                                $yourOrgDeptAd = true;
+                                                $cleared_info = $clearance->checkIfCleared($sigOrg['signatory_clearance_table_name'], $user_data['student_id'], $clearance_id);
                                                 if(!empty($cleared_info)){
                                                     if($cleared_info['student_clearance_status'] == '1'){
                                                         echo '<div><i class="far fs-4 fa-check"></i></div>';
                                                     }else{
-                                                        echo '<div data-bs-toggle="tooltip" title="View Deficiency"><div class="d-flex align-items-center gap-2 justify-content-center view-def-btn" data-value="'. $sigOrg['designation_table'] .'" id="view-def-btn" data-bs-toggle="modal" data-bs-target="#viewMessage"><i class="fal fs-4 text-danger fa-exclamation-circle"></i><a class="f-s text-decoration-none text-success">View Message<a></div></div>';
+                                                        echo '<div data-bs-toggle="tooltip" title="View Deficiency"><div class="d-flex align-items-center gap-2 justify-content-center view-def-btn" data-value="'. $sigTable['designation_table'] .'" id="view-def-btn" data-bs-toggle="modal" data-bs-target="#viewMessage"><i class="fal fs-4 text-danger fa-exclamation-circle"></i><a class="f-s text-decoration-none text-success">View Message<a></div></div>';
                                                     }
                                                     $sig_info = $signatory->getAllSignatory($sigOrg['signatory_id']);
                                                     echo '
                                                     <hr class="my-2 c-hr mx-auto"/>
                                                     <h1 class="f-d m-0">'. $sig_info['first_name'] . ' ' . $sig_info['middle_name'] . ' ' . $sig_info['last_name'].'</h1>
                                                     ';
-                                                    echo '<span class="fs-d">'. $sigOrg['workplace']. ' ' .'Adviser</span>';
+                                                    echo '<span class="fs-d">'. $sigOrg['signatory_workplace_name']. ' ' .'Adviser</span>';
                                                 }
-                                                break;
+                                            }
+
+                                        }
+                                    }
+                                }
+                                if(!$yourOrgDeptAd){
+                                    echo "Youre not registered to your departmental organization";
+                                }
+                            
+                            ?>
+                            
+                        </div>
+                    </div>
+
+
+                    <div class="d-flex gap-2 justify-content-evenly text-center px-5 mb-5">
+                        <div class="d-flex flex-column justify-content-center">
+                            <?php
+                             $spexistpres = false;
+                            foreach($allSignatoryOrg as $sigOrg){
+                                $course_id = $clearance->getStudentCourseId($user_data['program_course']);
+                                $search = strtolower($user_data['program_course']) . "_president";
+                                if($course_id != $sigOrg['linked_department']){
+                                    $checkIfRegistered = $clearance->checkIfStudentIsInside($sigOrg['signatory_clearance_table_name'], $user_data['student_id'], $clearance_id);
+                                    if($checkIfRegistered > 0) {
+                                        $spexistpres = true;
+                                        if(preg_match("/sp_president/", $sigOrg['signatory_clearance_table_name'])){
+                                            $cleared_info = $clearance->checkIfCleared($sigOrg['signatory_clearance_table_name'], $user_data['student_id'], $clearance_id);
+                                            if(!empty($cleared_info)){
+                                                if($cleared_info['student_clearance_status'] == '1'){
+                                                    echo '<div><i class="far fs-4 fa-check"></i></div>';
+                                                }else{
+                                                    echo '<div data-bs-toggle="tooltip" title="View Deficiency"><div class="d-flex align-items-center gap-2 justify-content-center view-def-btn" data-value="'. $sigTable['designation_table'] .'" id="view-def-btn" data-bs-toggle="modal" data-bs-target="#viewMessage"><i class="fal fs-4 text-danger fa-exclamation-circle"></i><a class="f-s text-decoration-none text-success">View Message<a></div></div>';
+                                                }
+                                                $sig_info = $signatory->getAllSignatory($sigOrg['signatory_id']);
+                                                echo '
+                                                <hr class="my-2 c-hr mx-auto"/>
+                                                <h1 class="f-d m-0">'. $sig_info['first_name'] . ' ' . $sig_info['middle_name'] . ' ' . $sig_info['last_name'].'</h1>
+                                                ';
+                                                echo '<span class="fs-d">'. $sigOrg['signatory_workplace_name']. ' ' .'President</span>';
                                             }
                                         }
-                                        
-                                       
-                                   }
-
+                                    }
                                 }
-    
+                            }
+                            if(!$spexistpres){
+                                echo "SP does not set yet.";
+                            }
                             ?>
-                        </div>  
+                            
+                        </div>
                     </div>
-                    <div class="d-flex gap-4 text-center mb-3 berow">
-                        <div class="d-flex flex-column justify-content-center mt-2">
-                            <?php 
-                                $yourOrgPres = false;
-                                foreach($allSigOrgById as $sigOrg){
-                                   if($course_id != $sigOrg['linked_department']){
-                                        $search = "";
-                                        $checkIfRegistered = $clearance->checkIfStudentIsInside($sigOrg['designation_table'], $user_data['student_id'], $clearance_id);
-                                        if($checkIfRegistered > 0) {
-                                            if(preg_match("/sp_president/", $sigOrg['designation_table'])){
-                                                $checkIfRegistered = $clearance->checkIfStudentIsInside($sigOrg['designation_table'], $user_data['student_id'], $clearance_id);
-                                                $yourOrgPres = true;
-                                                $cleared_info = $clearance->checkIfCleared($sigOrg['designation_table'], $user_data['student_id'], $clearance_id);
-                                                if(!empty($cleared_info)){
-                                                    if($cleared_info['student_clearance_status'] == '1'){
-                                                        echo '<div><i class="far fs-4 fa-check"></i></div>';
-                                                    }else{
-                                                        echo '<div data-bs-toggle="tooltip" title="View Deficiency"><div class="d-flex align-items-center gap-2 justify-content-center view-def-btn" data-value="'. $sigOrg['designation_table'] .'" id="view-def-btn" data-bs-toggle="modal" data-bs-target="#viewMessage"><i class="fal fs-4 text-danger fa-exclamation-circle"></i><a class="f-s text-decoration-none text-success">View Message<a></div></div>';
-                                                    }
-                                                    $sig_info = $signatory->getAllSignatory($sigOrg['signatory_id']);
-                                                    echo '
-                                                    <hr class="my-2 c-hr mx-auto"/>
-                                                    <h1 class="f-d m-0">'. $sig_info['first_name'] . ' ' . $sig_info['middle_name'] . ' ' . $sig_info['last_name'].'</h1>
-                                                    ';
-                                                    echo '<span class="fs-d">'. $sigOrg['workplace']. ' ' .'President</span>';
+
+                    <div class="d-flex gap-2 justify-content-evenly text-center px-5 mb-5">
+                        <div class="d-flex flex-column justify-content-center">
+                            <?php
+                            $spexistadv = false;
+                            foreach($allSignatoryOrg as $sigOrg){
+                                $course_id = $clearance->getStudentCourseId($user_data['program_course']);
+                                $search = strtolower($user_data['program_course']) . "_president";
+                                if($course_id != $sigOrg['linked_department']){
+                                    $checkIfRegistered = $clearance->checkIfStudentIsInside($sigOrg['signatory_clearance_table_name'], $user_data['student_id'], $clearance_id);
+                                    if($checkIfRegistered > 0) {
+                                        $spexistadv = true;
+                                        if(preg_match("/sp_adviser/", $sigOrg['signatory_clearance_table_name'])){
+                                            $cleared_info = $clearance->checkIfCleared($sigOrg['signatory_clearance_table_name'], $user_data['student_id'], $clearance_id);
+                                            if(!empty($cleared_info)){
+                                                if($cleared_info['student_clearance_status'] == '1'){
+                                                    echo '<div><i class="far fs-4 fa-check"></i></div>';
+                                                }else{
+                                                    echo '<div data-bs-toggle="tooltip" title="View Deficiency"><div class="d-flex align-items-center gap-2 justify-content-center view-def-btn" data-value="'. $sigTable['designation_table'] .'" id="view-def-btn" data-bs-toggle="modal" data-bs-target="#viewMessage"><i class="fal fs-4 text-danger fa-exclamation-circle"></i><a class="f-s text-decoration-none text-success">View Message<a></div></div>';
                                                 }
-                                                break;
+                                                $sig_info = $signatory->getAllSignatory($sigOrg['signatory_id']);
+                                                echo '
+                                                <hr class="my-2 c-hr mx-auto"/>
+                                                <h1 class="f-d m-0">'. $sig_info['first_name'] . ' ' . $sig_info['middle_name'] . ' ' . $sig_info['last_name'].'</h1>
+                                                ';
+                                                echo '<span class="fs-d">'. $sigOrg['signatory_workplace_name']. ' ' .'President</span>';
                                             }
                                         }
-                                        
-                                       
-                                   }
-
+                                    }
                                 }
-    
+                            }
+                            if(!$spexistadv){
+                                echo "SP does not set yet.";
+                            }
                             ?>
-                        </div>  
+                            
+                        </div>
                     </div>
-                    <div class="d-flex gap-4 text-center mb-3 berow">
-                        <div class="d-flex flex-column justify-content-center mt-2">
-                            <?php 
-                                $yourOrgPres = false;
-                                foreach($allSigOrgById as $sigOrg){
-                                   if($course_id != $sigOrg['linked_department']){
-                                        $checkIfRegistered = $clearance->checkIfStudentIsInside($sigOrg['designation_table'], $user_data['student_id'], $clearance_id);
-                                        if($checkIfRegistered > 0) {
-                                            if(preg_match("/sp_adviser/", $sigOrg['designation_table'])){
-                                                $checkIfRegistered = $clearance->checkIfStudentIsInside($sigOrg['designation_table'], $user_data['student_id'], $clearance_id);
-                                                $yourOrgPres = true;
-                                                $cleared_info = $clearance->checkIfCleared($sigOrg['designation_table'], $user_data['student_id'], $clearance_id);
-                                                if(!empty($cleared_info)){
-                                                    if($cleared_info['student_clearance_status'] == '1'){
-                                                        echo '<div><i class="far fs-4 fa-check"></i></div>';
-                                                    }else{
-                                                        echo '<div data-bs-toggle="tooltip" title="View Deficiency"><div class="d-flex align-items-center gap-2 justify-content-center view-def-btn" data-value="'. $sigOrg['designation_table'] .'" id="view-def-btn" data-bs-toggle="modal" data-bs-target="#viewMessage"><i class="fal fs-4 text-danger fa-exclamation-circle"></i><a class="f-s text-decoration-none text-success">View Message<a></div></div>';
-                                                    }
-                                                    $sig_info = $signatory->getAllSignatory($sigOrg['signatory_id']);
-                                                    echo '
-                                                    <hr class="my-2 c-hr mx-auto"/>
-                                                    <h1 class="f-d m-0">'. $sig_info['first_name'] . ' ' . $sig_info['middle_name'] . ' ' . $sig_info['last_name'].'</h1>
-                                                    ';
-                                                    echo '<span class="fs-d">'. $sigOrg['workplace']. ' ' .'Adviser</span>';
-                                                }
-                                                break;
-                                            }
-                                        }
-                                        
-                                       
-                                   }
-
-                                }
-    
-                            ?>
-                        </div>  
-                    </div>
-                    
                 </div>
-
             </div>  
             <?php elseif($user_data['academic_level'] == 'SHS'): ?>
             <div class="shs">
@@ -424,39 +442,38 @@
                         <div class="t-justify">This is to certify that <strong><?php echo $user_data['first_name'] . " " . $midname . $user_data['last_name'] ; ?></strong>, with student No. <strong><?php echo $user_data['student_id']; ?></strong>, is a student of the City College of Calapan and he/she is cleared from all of his/her obligations this <?php echo $cl_info['semester']; ?>, Academic Year  <?php echo $cl_info['academic_year']; ?>. </div>
                     </div>
 
-                    <div class="d-flex flex-wrap flex-column">
+                    <div class="d-flex justify-content-center gap-3 text-center mb-5 berow">
                     
-                        <div class="text-center mb-3">
+                        <div class="d-flex flex-column justify-content-center mt-2">
                             <?php 
-                            $shsadv = false;
-                            foreach($allSignatoryById as $sigTable){
-                                $adv = strtolower($user_data['program_course']) . "_adviser";
-                                if(preg_match("/$adv/", $sigTable['designation_table'])){
-                                    $shsadv = true;
-                                    $cleared_info = $clearance->checkIfCleared($sigTable['designation_table'], $user_data['student_id'], $clearance_id);
-                                    if($cleared_info['student_clearance_status'] == '1'){
-                                        echo '<div><i class="far fs-4 fa-check"></i></div>';
-                                    }else {
-                                       echo '<div data-bs-toggle="tooltip" title="View Deficiency"><div class="d-flex align-items-center gap-2 justify-content-center view-def-btn" data-value="'. $sigTable['designation_table'] .'" id="view-def-btn" data-bs-toggle="modal" data-bs-target="#viewMessage"><i class="fal fs-4 text-danger fa-exclamation-circle"></i><a class="f-s text-decoration-none text-success">View Message<a></div></div>';
+                                $adviserFound = false;
+                                foreach($allSignatoryById as $sigTable){
+                                    $adv = strtolower($user_data['program_course']) . "_adviser";
+                                    if(preg_match("/$adv/", $sigTable['designation_table'])){
+                                        $adviserFound = true;
+                                        $cleared_info = $clearance->checkIfCleared($sigTable['designation_table'], $user_data['student_id'], $clearance_id);
+                                        if($cleared_info['student_clearance_status'] == '1'){
+                                            echo '<div><i class="far fs-4 fa-check"></i></div>';
+                                        }else{
+                                            echo '<div data-bs-toggle="tooltip" title="View Deficiency"><div class="d-flex align-items-center gap-2 justify-content-center view-def-btn" data-value="'. $sigTable['designation_table'] .'" id="view-def-btn" data-bs-toggle="modal" data-bs-target="#viewMessage"><i class="fal fs-4 text-danger fa-exclamation-circle"></i><a class="f-s text-decoration-none text-success">View Message<a></div></div>';
+                                        }
+                                        $sig_info = $signatory->getAllSignatory($sigTable['signatory_id']);
+                                        
+                                        echo '
+                                            <hr class="my-2 c-hr mx-auto"/>
+                                            <h1 class="f-d m-0">'. $sig_info['first_name'] . ' ' . $sig_info['middle_name'] . ' ' . $sig_info['last_name'].'</h1>
+                                            <span class="fs-d">'. $user_data['program_course'] .' Adviser</span>
+                                            ';
                                     }
-                                    $sig_info = $signatory->getAllSignatory($sigTable['signatory_id']);
-                                    
-                                    echo '
-                                        <hr class="my-2 c-hr mx-auto"/>
-                                        <h1 class="f-d m-0">'. $sig_info['first_name'] . ' ' . $sig_info['middle_name'] . $sig_info['last_name'].'</h1>
-                                    ';
-                                    break;
                                 }
-                                    
-                            }
-                            if(!$shsadv){
-                                echo "Adviser not found.";
-                            }
+                                if(!$adviserFound){
+                                        echo '<span class="text-center c-hr mt-3">Adviser not found</span>'; 
+                                }
                             ?>
-                            <span class="fs-d">Adviser</span>
+                            
                         </div>
 
-                        <div class="text-center mb-3">
+                        <div class="d-flex flex-column justify-content-center mt-2">
                             <?php 
                             $shslib = false;
                             foreach($allSignatoryById as $sigTable){
@@ -484,7 +501,7 @@
                             <span class="fs-d">College Librarian</span>
                         </div>
 
-                        <div class="text-center mb-3">
+                        <div class="d-flex flex-column justify-content-center mt-2">
                             <?php 
                             $shsgui = false;
                             foreach($allSignatoryById as $sigTable){    
@@ -515,7 +532,7 @@
 
                     <div class="d-flex justify-content-center gap-3 text-center mb-5 berow">
                     
-                        <div class="text-center mb-3">
+                        <div class="d-flex flex-column justify-content-center mt-2">
                             <?php 
                             $shsprin = false;
                             foreach($allSignatoryById as $sigTable){
@@ -554,10 +571,6 @@
                         let student_id = '<?php echo $user_data['student_id'] ?>'
                         let designation_table = $(this).attr('data-value');
 
-                        console.log(designation_table);
-                        console.log(student_id);
-                        console.log(clearance_id);
-
                         $.ajax({
                             type: "POST",
                             url: "../controller/student_deficiency_view.php",
@@ -567,7 +580,6 @@
                                 student_id: student_id,
                             },
                             success: function(response) {
-                                console.log(response);
                                 $('#msg-area').html(response);
                             }
                         })

@@ -266,7 +266,7 @@
     top: 25vh;
     left: 50%;
     transform: translateX(-50%);
-    z-index: 999;
+    z-index: 999999999;
     opacity: 0;
 }
 
@@ -994,7 +994,7 @@ table.dataTable.dtr-inline.collapsed>tbody>tr>td.dtr-control:before, table.dataT
 }
 
 .c-hr{
-    width: 225px;
+    width: 200px;
 }
 
 .view-def-btn {
@@ -1052,7 +1052,8 @@ table.dataTable.dtr-inline.collapsed>tbody>tr>td.dtr-control:before, table.dataT
 ul li.clickable {
     cursor: not-allowed;
     pointer-events: none;
-    background-color: rgb(230, 230, 230);
+    background-color: rgb(240, 239, 239);
+    color: #717171;
   }
 /* Media Queries */
 

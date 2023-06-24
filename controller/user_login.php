@@ -30,7 +30,7 @@
 
                 $_SESSION['user_data'] = $user->getSignatoryInfo($result['user_id']);
 
-                header("location: ../signatory/index.php");
+                header("location: ../signatory/clearance_management.php");
             }else if($user_type == 'student') {
                 $_SESSION['user_type'] = $user_type;
                 $_SESSION['user_id'] = $result['user_id'];

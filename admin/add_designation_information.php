@@ -3,7 +3,6 @@
     
     $designations = $designation->getAllDesignationData();
 
-
     //Select Options
 
     $categories = $designation->getCategory();
@@ -18,6 +17,7 @@
     $office_json = json_encode($offices->fetchAll(PDO::FETCH_ASSOC));
     $org_json = json_encode($organizations->fetchAll(PDO::FETCH_ASSOC));
     $shs_json = json_encode($shschools->fetchAll(PDO::FETCH_ASSOC));
+    $ph_json = json_encode($designation->designationProgramHead());
 
     $signatories = $signatory->getSignatories();
 ?>
@@ -35,8 +35,6 @@
 
         <div class="page-content p-2 rounded ">
             <div class="row">
-                
-
                 <div class="col-lg-5 pt-2 px-4">
                     <form action="../controller/add_designation_info.php" method="POST">
                         <label class="form-label">Manage Designation</label>
@@ -274,7 +272,9 @@
                     var organization = <?php echo $org_json ; ?>;
                     var office = <?php echo $office_json ; ?>;
                     var shs = <?php echo $shs_json ; ?>;
-
+                    const ph = <?php echo $ph_json; ?>;
+                    console.log(ph);
+                   
                     const selectCategoryOptions = document.querySelectorAll('.select-category .select-menu li');
                     $('.categoryBtn').click(function(){
                         selectCategoryOptions.forEach(function(option){
@@ -293,6 +293,14 @@
                                             var newOption = $("<li></li>");
                                             newOption.attr('data-value', department[i].id);
                                             newOption.text(department[i].department_code + " - " + department[i].department_name);
+                                            for (let key in ph) {
+                                                let obj = ph[key];
+                                                if(department[i].id == obj.signatory_workplace){
+                                                    newOption.addClass("clickable");
+                                                    break;
+                                                }
+                                            }
+
                                             $(".select-workplace .select-menu").append(newOption);
                                         }
                                         initializeCustomSelect();

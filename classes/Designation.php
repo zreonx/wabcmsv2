@@ -566,6 +566,19 @@ class Designation {
         }
     }
 
+    public function designationProgramHead() {
+        try {
+            $sql = "SELECT * FROM designation_meta WHERE designation = 'Program Head' AND status = 'active'";
+            $result = $this->conn->query($sql);
+            $data = $result->fetchAll(PDO::FETCH_ASSOC);
+            return $data;
+            
+        }catch(PDOException $e) {
+            echo "ERROR: " . $e->getMessage();
+            return false;
+        }
+    }
+
 
 
 
