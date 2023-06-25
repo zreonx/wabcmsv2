@@ -28,7 +28,9 @@
 
                
                 <div class="col-lg-7 pt-2 px-4">
+                    <label class="form-label">List of Offices</label>
                     <label class="form-label">SHS Strand</label>
+                    
                     <div class="custom-table px-3 pb-3">
                         <table class="table text-center display w-100 mb-2" id="my-datable"">
                             <thead>

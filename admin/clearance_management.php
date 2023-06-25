@@ -137,7 +137,13 @@
 
                
                 <div class="col-lg-7 pt-2 px-4">
-                    <label class="form-label">Clearance Records</label>
+                    <div class="d-flex justify-content-between align-items-end mb-2 ">
+                        <label class="form-label">Clearance Records</label>
+                        <div class="form-group d-flex gap-2">
+                            <input class="form-control form-control-sm" type="text" id="search-val" placeholder="Search...">
+                            <!-- <button class="btn btn-search btn-success btn-sm rounded" id="searchBtn">SEARCH</button> -->
+                        </div>
+                    </div> 
                     <div class="custom-table px-3 pb-3">
                         <table class="table text-center display w-100 mb-2" id="my-datable"">
                             <thead>
