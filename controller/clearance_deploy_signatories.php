@@ -45,14 +45,15 @@
         
         
         if($clearance_type == "1") {
+            //Get Active Signatories
+            $activeSig = $designation->designationTableRecord();
 
             switch($clearance_beneficiary){
                 case '1': 
                     foreach($allsig_data as $sig_des) {
 
-                        //Get Active Signatories
-                        $activeSig = $designation->designationTableRecord();
-                        foreach($activeSig as $sig) {
+                        
+                         foreach($activeSig as $sig) {
 
                             //Course -> College / Departments -> Signatories / Strand ->SHS
                             if($sig_des['signatory_workplace_name'] == $sig['signatory_workplace_name']) {
@@ -99,6 +100,26 @@
                                 }
                              }           
                          }
+                         
+
+
+
+                    }
+
+                    
+                    foreach($activeSig as $sig){
+                        $org_member = $organization->getOrgMember($sig['signatory_workplace_name']);
+                        $tb_name = $sig['signatory_clearance_table_name'];
+                        foreach($org_member as $mem){
+                            $allStudents = $student->getAllStudents();
+
+                            foreach($allStudents as $stud) {
+                                if($mem['student_id'] == $stud['student_id']){
+                                    $clearance->insertStudentToTable($tb_name, $id, $semester, $academic_year, $stud['student_id'], $date_approval);
+                                    break;
+                                }
+                            }
+                        }
 
                     }
                 break;

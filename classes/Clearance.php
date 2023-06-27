@@ -891,5 +891,31 @@ class Clearance {
         }
     }
 
+    public function getStudentClearance($clearance_id) {
+        try {
+            $sql = "SELECT csr.student_id FROM clearance_student_record csr WHERE clearance_id = '$clearance_id' GROUP BY student_id";
+            $result = $this->conn->query($sql);
+            return $result->fetchAll(PDO::FETCH_ASSOC);
+        }catch(PDOException $e) {
+            echo "ERROR: " . $e->getMessage();
+            return false;
+        }
+    }
+
+    public function getStudentInfo($student_id) {
+        try {
+            $sql = "SELECT * FROM students WHERE student_id = '$student_id'";
+            $result = $this->conn->query($sql);
+            return $result->fetch(PDO::FETCH_ASSOC);
+        }catch(PDOException $e) {
+            echo "ERROR: " . $e->getMessage();
+            return false;
+        }
+    }
+
+    
+
+
+
 
 }

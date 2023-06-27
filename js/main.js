@@ -27,6 +27,14 @@ $(document).ready(function() {
     const profileBtn = document.getElementById('profile-btn');
     const profileMenu = document.querySelector('.profile-menu');
 
+    //Notification 
+    // const notifBtn = document.getElementById('notif-btn');
+    // const notifMenu= document.querySelector('.notif-menu');
+
+    // notifBtn.addEventListener('click', () => {
+    //     notifBtn.classList.toggle('active');
+    // });
+
     profileBtn.addEventListener('click', () => {
         profileBtn.classList.toggle('active');
     });
@@ -37,6 +45,10 @@ $(document).ready(function() {
         if (!profileMenu.contains(event.target) && !profileBtn.contains(event.target)) {
             profileBtn.classList.remove('active');
         }
+
+        // if (!notifBtn.contains(event.target) && !notifBtn.contains(event.target)) {
+        //     notifBtn.classList.remove('active');
+        // }
     });
 
 

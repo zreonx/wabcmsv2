@@ -42,7 +42,7 @@
                 ?>
                     <!-- <div class="btn btn-success rounded mb-3" id="addOrgBtn" data-bs-toggle="modal" data-bs-target="#importOrg"><i class="fas fa-user-plus"></i> Add Member</div> -->
                     <div id="imports">
-                        <div class="btn btn-success rounded mb-3" id="addOrgBtn" data-bs-toggle="modal" data-bs-target="#importOrg"><i class="fas me-1 fa-plus"></i> Import Organization Member</div>
+                        <!-- <div class="btn btn-success rounded mb-3" id="addOrgBtn" data-bs-toggle="modal" data-bs-target="#importOrg"><i class="fas me-1 fa-plus"></i> Import Organization Member</div> -->
                         <div class="btn btn-success rounded mb-3" id="addOrgBtn" data-bs-toggle="modal" data-bs-target="#importOther"><i class="fas me-1 fa-plus"></i> Import Deficient Student</div>
                     </div>
                 <?php else: ?>

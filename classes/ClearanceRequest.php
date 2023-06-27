@@ -29,6 +29,15 @@ class ClearanceRequest {
             echo $e->getMessage();
         }
     }
+    public function getAllRequestRecord(){
+        try {
+            $sql = "SELECT *, CR.id as 'request_id', CR.status as 'request_status' FROM clearance_requests CR INNER JOIN clearance_type CT ON CR.clearance_type_id = CT.id INNER JOIN students s ON CR.student_id COLLATE utf8mb4_general_ci = s.student_id COLLATE utf8mb4_general_ci WHERE CR.status in ('pending', 'rejected', 'issued'); ";
+            $result = $this->conn->query($sql);
+            return $result;
+        }catch(PDOException $e) {
+            echo $e->getMessage();
+        }
+    }
 
     public function getRequestInfo($request_id, $student_id){
         try {
@@ -64,6 +73,23 @@ class ClearanceRequest {
         try {
 
             $sql = "UPDATE clearance_requests SET status = 'cancelled' WHERE id = :id ; ";
+            $stmt = $this->conn->prepare($sql);
+            $stmt->bindparam(':id', $id);
+
+            $stmt->execute();
+
+            return true;
+
+        }catch(PDOException $e) {
+            echo "ERROR: " . $e->getMessage();
+            return false;
+        }
+    }
+
+    public function rejectRequest($id) {
+        try {
+
+            $sql = "UPDATE clearance_requests SET status = 'rejected' WHERE id = :id ; ";
             $stmt = $this->conn->prepare($sql);
             $stmt->bindparam(':id', $id);
 

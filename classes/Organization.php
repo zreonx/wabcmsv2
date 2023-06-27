@@ -145,6 +145,64 @@ class Organization {
         }
     }
 
+    public function getOrganizationCategoryId($category) {
+        try {
+            $sql = "SELECT * FROM designation_category WHERE category = '$category' AND status = 'active'";
+            $result = $this->conn->query($sql);
+            $data = $result->fetch(PDO::FETCH_ASSOC);
+            return $data;
+     
+        }catch(PDOException $e) {
+            echo "ERROR: " . $e->getMessage();
+            return false;
+        }
+    }
+
+    public function getOrganizationSignatory($category_id, $signatory_id) {
+        try {
+            $sql = "SELECT * FROM designation_signatory ds INNER JOIN designation_meta dm ON ds.designation_id = dm.id INNER JOIN organizations o ON dm.signatory_workplace = o.id WHERE ds.signatory_id = '$signatory_id' AND dm.category = '$category_id' AND ds.status = 'active'";
+            $result = $this->conn->query($sql);
+            $data = $result->fetchAll(PDO::FETCH_ASSOC);
+            return $data;
+     
+        }catch(PDOException $e) {
+            echo "ERROR: " . $e->getMessage();
+            return false;
+        }
+    }
+
+    public function getOrgMember($organization_code) {
+        try {
+            $sql = "SELECT *, om.status FROM organization_member om INNER JOIN students s ON om.student_id COLLATE utf8mb4_general_ci = s.student_id COLLATE utf8mb4_general_ci WHERE org_code = '$organization_code' AND om.status = 'active'";
+            $result = $this->conn->query($sql);
+            $data = $result->fetchAll(PDO::FETCH_ASSOC);
+            return $data;
+     
+        }catch(PDOException $e) {
+            echo "ERROR: " . $e->getMessage();
+            return false;
+        }
+    }
+
+    public function addOrganizationMember($org_id, $org_code, $student_id) {
+        try {
+
+            $sql = "INSERT INTO organization_member (org_id, org_code, student_id, status) VALUES (:org_id, :org_code, :student_id, 'active'); ";
+            $stmt = $this->conn->prepare($sql);
+            $stmt->bindparam(':org_id', $org_id);
+            $stmt->bindparam(':org_code', $org_code);
+            $stmt->bindparam(':student_id', $student_id);
+
+            $stmt->execute();
+
+            return true;
+
+        }catch(PDOException $e) {
+            echo "ERROR: " . $e->getMessage();
+            return false;
+        }
+    }
+
     
     
     

@@ -286,7 +286,7 @@
                                                    </div>
                                                 </div>
                                            <div class="ms-auto d-flex gap-2 berow">
-                                                <a href="student_clearance_record.php" class="btn btn-success rounded dis-btn fs-5" data-bs-toggle="tooltip" title="View Student Clearance"><i class="fas fa-external-link"></i></a>
+                                                <button id="viewClearanceBtn" type="button" class="btn btn-success rounded dis-btn fs-5" data-bs-toggle="tooltip" title="View Student Clearance"><i class="fas fa-external-link"></i></button>
                                                 <button id="printReport" class="btn btn-success rounded dis-btn fs-5" data-bs-toggle="tooltip" title="Print Student Clearance"><i class="fas fa-print"></i></button>
                                                 <button type="button" class="btn btn-secondary rounded ms-auto" data-bs-dismiss="modal">Cancel</button>
                                            </div>
@@ -693,6 +693,10 @@
                                 }, 1000);
                             }
                         });
+                    });
+
+                    $('#viewClearanceBtn').click(function(){
+                        window.location.replace('student_clearance_record.php?clearance_id='+ clearance_id);
                     });
 
                    

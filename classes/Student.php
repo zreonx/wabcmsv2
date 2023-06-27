@@ -6,12 +6,26 @@ class Student {
     public function __construct($conn) {
         $this->conn = $conn;
     }
+
     public function getStudents() {
         try {
 
             $sql = "SELECT * FROM students WHERE status = 'imported'";
             $result = $this->conn->query($sql);
             return $result;
+     
+        }catch(PDOException $e) {
+            echo "ERROR: " . $e->getMessage();
+            return false;
+        }
+    }
+
+    public function getAllStudents() {
+        try {
+
+            $sql = "SELECT * FROM students WHERE status = 'imported'";
+            $result = $this->conn->query($sql);
+            return $result->fetchAll(PDO::FETCH_ASSOC);
      
         }catch(PDOException $e) {
             echo "ERROR: " . $e->getMessage();

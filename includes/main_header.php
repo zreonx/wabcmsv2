@@ -9,7 +9,7 @@
     <link rel="icon" href="../images/ccc_logo.webp" type="image/x-icon">
     <link rel="stylesheet" href="../css/bootstrap.min.css?v.1">
     <link href="https://cdn.datatables.net/v/bs5/jszip-2.5.0/dt-1.13.4/b-2.3.6/b-html5-2.3.6/b-print-2.3.6/r-2.4.1/sc-2.1.1/datatables.min.css?v.1" rel="stylesheet"/>
-    <link rel="stylesheet" href="../css/main.css?v1.17">
+    <link rel="stylesheet" href="../css/main.css?v1.18">
     <link rel="stylesheet" href="../css/all.min.css">
     
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
@@ -27,7 +27,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-dateFormat/1.0/jquery.dateFormat.min.js"></script>
 
     <script src="../js/all.min.js"></script>
-    <script src="../js/main.js"></script>
+    <script src="../js/main.js?v.1"></script>
     <script src="../js/fileupload.js"></script>
     <script src="../js/datatable.js?v1.2"></script>
 
@@ -102,7 +102,7 @@
             </div>
             <ul class="category-item p-0">
                 <li class="category-link"><a href="clearance_management.php" class="clink-text">Clearance</a></li>
-                <li class="category-link"><a class="clink-text">Clearance Requests</a></li>
+                <li class="category-link"><a href="clearance_request.php" class="clink-text">Clearance Requests</a></li>
                 
             </ul>
         </div>
@@ -161,6 +161,11 @@
     
 
     <?php elseif (isset($_SESSION['user_type']) and $_SESSION['user_type'] == 'signatory'): ?>
+        <?php 
+            $allOrganization = $organization->getAllOrganizations();
+            $category_id = $organization->getOrganizationCategoryId("Organization");
+            $orgSig = $organization->getOrganizationSignatory($category_id['id'], $_SESSION['user_id']);
+         ?>
 
     <!-- Signatory sidebar -->
     <div class="sidenav-category mt-2">
@@ -181,6 +186,22 @@
                 </div>
             </a>
         </div>
+        <?php if(!empty($orgSig)): ?>
+            <div class="custom-category">
+                <div class="category-btn">
+                    <div>
+                        <i class="fas fa-sitemap mx-2"></i>
+                        <span class="category-text">Organization Management</span>
+                    </div>
+                    <i class='fal fa-chevron-down' id="chevron"></i>
+                </div>
+                <ul class="category-item p-0">
+                    <?php foreach($orgSig as $org_sig): ?>
+                        <li class="category-link"><a href="organization_management.php?organization_id=<?php echo $org_sig['id']; ?>&code=<?php echo $org_sig['organization_code']; ?>" class="clink-text"><?php echo $org_sig['organization_code'] ?> Members</a></li>
+                    <?php endforeach; ?>
+                </ul>
+            </div>
+        <?php endif; ?>
         
         <!-- <div class="custom-category">
             <div class="category-btn">
@@ -241,18 +262,37 @@
 </div>
 
     <div class="main-content">
+        <?php if (isset($_SESSION['user_type']) and $_SESSION['user_type'] == 'admin' ):?>
+        <?php endif; ?>
         <div class="side-header d-flex align-items-center justify-content-between">
             <button class="btn btn-menu"><i class="far fa-bars"></i></button>
-            <div class="profile mx-3 d-flex align-items-center gap-2" id="profile-btn">
-                <img src="https://cdn-icons-png.flaticon.com/512/847/847969.png" class="img-fluid" style="height: 24px;" alt="">
-                <span class="f-d">Profile</span>
-            </div>
+           <div class="d-flex">
+                <!-- <div class="notif d-flex align-items-center" id="notif-btn">
+                    <img src="https://zreonph.sirv.com/wabcms_images/bell%20.png" style="height: 26px;" alt="">
+                </div>
+                <div class="notif-menu">
+                    <ul>
+                        <li><a href="settings.php">Transfering Clearance</a></li>
+                        <li><a href="settings.php">Transfering Clearance</a></li>
+                        <li><a href="settings.php">Transfering Clearance</a></li>
+                        <li><a href="settings.php">Transfering Clearance</a></li>
+                    </ul>
+                </div> -->
+
+                
+                
+           </div>
+           <div class="profile me-3 d-flex align-items-center gap-2" id="profile-btn">
+                    <img src="https://cdn-icons-png.flaticon.com/512/847/847969.png" class="img-fluid" style="height: 24px;" alt="">
+                    <span class="f-d">Profile</span>
+                </div>
             <div class="profile-menu">
-               <ul>
+                <ul>
                     <li><i class="fas fa-sliders-h profile-icon"></i><a href="settings.php">Settings</a></li>
                     <li><i class="fas fa-sign-out-alt profile-icon"></i><a href="../logout.php">Logout</a></li>
-               </ul>
+                </ul>
             </div>
+            
         </div>
         
 

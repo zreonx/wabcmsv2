@@ -53,7 +53,7 @@
                 <hr class="mt-5 mb-3" stype="box-sizing: border-box;">
                 <h1 class="fs-6 display-6 pb-1 mb-2"><i class=" fa-solid fa-clock-rotate-left me-2"></i>Previous Clearance</h1>
                 <div class="card-grid">
-                    <?php foreach($activeClearance as $ac_signatory): ?>
+                    <?php foreach($previousClearance as $ac_signatory): ?>
                     <div class="clearance-card clearance-card-inactive ">
                         <div class="cl-card-header">
                             <h1 class="f-d m-0 pb-1"><?php echo $ac_signatory['clearance_name'] ?></h1>
