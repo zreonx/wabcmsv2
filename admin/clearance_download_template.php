@@ -41,7 +41,9 @@
 
     $cl_info = $clearance->getActiveClearanceById($clearance_id);
 
+
     $user_data = $clearance->getStudentInfo($student_id);
+
 
     $midinit = strtoupper(substr($user_data['middle_name'], 0, 1)) . ". ";
 
