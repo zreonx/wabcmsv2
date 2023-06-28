@@ -31,7 +31,7 @@
                 </div>
             </div>
             <div class="d-overlay position-absolute w-100" >
-                <a class="text-decoration-none f-s text-accent" href="#">View Information</a>
+                <a href="student_management.php" class="text-decoration-none f-s text-accent">View Information</a>
             </div>
         </div>
 
@@ -44,7 +44,7 @@
                 </div>
             </div>
             <div class="d-overlay position-absolute w-100" >
-                <a class="text-decoration-none f-s text-accent" href="#">View Information</a>
+                <a href="signatory_management.php" class="text-decoration-none f-s text-accent">View Information</a>
             </div>
         </div>
 
@@ -57,7 +57,7 @@
                 </div>
             </div>
             <div class="d-overlay position-absolute w-100" >
-                <a class="text-decoration-none f-s text-accent" href="#">View Information</a>
+                <a href="add_designation_information.php" class="text-decoration-none f-s text-accent">View Information</a>
             </div>
         </div>
 
@@ -70,7 +70,7 @@
                 </div>
             </div>
             <div class="d-overlay position-absolute w-100" >
-                <a class="text-decoration-none f-s text-accent" href="#">View Information</a>
+                <a href="clearance_management.php" class="text-decoration-none f-s text-accent">View Information</a>
             </div>
         </div>
     </div>
