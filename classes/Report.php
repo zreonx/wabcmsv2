@@ -35,7 +35,7 @@ class Report {
 
     public function getClearanceInfo($clearance_id) {
         try {
-            $sql = "SELECT * FROM clearances c INNER JOIN clearance_type ct ON c.clearance_type = ct.id INNER JOIN clearance_beneficiaries cb ON c.clearance_beneficiary = cb.id WHERE c.id = '$clearance_id'";
+            $sql = "SELECT * FROM clearances c INNER JOIN clearance_type ct ON c.clearance_type = ct.id WHERE c.id = '$clearance_id'";
             $result = $this->conn->query($sql);
             return $result->fetch(PDO::FETCH_ASSOC);
      

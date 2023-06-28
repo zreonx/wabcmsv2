@@ -30,7 +30,7 @@
 <?php 
 
     $clearance_id = $_GET['clearance_id'];
-    $clearance_id = 30;
+    //$clearance_id = 30;
     $studentUser = $user->getStudentAccount();
     $allCourse = $user->getAllCourse();
 
@@ -45,7 +45,7 @@
         <div class="mb-2">
             <h1 class="f-s display-6 mb-1">Clearance Reference Number: <?php echo $clearance_id ?></h1>
             <h1 class="f-s display-6 mb-1">Clearance Type: <?php echo $clearanceInfo['clearance_name']; ?></h1>
-            <h1 class="f-s display-6 mb-1">Recipient: <?php echo $clearanceInfo['beneficiary']; ?></h1>
+            <h1 class="f-s display-6 mb-1">Recipient: <?php echo (in_array($clearanceInfo['clearance_beneficiary'], array("1","2","3")) ) ? $clearance->getBeneficiary($clearanceInfo['clearance_beneficiary']) : $clearanceInfo['clearance_beneficiary']; ?></h1>
             <h1 class="f-s display-6 mb-1">Semester: <?php echo $clearanceInfo['semester']; ?></h1>
             <h1 class="f-s display-6 mb-1">Year: <?php echo $clearanceInfo['academic_year']; ?></h1>
         </div>

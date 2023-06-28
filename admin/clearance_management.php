@@ -713,6 +713,7 @@
                     });
 
                     $('#printReport').click(function() {
+                        console.log(clearance_id);
                         $.ajax({
                             url: 'student_clearance_report.php',
                             type: "GET",
