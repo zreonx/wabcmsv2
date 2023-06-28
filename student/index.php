@@ -77,7 +77,7 @@
                
             <?php else: ?>
 
-                <h1 class="display-6 fs-5 text-center m-0">You're already graduated you can only view your archive.</h1>
+                <h1 class="display-6 fs-5 text-center m-0">You're already graduated you can only view your previous clearance.</h1>
                 <div class="d-flex justify-content-center h-50 mt-4">
                     <img class="img-fluid opacity-50" src="https://img.freepik.com/free-vector/empty-concept-illustration_114360-1233.jpg?w=740&t=st=1687967042~exp=1687967642~hmac=2085af3ddc6ff462d49b7037046f95e359adfa45ae402b49bbf4c210e6bb84be" alt="">
                 </div>
