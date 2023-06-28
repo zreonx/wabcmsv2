@@ -10,7 +10,7 @@ class User {
     public function getAllUser() {
         try {
 
-            $sql = "SELECT * FROM users WHERE status = 'active' and user_type NOT IN ('admin')";
+            $sql = "SELECT * FROM users WHERE status IN ('active', 'deactivated') and user_type NOT IN ('admin')";
             $result = $this->conn->query($sql);
             return $result->fetchAll(PDO::FETCH_ASSOC);
      
@@ -248,6 +248,43 @@ class User {
         try {
             $status = "deleted";
             $sql = "UPDATE users SET status = :status WHERE user_id = :id ; ";
+            $stmt = $this->conn->prepare($sql);
+            $stmt->bindparam(':id', $id);
+            $stmt->bindparam(':status', $status);
+
+            $stmt->execute();
+
+            return true;
+
+        }catch(PDOException $e) {
+            echo "ERROR: " . $e->getMessage();
+            return false;
+        }
+    }
+
+
+    public function deactivateAccount($id) {
+        try {
+            $status = "deactivated";
+            $sql = "UPDATE users SET status = :status WHERE id = :id ; ";
+            $stmt = $this->conn->prepare($sql);
+            $stmt->bindparam(':id', $id);
+            $stmt->bindparam(':status', $status);
+
+            $stmt->execute();
+
+            return true;
+
+        }catch(PDOException $e) {
+            echo "ERROR: " . $e->getMessage();
+            return false;
+        }
+    }
+
+    public function activateAccount($id) {
+        try {
+            $status = "active";
+            $sql = "UPDATE users SET status = :status WHERE id = :id ; ";
             $stmt = $this->conn->prepare($sql);
             $stmt->bindparam(':id', $id);
             $stmt->bindparam(':status', $status);

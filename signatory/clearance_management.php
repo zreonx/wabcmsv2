@@ -5,7 +5,7 @@
     $previousClearance = $clearance->getPreviousClearanceSignatories();
     
     $user_data = $_SESSION['user_data'];
-    
+
 ?>
     <div class="page px-4">
         <?php if(isset($_GET['success'])){ echo '<div class="alert alert-success" id="err">Clearance has been created.</div>'; } ?>
@@ -121,6 +121,7 @@
                                 clearance_id: clearanceId
                             },
                             success: function(response) {
+                                console.log(response);
                                 if(response.length !== 0) {
                                     $('#designation-content').html(response);
                                 }else {

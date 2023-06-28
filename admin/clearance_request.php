@@ -1,6 +1,16 @@
 <?php 
     require_once '../includes/main_header.php'; 
     require_once '../config/connection.php';
+
+
+    $clearanceTypes = $clearance->getClearanceType();
+    $clearances = $clearance->getAllClearance();
+    $beneficiaries = $clearance->getBeneficiaries();
+
+    $current_year = date('Y');
+    $prev_year = $current_year - 1;
+    $next_year = date('Y', strtotime($current_year . ' +1 year'));
+
     $user_data = $_SESSION['user_data'];
     $availableClearance = $request->getAvailableForRequest();
 
@@ -49,7 +59,7 @@
                                     <th>#</th>
                                     <th>Student ID</th>
                                     <th>Name</th>
-                                    <th>Name</th>
+                                    <th>Education</th>
                                     <th>Program</th>
                                     <th>Academic</th>
                                     <th>Requested Clearance</th>
@@ -91,7 +101,7 @@
                                         <td><?php if($rec_row['request_status'] == "issued"){ echo '<div class="d-flex justify-content-center"><div class="badge-green"><i class="fas fa-circle i-dot i-success "></i> <span>Issued</span></div></div>';}else if($rec_row['request_status'] == 'pending'){ echo '<div class="d-flex justify-content-center"><div class="badge-primary"><i class="fas fa-circle i-dot i-primary "></i> <span>Pending</span></div></div>';}else if($rec_row['request_status'] == "rejected"){ echo '<div class="d-flex justify-content-center"><div class="badge-danger"><i class="fas fa-circle i-dot i-danger "></i> <span>Rejected</span></div></div>';} ?></td>
                                         <td>
                                             <button data-id="<?php echo $rec_row['request_id'] ?>" data-value="<?php echo $rec_row['student_id'] ?>" class="btn btn-sm btn-primary rounded small-btn request-btn " data-bs-toggle="modal" data-bs-target="#requestInfo"><i class="fas fa-envelope" ></i> View</button>
-                                            <button data-id="<?php echo $rec_row['request_id'] ?>" data-value="<?php echo $rec_row['student_id'] ?>" class="btn btn-sm btn-success rounded small-btn request-btn " data-bs-toggle="modal" data-bs-target="#requestInfo" <?php if($rec_row['request_status'] == 'issued' || $rec_row['request_status'] == "rejected"){echo 'disabled';} ?>><i class="fas fa-paper-plane"></i> Issue</button>
+                                            <button data-id="<?php echo $rec_row['request_id'] ?>" data-value="<?php echo $rec_row['student_id'] ?>" class="btn btn-sm btn-success rounded small-btn issue-btn " data-bs-toggle="modal" data-bs-target="#issueInfo" <?php if($rec_row['request_status'] == 'issued' || $rec_row['request_status'] == "rejected"){echo 'disabled';} ?>><i class="fas fa-paper-plane"></i> Issue</button>
                                             <button data-id="<?php echo $rec_row['request_id'] ?>" data-value="<?php echo $rec_row['student_id'] ?>" class="btn cancel-btn btn-sm btn-danger rounded small-btn dsb-btn <?php echo ($rec_row['request_status'] == "rejected" || $rec_row['request_status'] == "issued" ) ? "not-allowed" :"" ; ?>" data-bs-toggle="modal" data-bs-target="#cancelModal" <?php if($rec_row['request_status'] == 'issued' || $rec_row['request_status'] == "rejected"){echo 'disabled';} ?>><i class="fas fa-trash"></i> Reject</button>
                                         </td>
                                     </tr>
@@ -122,6 +132,65 @@
                             </div>
                         </div>
 
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal fade custom-modal " id="issueInfo" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <div class="modal-dialog ">
+                    <div class="modal-content ">
+                        <div class="modal-header x-border py-1 pt-3">
+                            <h1 class="px-1 display-6 fs-5">Transferring Clearance</h1>
+                        </div>
+                        <div class="modal-body x-border py-0">
+                        <div>
+                                            
+                            <div class="default-border py-2 px-3">
+                                
+                                <table class="table table-borderless w-auto mt-1">
+                                    <tr>
+                                        <td><span>Clearance Recipient:</span></td>
+                                        <td><strong><i id="cr-text">Student ID</i></strong></td>
+                                    </tr>
+                                    <tr>
+                                        <td><span>Clearance Type:</span></td>
+                                        <td><strong><i id="ct-text">Clearance Type</i></strong></td>
+                                    </tr>
+                                    <tr>
+                                        <td><span>Semester:</span></td>
+                                        <td>
+                                            <select name="semester" id="semester" class="form-select form-select-sm">
+                                                <option value="1st Semester">1st Semester</option>
+                                                <option value="2nd Semester">2nd Semester</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><span>Academic Year:</span></td>
+                                        <td>
+                                            <select name="academic_year" id="academic_year" class="form-select form-select-sm">
+                                                <option value="<?php echo $prev_year ?>-<?php echo $current_year ?>"><?php echo $prev_year ?>-<?php echo $current_year ?></option>
+                                                <option value="<?php echo $current_year ?>-<?php echo $next_year ?>"><?php echo $current_year ?>-<?php echo $next_year ?></option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    
+                                </table>
+                                
+                            </div>
+                            <div class="d-flex gap-2 justify-content-center align-items-center">
+                            <!-- <div class="fs-1 text-danger p-2">
+                                <i class="fas fa-exclamation-triangle"></i>
+                            </div> -->
+                            <div class="danger-notice f-d mt-3 my-2"> <i class="fas fa-exclamation-triangle text-danger"></i> Notice! Please check all the information you've entered before proceeding, once it was added, it cannot be edited.</div>
+                            
+                        </div>
+                        </div>
+                            <div class="d-flex justify-content-end my-2 mb-3 gap-2">
+                                <button id="continueBtn" class="btn btn-success rounded continue-btn">Continue</button>
+                                <button type="button" class="btn btn-secondary rounded" data-bs-dismiss="modal">Cancel</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -183,6 +252,36 @@
                                 let org_info = JSON.parse(result);
                                 $('#organization_code').val(org_info.organization_code)
                                 $('#organization_name').val(org_info.organization_name)
+                            }
+                        })
+                    })
+
+                    var request_id;
+                    var student_id;
+
+                    $('#my-datable tbody').on('click', '.issue-btn', function(){
+                        request_id = $(this).attr('data-id');
+                        student_id = $(this).attr('data-value');
+                        $('#cr-text').text(student_id);
+                        $('#ct-text').text("Transferring Clearance");
+                    })
+
+                    $('#continueBtn').on('click', function(){
+                        let academic_year = $('#academic_year').val();
+                        let semester = $('#semester').val();
+
+                        $.ajax({
+                            type: "POST",
+                            url: "../controller/request_issue.php",
+                            data: {
+                                request_id : request_id,
+                                student_id: student_id,
+                                academic_year: academic_year,
+                                semester: semester
+                            },
+                            success: function(result) {
+                                console.log(result);
+                               window.location.replace('clearance_request.php?issue=success');
                             }
                         })
                     })

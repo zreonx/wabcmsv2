@@ -2,7 +2,9 @@
     require_once '../includes/main_header.php'; 
     $allUser = $user->getAllUser();
 ?>
-    <div class="page">
+    <div class="page position-relative">
+        <?php if(isset($_GET['deactivation'])){ echo '<div class="popup-message"><div class="alert alert-success shadow-xl" role="alert"><i class="fad me-2 fa-check-circle"></i>Account has been successfully deactivated.</div></div>'; } ?>
+        <?php if(isset($_GET['activation'])){ echo '<div class="popup-message"><div class="alert alert-success shadow-xl" role="alert"><i class="fad me-2 fa-check-circle"></i>Account has been successfully activated.</div></div>'; } ?>
         <?php if(isset($_GET['update'])){ echo '<div class="alert alert-success" id="err">Oranization has been updated.</div>'; } ?>
         <?php if(isset($_GET['delete'])){ echo '<div class="alert alert-success" id="err">Oranization has been deleted.</div>'; } ?>
         <h1 class="page-title fs-5 display-6">Accounts Management</h1>
@@ -43,28 +45,57 @@
                                         <td><?php echo ucfirst($user_data['user_type']); ?></td>
                                         <td><?php echo $user_data['email']; ?></td>
                                         <!-- <td><?php //$user_data['password']; ?></td> -->
-                                        <td class="text-center align-middle"><?php echo ($user_data['status'] == "active") ? '<div class="d-flex justify-content-center"><div class="badge-secondary"><i class="fas fa-circle i-dot i-success "></i> <span>Active</span></div></div>' : ''; ; ?></td>
-                                        <td><button data-id="<?php echo $user_data['id'] ?>" class="btn btn-sm btn-success rounded btnsm edit-btn"><i class="fas fa-user-alt-slash"></i> <span class="btn-text">Deactivate</span></button></td>
+                                        <td class="text-center align-middle"><?php echo ($user_data['status'] == "active") ? '<div class="d-flex justify-content-center"><div class="badge-secondary"><i class="fas fa-circle i-dot i-success "></i> <span>Active</span></div></div>' : '<div class="d-flex justify-content-center"><div class="badge-danger"><i class="fas fa-circle i-dot i-danger "></i> <span>Deactivated</span></div></div>'; ; ?></td>
+                                        <td>
+                                            <?php if($user_data['status'] == "active"): ?>
+                                                <button data-id="<?php echo $user_data['id'] ?>" data-bs-toggle="modal" data-bs-target="#deactivateModal" class="btn btn-sm btn-danger rounded btnsm deact-btn"><i class="fas fa-user-alt-slash"></i> <span class="btn-text">Deactivate</span></button>
+                                            <?php elseif($user_data['status'] == "deactivated"): ?>
+                                                <button data-id="<?php echo $user_data['id'] ?>" data-bs-toggle="modal" data-bs-target="#activateModal" class="btn btn-sm btn-success rounded btnsm activate-btn"><i class="fas fa-user-alt-slash"></i> <span class="btn-text">Activate</span></button>
+                                            <?php endif; ?>
+                                        </td>
+                                        
                                     </tr>
                                 <?php endforeach; ?>
                             </tbody>
                         </table>
                     
-                        <div class="modal fade custom-modal " id="deleteModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                        <div class="modal fade custom-modal " id="deactivateModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                             <div class="modal-dialog">
                                 <div class="modal-content ">
                                     <div class="modal-header x-border py-1 pt-3">
-                                        <h1 class="px-1 display-6 fs-5">Delete Organization</h1>
+                                        <h1 class="px-1 display-6 fs-5">Deactivate Account</h1>
                                     </div>
                                     <div class="modal-body x-border py-0">
                                         <div class="d-flex gap-2justify-content-center align-items-center danger-notice p-3">
                                             <div class="fs-1 text-danger p-2">
                                                 <i class="fas fa-trash"></i>
                                             </div>
-                                            <div class="p-2 f-d">Notice! This action cannot be undone. Are you sure you want to delete this organization?</div>
+                                            <div class="p-2 f-d">Notice! This action cannot be undone. Are you sure you want to deactivate this user?</div>
                                         </div>
                                         <div class="d-flex justify-content-end my-2 mb-3 gap-2">
-                                            <button id="removeSignatory" class="btn btn-danger rounded confirm-remove">Confirm</button>
+                                            <button id="confirmDeactBtn" class="btn btn-danger rounded confirm-deact">Confirm</button>
+                                            <button type="button" class="btn btn-secondary rounded" data-bs-dismiss="modal">Cancel</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="modal fade custom-modal " id="activateModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content ">
+                                    <div class="modal-header x-border py-1 pt-3">
+                                        <h1 class="px-1 display-6 fs-5">Activate Account</h1>
+                                    </div>
+                                    <div class="modal-body x-border py-0">
+                                        <div class="d-flex gap-2justify-content-center align-items-center px-3">
+                                            <div class="fs-1 text-success p-2">
+                                                <i class="fad fa-check-circle"></i>
+                                            </div>
+                                            <div class="p-2 f-d">Are you sure you want to deactivate this user?</div>
+                                        </div>
+                                        <div class="d-flex justify-content-end my-2 mb-3 gap-2">
+                                            <button id="confirmActBtn" class="btn btn-success rounded confirm-act">Confirm</button>
                                             <button type="button" class="btn btn-secondary rounded" data-bs-dismiss="modal">Cancel</button>
                                         </div>
                                     </div>
@@ -75,9 +106,20 @@
                     </div>
                 </div>
             </div>
-            <script src="../js/filter_student.js?v.2"></script>
+        </div>
+    </div>
+
+    <script src="../js/filter_student.js?v.2"></script>
             <script>
                 $(document).ready(function(){
+
+                    $('.popup-message').animate({opacity: 1}, 800)
+                    setTimeout(function(){
+                        $('.popup-message').animate({opacity: 0}, 800, function() {
+                            $(this).remove();
+                        });
+                    },3000);
+
                     var editId;
 
                     setTimeout(function(){
@@ -109,6 +151,48 @@
                             }
                         })
                     })
+
+                    $(document).on('click', '#my-datable tbody .deact-btn', function() {
+                        let deactId = $(this).attr('data-id');
+                        $('#confirmDeactBtn').attr('data-id', deactId);  
+                        console.log(deactId)
+                    })
+
+                    $(document).on('click', '#my-datable tbody .activate-btn', function() {
+                        let actID = $(this).attr('data-id');
+                        $('#confirmActBtn').attr('data-id', actID);  
+                        console.log(actID)
+                    })
+
+                    $('#confirmActBtn').on('click', function(){
+                        let actID = $('#confirmActBtn').attr('data-id');
+                        $.ajax({
+                            type: "POST",
+                            url: "../controller/user_activate.php",
+                            data: {
+                                id : actID,
+                            },
+                            success: function(result) {
+                                window.location.replace('users_management.php?activation=success');
+                            }
+                        })
+                        console.log(deactId);
+                    });
+
+                    $('#confirmDeactBtn').on('click', function(){
+                        let deactId = $('#confirmDeactBtn').attr('data-id');
+                        $.ajax({
+                            type: "POST",
+                            url: "../controller/user_deactivate.php",
+                            data: {
+                                id : deactId,
+                            },
+                            success: function(result) {
+                                window.location.replace('users_management.php?deactivation=success');
+                            }
+                        })
+                        console.log(deactId);
+                    });
 
                     function saveChanges() {
                         let orgCode = $('#organization_code').val()
@@ -184,6 +268,4 @@
                     
                 })
             </script>
-        </div>
-    </div>
 <?php require_once '../includes/main_footer.php' ?>

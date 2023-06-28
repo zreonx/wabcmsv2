@@ -102,4 +102,24 @@ class ClearanceRequest {
             return false;
         }
     }
+
+    public function issueRequest($id, $date_issued) {
+        try {
+
+            $sql = "UPDATE clearance_requests SET date_issued = :date_issued , status = 'issued' WHERE id = :id ; ";
+            $stmt = $this->conn->prepare($sql);
+            $stmt->bindparam(':id', $id);
+            $stmt->bindparam(':date_issued', $date_issued);
+
+            $stmt->execute();
+
+            return true;
+
+        }catch(PDOException $e) {
+            echo "ERROR: " . $e->getMessage();
+            return false;
+        }
+    }
+
+    
 }

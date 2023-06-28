@@ -8,7 +8,6 @@
 
         $result = $clearance->getClearanceSignatoryDesignationTable($clearance_id, $signatory_id);
 
-
 ?> 
 
 

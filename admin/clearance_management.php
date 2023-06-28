@@ -158,7 +158,7 @@
                                 <?php $count = 1; while($c_row = $clearances->fetch(PDO::FETCH_ASSOC)): ?>
                                     <tr>
                                         <td><div class="td-label"><?php echo $c_row['clearance_name'] ?></div></td>
-                                        <td><div class="td-label"><?php echo $c_row['beneficiary'] ?></div></td>
+                                        <td><div class="td-label"><?php echo (in_array($c_row['clearance_beneficiary'], array("1","2","3")) ) ? $clearance->getBeneficiary($c_row['clearance_beneficiary']) : $c_row['clearance_beneficiary']; ?></div></td>
                                         <td><div class="td-label"><?php echo $c_row['semester'] ?></div></td>
                                         <td><div class="td-label"><?php echo $c_row['academic_year'] ?></div></td>
                                         <td>
@@ -448,10 +448,34 @@
                             },
                             success: function (response){
                                 let result = JSON.parse(response);
-
+                                let bid = result.clearance_info.clearance_beneficiary;
                                 clearClearanceText();
+                                
+                                var number = 0;
+                                for(let i = 0; i < 5; i++) {
+                                    if(i == bid){
+                                        $.ajax({
+                                            type: "POST",
+                                            url: "../controller/clearance_get_beneficiary.php",
+                                            data: {
+                                                key : "hellow",
+                                                id: bid,
+                                            },
+                                            success: function(res) {
+                                                $('#c-cr-text').text(res);
+                                            }
+                                        })
+                                        break;
+                                    }
+                                    number++;
+                                }
 
-                                $('#c-cr-text').text(result.clearance_info.beneficiary);
+                                if(number == 5) {
+                                    $('#c-cr-text').text(bid);
+                                }
+                               
+
+                              
                                 $('#c-ct-text').text(result.clearance_info.clearance_name);
                                 $('#c-sem-text').text(result.clearance_info.semester);
                                 $('#c-ay-text').text(result.clearance_info.academic_year);
@@ -493,7 +517,21 @@
                                     $('#deployStudentBtn').prop('disabled', true);
                                     $('#endClearanceBtn').prop('disabled', true);
                                 }
-                                
+
+                                // $.ajax({
+                                //     type: "POST",
+                                //     url: "../controller/clearance_get_beneficiary.php",
+                                //     data: {
+                                //         ket: "Key",
+                                //         id : bid
+                                //     },
+                                //     dataType: "json",
+                                //     success: function(res) {
+                                //         console.log(res);
+                                //         // let cb = JSON.parse(res);
+                                //         // $('#c-cr-text').text(cb.beneficiary);
+                                //     }
+                                // })
                             }
                         })
 

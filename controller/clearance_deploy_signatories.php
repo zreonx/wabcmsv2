@@ -238,21 +238,106 @@
                 $clearance->createClearanceDesignation($id, $sig_des['signatory_id'], $sig_des['signatory_workplace_name'], $designation_table);
             }
         
-        }else if($cleaerance_type == "2") {
+        }else {
             echo "transfering clearance";
+
+            $activeSig = $designation->designationTableRecord();
+            $stud_info = $clearance->getStudentInfo($clearance_beneficiary);
+            print_r($activeSig);
+
+            //creating clearance submission
+            $clearance->createSignatoryDeficiencySubmission($id);
+
+            foreach($activeSig as $sig) {
+
+                //Course -> College / Departments -> Signatories / Strand ->SHS
+                if($sig['signatory_workplace_name'] == $stud_info['program_course']) {
+                    $tb_name = $sig['signatory_clearance_table_name'];
+                    //function of inserting student 
+
+                    $clearance->insertStudentToTable($tb_name, $id, $semester, $academic_year, $stud_info['student_id'], $date_approval);
+                    $submissionRecord = $clearance->checkDeficiencySubmission($id);
+                    if($submissionRecord > 0) {
+                        $cdInfo = $clearance->getDeficiencySubmissionId($id);
+                        $clearance->createClearanceDesignation($id, $sig['signatory_id'], $sig['signatory_workplace_name'], $tb_name);
+                        $clearance->insertSignatoryDeficiencyStatus($cdInfo['id'], $sig['signatory_id'], $tb_name, '');
+                    }
+                    break;
+                }
+
+            }
+
+             //offices
+             $offices = $office->getAllOffice();
+             foreach($activeSig as $sig) {
+                foreach($offices as $ofc) {
+                   
+                    $tb_name = $sig['signatory_clearance_table_name'];
+                    if ($ofc['office_name'] == $sig['signatory_workplace_name']) {
+                        if($ofc['office_name'] == "SHS Principal Office"){
+
+                            $shs_strand = array("ABM","STEM");
+                            if(in_array($stud_info['program_course'], $shs_strand)){
+                                echo "inserted to " . $tb_name;
+                                $clearance->insertStudentToTable($tb_name, $id, $semester, $academic_year, $stud_info['student_id'], $date_approval);
+                                $submissionRecord = $clearance->checkDeficiencySubmission($id);
+                                if($submissionRecord > 0) {
+                                    $cdInfo = $clearance->getDeficiencySubmissionId($id);
+                                    $clearance->createClearanceDesignation($id, $sig['signatory_id'], $sig['signatory_workplace_name'], $tb_name);
+                                    $clearance->insertSignatoryDeficiencyStatus($cdInfo['id'], $sig['signatory_id'], $tb_name, '');
+                                }
+                                break;
+                            }
+
+                            break;
+                        }else {
+                            echo "inserted to " . $tb_name . "\n";
+                            $clearance->insertStudentToTable($tb_name, $id, $semester, $academic_year, $stud_info['student_id'], $date_approval);
+                            $submissionRecord = $clearance->checkDeficiencySubmission($id);
+                            if($submissionRecord > 0) {
+                                $cdInfo = $clearance->getDeficiencySubmissionId($id);
+                                $clearance->createClearanceDesignation($id, $sig['signatory_id'], $sig['signatory_workplace_name'], $tb_name);
+                                $clearance->insertSignatoryDeficiencyStatus($cdInfo['id'], $sig['signatory_id'], $tb_name, '');
+                            }
+                                break;
+                        }
+                    }
+                }
+            }   
+            
+            foreach($activeSig as $sig){
+                $org_member = $organization->getOrgMember($sig['signatory_workplace_name']);
+                $tb_name = $sig['signatory_clearance_table_name'];
+                foreach($org_member as $mem){
+                    if($mem['student_id'] == $stud_info['student_id']){
+                        echo "inserted to " . $tb_name . "\n";
+                        $clearance->insertStudentToTable($tb_name, $id, $semester, $academic_year, $stud_info['student_id'], $date_approval);
+                        $submissionRecord = $clearance->checkDeficiencySubmission($id);
+                        if($submissionRecord > 0) {
+                            $cdInfo = $clearance->getDeficiencySubmissionId($id);
+                            $clearance->createClearanceDesignation($id, $sig['signatory_id'], $sig['signatory_workplace_name'], $tb_name);
+                            $clearance->insertSignatoryDeficiencyStatus($cdInfo['id'], $sig['signatory_id'], $tb_name, '');
+                        }
+                        break;
+                    }
+                }
+
+            }
         }
 
-        $clearance->createSignatoryDeficiencySubmission($id);
-        $submissionRecord = $clearance->checkDeficiencySubmission($id);
+        if($clearance_type == 1) {
+            $clearance->createSignatoryDeficiencySubmission($id);
+            $submissionRecord = $clearance->checkDeficiencySubmission($id);
 
 
-        if($submissionRecord > 0) {
-            $cdInfo = $clearance->getDeficiencySubmissionId($id);
-            echo $cdInfo['id'];
-            echo $designation_table;
-            foreach($allsig_data as $sig_des) {
-                $designation_table = clearance_table_prefix($sig_des['signatory_workplace_name'], $sig_des['signatory_designation'], $sig_des['signatory_id']);
-                $clearance->insertSignatoryDeficiencyStatus($cdInfo['id'], $sig_des['signatory_id'], $designation_table, '');
+            if($submissionRecord > 0) {
+                $cdInfo = $clearance->getDeficiencySubmissionId($id);
+                echo $cdInfo['id'];
+                echo $designation_table;
+                foreach($allsig_data as $sig_des) {
+                    $designation_table = clearance_table_prefix($sig_des['signatory_workplace_name'], $sig_des['signatory_designation'], $sig_des['signatory_id']);
+                    $clearance->insertSignatoryDeficiencyStatus($cdInfo['id'], $sig_des['signatory_id'], $designation_table, '');
+                }
             }
         }
 

@@ -37,7 +37,7 @@ class Clearance {
     public function getAllClearance() {
         try {
 
-            $sql = "SELECT *, c.id as 'clearance_id' FROM clearances c INNER JOIN clearance_beneficiaries cb ON c.clearance_beneficiary = cb.id INNER JOIN clearance_type ct ON c.clearance_type = ct.id WHERE c.status != 'deleted'";
+            $sql = "SELECT *, c.id as 'clearance_id' FROM clearances c INNER JOIN clearance_type ct ON c.clearance_type = ct.id WHERE c.status != 'deleted'";
             $result = $this->conn->query($sql);
             return $result;
      
@@ -46,12 +46,27 @@ class Clearance {
             return false;
         }
     }
+
+    public function getBeneficiary($id) {
+        try {
+
+            $sql = "SELECT beneficiary FROM clearance_beneficiaries WHERE id = '$id'";
+            $result = $this->conn->query($sql);
+            $data = $result->fetch(PDO::FETCH_ASSOC);
+            return $data['beneficiary'];
+     
+        }catch(PDOException $e) {
+            echo "ERROR: " . $e->getMessage();
+            return false;
+        }
+    }
+    
     
 
     public function getClearanceInfo($id) {
         try {
 
-            $sql = "SELECT *, c.status AS 'c_status' FROM clearances c INNER JOIN clearance_beneficiaries cb ON c.clearance_beneficiary = cb.id INNER JOIN clearance_type ct ON c.clearance_type = ct.id WHERE c.id = $id";
+            $sql = "SELECT *, c.status AS 'c_status' FROM clearances c INNER JOIN clearance_type ct ON c.clearance_type = ct.id WHERE c.id = $id";
             $result = $this->conn->query($sql);
             return $result;
             
@@ -365,7 +380,7 @@ class Clearance {
 
     public function getActiveClearance() {
         try {
-            $sql = "SELECT * FROM clearance_status cs INNER JOIN clearances c ON cs.clearance_id = c.id INNER JOIN clearance_type ct ON c.clearance_type = ct.id INNER JOIN clearance_beneficiaries cb ON c.clearance_beneficiary = cb.id WHERE cs.status IN ('active','ended')";
+            $sql = "SELECT * FROM clearance_status cs INNER JOIN clearances c ON cs.clearance_id = c.id INNER JOIN clearance_type ct ON c.clearance_type = ct.id WHERE cs.status IN ('active','ended')";
             $result = $this->conn->query($sql);
             return $result->fetchAll(PDO::FETCH_ASSOC);
         }catch(PDOException $e) {
@@ -386,7 +401,7 @@ class Clearance {
 
     public function getActiveClearanceSignatories() {
         try {
-            $sql = "SELECT * FROM clearance_status cs INNER JOIN clearances c ON cs.clearance_id = c.id INNER JOIN clearance_type ct ON c.clearance_type = ct.id INNER JOIN clearance_beneficiaries cb ON c.clearance_beneficiary = cb.id   WHERE cs.status IN ('active')";
+            $sql = "SELECT * FROM clearance_status cs INNER JOIN clearances c ON cs.clearance_id = c.id INNER JOIN clearance_type ct ON c.clearance_type = ct.id WHERE cs.status IN ('active')";
             $result = $this->conn->query($sql);
             return $result->fetchAll(PDO::FETCH_ASSOC);
         }catch(PDOException $e) {
@@ -912,6 +927,7 @@ class Clearance {
             return false;
         }
     }
+
 
     
 
