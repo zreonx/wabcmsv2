@@ -2,6 +2,9 @@
     require_once '../includes/main_header.php' ;
 
     $active_claerance = $dashboard->getActiveClearance();
+    $current_year = date('Y');
+    $prev_year = $current_year - 1;
+    $next_year = date('Y', strtotime($current_year . ' +1 year'));
 
 ?>
 <style>
@@ -17,7 +20,7 @@
     </div> -->
     <div class="d-flex justify-content-between mb-2 align-items-center">
         <h1 class="page-title fs-5 display-6 ">Dashboard </h1>
-        <div class="f-d badge bg-success rounded" data-bs-toggle="tooltip" title="Clearance Reference Number">A.Y 2022-2023</div>
+        <div class="f-d badge bg-success rounded" data-bs-toggle="tooltip" title="Academic Year"><?php echo $prev_year ?>-<?php echo $current_year ?></div>
     </div>
 
     <div class="d-grid">
@@ -82,14 +85,14 @@
 
     <div class="d-charts d-flex gap-2">
         
-        <div class="mt-3 py-2 pb-3">
+        <div class="mt-3 py-2 pb-3 bg-white p-4 w-25 w-r-100">
             <div class="d-flex justify-content-between align-items-center mb-1">
                 <div class="f-d">Workplace</div>
                 <div class="info-btn">
                     <i class="fal fa-info-circle"></i>
                 </div>
             </div>
-            <div class="px-2 bg-white rounded py-1">
+            <div class="px-2 rounded py-1">
                 <?php 
                     $workplace = $dashboard->getWorkplace();
                 ?>
@@ -115,7 +118,7 @@
             </div>
         </div>
         <?php if(!empty($active_claerance) && $active_claerance['clearance_name'] == "Finals Clearance"): ?>
-        <div class=" flex-grow-1 p-3">
+        <div class=" flex-grow-1 p-3 d-none">
             <div class="d-flex justify-content-between align-items-center mb-2">
                 <div class="fs-6 text-success">Active Clearance <i class="fas fa-check-circle pt-1 fs-5"></i></div>
                 <div class="f-d badge bg-success rounded" data-bs-toggle="tooltip" title="Clearance Reference Number">CRN  <?php echo $active_claerance['clearance_id']; ?></div>
@@ -152,8 +155,6 @@
             </div>
         </div>
     </div>
-    <?php else: ?>
-        <?php echo "<h1 class='display-6 fs-6 mt-2'><em><i class='fal fa-info-circle'></i>  There is no active finals clearance</div></em>" ?>
     <?php endif; ?>
     
 </div>

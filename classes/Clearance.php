@@ -390,7 +390,7 @@ class Clearance {
     }
     public function getPreviousClearance() {
         try {
-            $sql = "SELECT * FROM clearance_status cs INNER JOIN clearances c ON cs.clearance_id = c.id INNER JOIN clearance_type ct ON c.clearance_type = ct.id INNER JOIN clearance_beneficiaries cb ON c.clearance_beneficiary = cb.id WHERE cs.status IN ('ended')";
+            $sql = "SELECT * FROM clearance_status cs INNER JOIN clearances c ON cs.clearance_id = c.id INNER JOIN clearance_type ct ON c.clearance_type = ct.id WHERE cs.status IN ('ended')";
             $result = $this->conn->query($sql);
             return $result->fetchAll(PDO::FETCH_ASSOC);
         }catch(PDOException $e) {
@@ -411,7 +411,7 @@ class Clearance {
     }
     public function getPreviousClearanceSignatories() {
         try {
-            $sql = "SELECT * FROM clearance_status cs INNER JOIN clearances c ON cs.clearance_id = c.id INNER JOIN clearance_type ct ON c.clearance_type = ct.id INNER JOIN clearance_beneficiaries cb ON c.clearance_beneficiary = cb.id   WHERE cs.status IN ('ended')";
+            $sql = "SELECT * FROM clearance_status cs INNER JOIN clearances c ON cs.clearance_id = c.id INNER JOIN clearance_type ct ON c.clearance_type = ct.id WHERE cs.status IN ('ended')";
             $result = $this->conn->query($sql);
             return $result->fetchAll(PDO::FETCH_ASSOC);
         }catch(PDOException $e) {
@@ -422,7 +422,7 @@ class Clearance {
 
     public function getActiveClearanceById($clearance_id) {
         try {
-            $sql = "SELECT * FROM clearance_status cs INNER JOIN clearances c ON cs.clearance_id = c.id INNER JOIN clearance_type ct ON c.clearance_type = ct.id WHERE cs.clearance_id = '$clearance_id' AND cs.status = 'active'";
+            $sql = "SELECT * FROM clearance_status cs INNER JOIN clearances c ON cs.clearance_id = c.id INNER JOIN clearance_type ct ON c.clearance_type = ct.id WHERE cs.clearance_id = '$clearance_id' AND cs.status IN ('active','ended')";
             $result = $this->conn->query($sql);
             return $result->fetch(PDO::FETCH_ASSOC);
         }catch(PDOException $e) {
@@ -920,6 +920,18 @@ class Clearance {
     public function getStudentInfo($student_id) {
         try {
             $sql = "SELECT * FROM students WHERE student_id = '$student_id'";
+            $result = $this->conn->query($sql);
+            return $result->fetch(PDO::FETCH_ASSOC);
+        }catch(PDOException $e) {
+            echo "ERROR: " . $e->getMessage();
+            return false;
+        }
+    }
+
+
+    public function getPersonalClearance($clearance_id, $student_id) {
+        try {
+            $sql = "SELECT student_id, clearance_id FROM clearance_student_record WHERE student_id = '$student_id' AND clearance_id = '$clearance_id'";
             $result = $this->conn->query($sql);
             return $result->fetch(PDO::FETCH_ASSOC);
         }catch(PDOException $e) {

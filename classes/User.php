@@ -73,7 +73,7 @@ class User {
             $result = $this->conn->query($sql);
             $user_type = $result->fetch(PDO::FETCH_ASSOC);
             
-            return $user_type['user_type'];
+            return $user_type;
      
         }catch(PDOException $e) {
             echo "ERROR: " . $e->getMessage();
@@ -85,7 +85,7 @@ class User {
         try {
 
             if($user_type == "student"){
-                $sql = 'SELECT * FROM users WHERE user_type = :type AND email = :email OR user_id = :email AND password = :password ;';
+                $sql = 'SELECT * FROM users WHERE user_type = :type AND email = :email OR user_id = :email AND password = :password;';
                 $stmt = $this->conn->prepare($sql);
                 $stmt->bindparam(':type', $user_type);
                 $stmt->bindparam(':email', $email);
@@ -93,7 +93,7 @@ class User {
                 $stmt->execute();
                 $result = $stmt->fetch(PDO::FETCH_ASSOC);
             }else {
-                $sql = 'SELECT * FROM users WHERE user_type = :type AND email = :email AND password = :password ;';
+                $sql = 'SELECT * FROM users WHERE user_type = :type AND email = :email AND password = :password AND status = "active" ;';
                 $stmt = $this->conn->prepare($sql);
                 $stmt->bindparam(':type', $user_type);
                 $stmt->bindparam(':email', $email);
@@ -142,7 +142,7 @@ class User {
     public function getStudentInfo($user_id) {
         try {
 
-            $sql = "SELECT * FROM students WHERE student_id = '$user_id' AND status = 'imported'";
+            $sql = "SELECT * FROM students WHERE student_id = '$user_id' AND status IN ('imported','graduated')";
             $result = $this->conn->query($sql);
             return $result->fetch(PDO::FETCH_ASSOC);
             

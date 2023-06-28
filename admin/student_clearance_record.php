@@ -56,7 +56,7 @@
                     <h1 class="f-d display-6 mb-0"><?php echo $clearance_info['semester'] ?></h1>
                     <h1 class="f-d display-6 mb-0">A.Y. <?php echo $clearance_info['academic_year'] ?></h1>
                 </div>
-                <button id="printReport" class="btn btn-success rounded dis-btn fs-5" data-bs-toggle="tooltip" title="Print Student Clearance"><i class="fas fa-print"></i></button>
+                <button id="printReport" class="d-none btn btn-success rounded dis-btn fs-5" data-bs-toggle="tooltip" title="Print Student Clearance"><i class="fas fa-print"></i></button>
             </div>
             <div class="d-flex justify-content-between align-items-end mb-2 ">
                 <h1 class="fs-6 display-6 mb-0">Students</h1>

@@ -10,7 +10,7 @@ class Student {
     public function getStudents() {
         try {
 
-            $sql = "SELECT * FROM students WHERE status = 'imported'";
+            $sql = "SELECT * FROM students WHERE status IN ('imported', 'graduated')";
             $result = $this->conn->query($sql);
             return $result;
      
@@ -53,6 +53,23 @@ class Student {
             return false;
         }
         
+    }
+
+    public function graduateStudent($student_id) {
+        try {
+
+            $sql = "UPDATE students SET status = 'graduated' WHERE student_id = :student_id ; ";
+            $stmt = $this->conn->prepare($sql);
+            $stmt->bindparam(':student_id', $student_id);
+
+            $stmt->execute();
+
+            return true;
+
+        }catch(PDOException $e) {
+            echo "ERROR: " . $e->getMessage();
+            return false;
+        }
     }
     
 

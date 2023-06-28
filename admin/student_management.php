@@ -13,7 +13,8 @@
         <div class="page-header d-flex flex-wrap align-items-center gap-2 justify-content-md-between">
             <h1 class="page-title fs-5 display-6">Student Management</h1>
             <div class="d-flex gap-2 flex-wrap align-items-center justify-content-center">
-                <div class="btn btn-success rounded mb-3" id="addOrgBtn" data-bs-toggle="modal" data-bs-target="#importModal"><i class="fas me-1 fa-plus"></i> Import CSV</div>
+                <div class="btn btn-outline-success rounded mb-3" id="addOrgBtn" data-bs-toggle="modal" data-bs-target="#importModal"><i class="fas me-1 fa-plus"></i> Import Student</div>
+                <div class="btn btn-outline-success rounded mb-3" id="addOrgBtn" data-bs-toggle="modal" data-bs-target="#importGraduateModal"><i class="fas me-1 fa-plus"></i> Import Graduates</div>
             </div>
         </div>
         <div class="page-content p-2 rounded ">
@@ -65,7 +66,7 @@
                                     <td><?php echo $stud_row['program_course']; ?></td>
                                     <td><?php echo $stud_row['academic_level']; ?></td>
                                     <td><?php echo $stud_row['year_level']; ?></td>
-                                    <td class="text-center align-middle"><?php echo ($stud_row['status'] == "imported") ? '<div class="badge-green"><i class="fas fa-circle i-dot i-success "></i> <span>Enrolled</span></div>' : ''; ?></td>
+                                    <td class="text-center align-middle"><?php echo ($stud_row['status'] == "imported") ? '<div class="badge-green"><i class="fas fa-circle i-dot i-success "></i> <span>Enrolled</span></div>' : '<div class="badge-primary"><i class="fas fa-circle i-dot i-primary "></i> <span>Graduated</span></div>'; ?></td>
                                     <!-- <td><button data-id="<?php echo $sig_row['id']?>" class="btn btn-delete btn-sm btn-success rounded btnsm" data-bs-toggle="modal" data-bs-target="#deleteModal">Delete</button></td> -->
                                 </tr>
                                 
@@ -81,6 +82,30 @@
                                     </div>
                                     <div class="modal-body x-border py-0">
                                         <form class="px-3 pb-3" action="../controller/student_import.php" method="post" enctype="multipart/form-data">
+                                            <div class="file-upload">
+                                                <label>
+                                                    <input type="file" class="form-control" name="csvfile" accept=".csv">
+                                                    <span>Choose CSV file or drag it here</span>
+                                                </label>
+                                            </div>   
+                                            <div class="d-flex justify-content-end gap-2">
+                                                <button type="submit" class="btn btn-success rounded" name="submit">Import</button>
+                                                <button type="button" class="btn btn-secondary rounded" data-bs-dismiss="modal">Cancel</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="modal fade custom-modal" id="importGraduateModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header x-border py-1 pt-3">
+                                        <h1 class="px-1 display-6 fs-6">Import Graduate Student</h1>
+                                    </div>
+                                    <div class="modal-body x-border py-0">
+                                        <form class="px-3 pb-3" action="../controller/student_graduate_import.php" method="post" enctype="multipart/form-data">
                                             <div class="file-upload">
                                                 <label>
                                                     <input type="file" class="form-control" name="csvfile" accept=".csv">

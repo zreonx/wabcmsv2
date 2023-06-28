@@ -3,6 +3,7 @@
     $clearance_id = $_GET['clearance_id'];
 
     $cl_info = $clearance->getActiveClearanceById($clearance_id);
+
     $user_data = $_SESSION['user_data'];
 
     $midinit = strtoupper(substr($user_data['middle_name'], 0, 1)) . ". ";
@@ -213,7 +214,7 @@
     
                             ?>
                         </div>  
-                        <div class="d-flex flex-column justify-content-center">
+                        <div class="d-flex flex-column justify-content-center mt-2">
                             <?php 
                                 $yourOrgPres = false;
                                 foreach($allSigOrgById as $sigOrg){
@@ -235,7 +236,7 @@
                                                     <hr class="my-2 c-hr mx-auto"/>
                                                     <h1 class="f-d m-0">'. $sig_info['first_name'] . ' ' . $sig_info['middle_name'] . ' ' . $sig_info['last_name'].'</h1>
                                                     ';
-                                                    echo '<span class="fs-d">'. $sigOrg['workplace']. ' ' .'President</span>';
+                                                    echo '<span class="fs-d">'. $sigOrg['workplace']. ' ' .'Adviser</span>';
                                                 }
                                             }
                                             break;

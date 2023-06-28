@@ -20,6 +20,10 @@
                             Invalid username or password.
                             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                           </div>' ;}
+                          if(isset($_GET['user']) and $_GET['user'] == "inactive") { echo '<div class="alert alert-danger alert-dismissible fade show d-flex align-items-center mb-0" role="alert">
+                           This user has been deactivated.
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                          </div>' ;}
                     ?>
                     
                 </div>
@@ -28,7 +32,7 @@
                     <form action="controller/user_login.php" method="POST">
                         <div class="mb-3">
                             <label class="form-label">Email</label>
-                            <input type="text" name="email" placeholder="Email" value="<?php if(isset($_SESSION['email'])){ echo $_SESSION['email']; } ?>" class="form-control" required>
+                            <input type="text" name="email" placeholder="Email or Student ID" value="<?php if(isset($_SESSION['email'])){ echo $_SESSION['email']; } ?>" class="form-control" required>
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Password</label>

@@ -50,6 +50,7 @@
 
     $allSignatoryOrg = $clearance->allActiveSignatoryTableOrg();
 
+
 ?>
     <div class="page x-border">
         <?php if(isset($_GET['success'])){ echo '<div class="alert alert-success" id="err">Clearance has been created.</div>'; } ?>

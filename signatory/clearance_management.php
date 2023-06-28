@@ -23,9 +23,10 @@
             </div>
             
         </div>
-        <div class="page-content p-2 pt-0 rounded x-border position-relative" style="max-height: 80vh; height: 90vh; padding-top: 10px;">
-           
+        <div class="page-content p-2 pt-0 rounded x-border">
+            <?php if(!empty($activeClearance)): ?>
             <div class="card-grid">
+               
                 <?php foreach($activeClearance as $ac_signatory): ?>
                 <div class="clearance-card">
                     <div class="cl-card-header">
@@ -47,9 +48,17 @@
                     </div>
                 </div>
                 <?php endforeach; ?>
+               
             </div>
 
-            <div class="b-pc" id="archive">
+            <?php else: ?>
+                <h1 class="display-6 fs-5 text-center m-0">There is no active clearance to show</h1>
+                <div class="d-flex justify-content-center h-50 mt-4">
+                    <img class="img-fluid opacity-50" src="https://img.freepik.com/free-vector/empty-concept-illustration_114360-1233.jpg?w=740&t=st=1687967042~exp=1687967642~hmac=2085af3ddc6ff462d49b7037046f95e359adfa45ae402b49bbf4c210e6bb84be" alt="">
+                </div>
+            <?php endif; ?>
+
+            <div id="archive">
                 <hr class="mt-5 mb-3" stype="box-sizing: border-box;">
                 <h1 class="fs-6 display-6 pb-1 mb-2"><i class=" fa-solid fa-clock-rotate-left me-2"></i>Previous Clearance</h1>
                 <div class="card-grid">
@@ -76,6 +85,10 @@
                     <?php endforeach; ?>
                 </div>
             </div>
+
+            <br>
+            <br>
+            <br>
 
             <div class="modal fade custom-modal " id="designationModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                 <div class="modal-dialog">
