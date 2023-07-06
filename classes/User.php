@@ -355,7 +355,7 @@ class User {
 
     public function allDesignation() {
         try {
-            $sql = "SELECT * FROM designation_meta dm INNER JOIN designation_signatory ds ON dm.id = ds.designation_id INNER JOIN signatories s ON ds.signatory_id = s.id INNER JOIN users u ON s.id = u.user_id WHERE dm.status = 'active' AND ds.status = 'active'";
+            $sql = "SELECT * FROM designation_meta dm INNER JOIN designation_signatory ds ON dm.id = ds.designation_id INNER JOIN signatories s ON ds.signatory_id = s.id INNER JOIN users u ON s.id = u.user_id WHERE u.user_type = 'signatory' AND dm.status = 'active' AND ds.status = 'active'";
             $result = $this->conn->query($sql);
             return $result->fetchAll(PDO::FETCH_ASSOC);
      

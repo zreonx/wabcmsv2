@@ -66,6 +66,9 @@
         <div class="page-content rounded x-border">
             <?php if($user_data['academic_level'] == 'College'): ?>
             <?php
+            if($user_data['academic_level'] == 'college') {
+                
+            }
                $course_id = $clearance->getStudentCourseId($user_data['program_course']);
                $deptOrg = $organization->orgLinkedDepartmentInformation($course_id);             
             ?>
@@ -259,7 +262,7 @@
     
                             ?>
                         </div>  
-                        <div class="d-flex flex-column justify-content-center">
+                        <div class="d-flex flex-column justify-content-center mt-2">
                             <?php 
                                 $yourOrgPres = false;
                                 foreach($allSigOrgById as $sigOrg){
@@ -281,7 +284,7 @@
                                                     <hr class="my-2 c-hr mx-auto"/>
                                                     <h1 class="f-d m-0">'. $sig_info['first_name'] . ' ' . $sig_info['middle_name'] . ' ' . $sig_info['last_name'].'</h1>
                                                     ';
-                                                    echo '<span class="fs-d">'. $sigOrg['workplace']. ' ' .'President</span>';
+                                                    echo '<span class="fs-d">'. $sigOrg['workplace']. ' ' .'Adviser</span>';
                                                 }
                                             }
                                             break;

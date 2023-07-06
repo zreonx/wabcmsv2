@@ -31,6 +31,11 @@
             <?php if(!empty($activeClearance)): ?>
             <div class="card-grid-s x-border" >
                 <?php foreach($activeClearance as $cinfo): ?>
+
+                    <?php 
+                        $myClearance = $clearance->getPersonalClearance($cinfo['clearance_id'], $user_data['student_id']); 
+                        if(!empty($myClearance)):
+                    ?>
                     
                 <div class="sc-card">
                     <div class="sc-header d-flex justify-content-between align-items-center">
@@ -64,7 +69,8 @@
                     </div>
                     
                 </div>
-
+                
+                <?php endif; ?>
                 <?php endforeach; ?>
                 
             </div>

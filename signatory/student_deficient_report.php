@@ -34,12 +34,12 @@
     // $table_name = 'sdb_co_president_19';
     // $clearance_id = 26;
     $clearanceInfo = $report->getClearanceInfo($clearance_id);
-    $allSignatory = $report->getSignatoryStudents($table_name, $clearance_id);
+    $allSignatory = $report->getDeficientSignatoryStudents($table_name, $clearance_id);
 
 ?>
     <div class="page">
         <div class="d-flex justify-content-between align-items-center mb-2">
-            <div class="fs-4">Student Clearance Report</div>
+            <div class="fs-4">Deficient Student Report</div>
             <div class="f-s">Date Printed: <?php echo date("Y/m/d"); ?></div>
         </div>
         <div class="mb-2">

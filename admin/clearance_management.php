@@ -4,7 +4,8 @@
     $clearanceTypes = $clearance->getClearanceType();
     $clearances = $clearance->getAllClearance();
     $beneficiaries = $clearance->getBeneficiaries();
-
+    $user_data = $_SESSION['user_data'];
+    print_r($user_data);
     $current_year = date('Y');
     $prev_year = $current_year - 1;
     $next_year = date('Y', strtotime($current_year . ' +1 year'));
@@ -118,7 +119,7 @@
                                             <!-- <div class="fs-1 text-danger p-2">
                                                 <i class="fas fa-exclamation-triangle"></i>
                                             </div> -->
-                                            <div class="danger-notice f-d mt-3 my-2"> <i class="fas fa-exclamation-triangle text-danger"></i> Notice! Please check all the information you've entered before proceeding, once it was added, it cannot be edited.</div>
+                                            <div class="warning-notice f-d mt-3 my-2"> <i class="fas fa-exclamation-triangle text-danger"></i> Notice! Please check all the information you've entered before proceeding, once it was added, it cannot be edited.</div>
                                             
                                         </div>
                                         </div>
@@ -162,7 +163,7 @@
                                         <td><div class="td-label"><?php echo $c_row['semester'] ?></div></td>
                                         <td><div class="td-label"><?php echo $c_row['academic_year'] ?></div></td>
                                         <td>
-                                            <button data-id="<?php echo $c_row['clearance_id']?>" class="btn btn-delete btn-sm btn-success rounded btnsm" data-bs-toggle="modal" data-bs-target="#deleteModal"><i class="fas fa-trash me-1"></i> Delete</button>
+                                            <button data-id="<?php echo $c_row['clearance_id']?>" class="btn btn-delete btn-sm btn-danger rounded btnsm" data-bs-toggle="modal" data-bs-target="#deleteModal"><i class="fas fa-trash me-1"></i> Delete</button>
                                             <button data-id="<?php echo $c_row['clearance_id'] ?>" class="btn btn-sm btn-success rounded btnsm status-btn" data-bs-toggle="modal" data-bs-target="#clearanceDashboard" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Clearance Status" data-bs-custom-class="custom-tooltip"><i class="fas fs-6 fa-sliders-h"></i></button>
                                         </td>
                                     </tr>

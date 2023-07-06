@@ -93,8 +93,8 @@
                                         ?>
                                     </td>
                                     <td>
-                                        <button data-id="<?php echo $sig_row['id'] ?>" class="btn btn-sm btn-success rounded edit-btn"> <i class="fas fa-edit"></i> Edit</button>
-                                        <button data-id="<?php echo $sig_row['id']?>" class="btn btn-delete btn-sm btn-success rounded " data-bs-toggle="modal" data-bs-target="#deleteModal"><i class="fas fa-trash"></i> Delete</button>
+                                        <button data-id="<?php echo $sig_row['id'] ?>" class="btn btn-sm btn-primary rounded edit-btn"> <i class="fas fa-edit"></i> Edit</button>
+                                        <button data-id="<?php echo $sig_row['id']?>" class="btn btn-delete btn-sm btn-danger rounded " data-bs-toggle="modal" data-bs-target="#deleteModal"><i class="fas fa-trash"></i> Delete</button>
                                     </td>
                                 </tr>
 

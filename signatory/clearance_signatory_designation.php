@@ -101,7 +101,6 @@
                     <h1 class="f-d display-6 mb-0"><?php echo $clearanceInfo['semester'] ?></h1>
                     <h1 class="f-d display-6 mb-0">A.Y. <?php echo $clearanceInfo['academic_year'] ?></h1>
                 </div>
-                <button id="printReport" class="btn btn-success rounded dis-btn fs-5" data-bs-toggle="tooltip" title="Print Student Clearance"><i class="fas fa-print"></i></button>
             </div>
             <div class="d-flex justify-content-between align-items-end mb-2 ">
                 <h1 class="fs-6 display-6 mb-0">Students</h1>
@@ -112,7 +111,7 @@
             </div>  
             <div>
                 <div class="custom-table px-3 pb-3">
-                    <table class="table display w-100 mb-2" id="my-datable"">
+                    <table class="table display w-100 mb-2 table-hover" id="my-datable">
                         <thead>
                             <tr>
                                 <th>Name</th>
@@ -169,8 +168,9 @@
                                             </span>
                                             
                                             <?php endif; ?>
-                                        <button data-id="<?php echo $des_student['student_id'] ?>" data-cl-id="<?php echo $_GET['clearance_id'] ?>" data-cl-table="<?php echo $_GET['designation_workplace'] ?>" data-cl-workplace="<?php echo $_GET['workplace'] ?>" class="btn btn-sm btn-success rounded btnsm clear-btn" <?php echo ($des_student['student_clearance_status'] == "1") ? 'disabled' : '' ; ?> ><i class="far fa-user-check"></i> Clear</button>
-                                        
+                                            <span data-bs-toggle="tooltip" title="Clear Student">
+                                                <button data-id="<?php echo $des_student['student_id'] ?>" data-cl-id="<?php echo $_GET['clearance_id'] ?>" data-cl-table="<?php echo $_GET['designation_workplace'] ?>" data-cl-workplace="<?php echo $_GET['workplace'] ?>" class="btn btn-sm btn-success rounded btnsm clear-btn" <?php echo ($des_student['student_clearance_status'] == "1") ? 'disabled' : '' ; ?> ><i class="fas fa-thumbs-up"></i></button>
+                                            </span>
                                        
                                     </td>
                                 </tr>
@@ -179,6 +179,11 @@
                             
                     
                     </table>
+
+                   <div class="mt-3">
+                        <button id="printReport" class="btn btn-success rounded dis-btn" data-bs-toggle="tooltip" title="Print Student Clearance"><i class="fas fa-print me-1"></i> Print Report</button>
+                        <button id="printDeficientReport" class="btn btn-success rounded dis-btn" data-bs-toggle="tooltip" title="Print Deficient Student"><i class="fas fa-print me-1"></i> Print Deficient</button>
+                   </div>
 
                     <div class="modal fade custom-modal" id="singleDeficiency" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                         <div class="modal-dialog">
@@ -521,10 +526,35 @@
                     });
 
                     $('#printReport').click(function() {
-                        var clearance_id = '<?php echo $_GET['clearance_id']; ?>';
-                        var designation_table = '<?php echo $_GET['designation_workplace']; ?>';
+                        let clearance_id = '<?php echo $_GET['clearance_id']; ?>';
+                        let designation_table = '<?php echo $_GET['designation_workplace']; ?>';
                         $.ajax({
                             url: 'student_clearance_report.php',
+                            type: "GET",
+                            data: {clearance_id: clearance_id,
+                                   designation_table: designation_table
+                                },
+                            success: function(response) {
+                                // Create a new window and write the response content to it
+                                let printWindow = window.open('', 'Print Window');
+                                printWindow.document.write(response);
+
+                                // Wait for the new window to finish loading before calling the print() function
+                                
+                                setTimeout(function(){
+                                    printWindow.print();
+                                    // Close the new window
+                                    printWindow.close();
+                                }, 1000);
+                            }
+                        });
+                    });
+
+                    $('#printDeficientReport').click(function() {
+                        let clearance_id = '<?php echo $_GET['clearance_id']; ?>';
+                        let designation_table = '<?php echo $_GET['designation_workplace']; ?>';
+                        $.ajax({
+                            url: 'student_deficient_report.php',
                             type: "GET",
                             data: {clearance_id: clearance_id,
                                    designation_table: designation_table

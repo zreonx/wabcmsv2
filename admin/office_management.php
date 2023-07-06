@@ -48,8 +48,8 @@
                                 <tr>
                                     <th><?php echo $office_row['office_name'] ?></th>
                                     <td>
-                                        <button data-id="<?php echo $office_row['id'] ?>" class="btn btn-sm btn-success rounded btnsm edit-btn"><i class="fas fa-edit"></i> Edit</button>
-                                        <button data-id="<?php echo $office_row['id']?>" class="btn btn-delete btn-sm btn-success rounded btnsm" data-bs-toggle="modal" data-bs-target="#deleteModal"><i class="fas fa-trash"></i> Delete</button>
+                                        <button data-id="<?php echo $office_row['id'] ?>" class="btn btn-sm btn-primary rounded btnsm edit-btn"><i class="fas fa-edit"></i> Edit</button>
+                                        <button data-id="<?php echo $office_row['id']?>" class="btn btn-delete btn-sm btn-danger rounded btnsm" data-bs-toggle="modal" data-bs-target="#deleteModal"><i class="fas fa-trash"></i> Delete</button>
                                     </td>
                                 </tr>
 

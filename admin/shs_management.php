@@ -49,8 +49,8 @@
                                     <th><?php echo $shs_row['strand'] ?></th>
                                     <td><?php echo $shs_row['description'] ?></td>
                                     <td>
-                                        <button data-id="<?php echo $shs_row['id'] ?>" class="btn btn-sm btn-success rounded btnsm edit-btn"><i class="fas fa-edit"></i> Edit</button>
-                                        <button data-id="<?php echo $shs_row['id']?>" class="btn btn-delete btn-sm btn-success rounded btnsm" data-bs-toggle="modal" data-bs-target="#deleteModal"><i class="fas fa-trash"></i> Delete</button>
+                                        <button data-id="<?php echo $shs_row['id'] ?>" class="btn btn-sm btn-primary rounded btnsm edit-btn"><i class="fas fa-edit"></i> Edit</button>
+                                        <button data-id="<?php echo $shs_row['id']?>" class="btn btn-delete btn-sm btn-danger rounded btnsm" data-bs-toggle="modal" data-bs-target="#deleteModal"><i class="fas fa-trash"></i> Delete</button>
                                     </td>
                                 </tr>
 

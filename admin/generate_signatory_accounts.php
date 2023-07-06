@@ -34,7 +34,7 @@
 <body>
 
 <?php 
-    $studentUser = $user->getStudentAccount();
+    $studentUser = $user->getSignatoryAccount();
     $allCourse = $user->getAllCourse();
 
     $allDesignations = $user->allDesignation();

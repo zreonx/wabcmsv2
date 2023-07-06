@@ -109,7 +109,7 @@
                                             <!-- <div class="fs-1 text-danger p-2">
                                                 <i class="fas fa-exclamation-triangle"></i>
                                             </div> -->
-                                            <div class="danger-notice f-d mt-3 my-2"> <i class="fas fa-exclamation-triangle text-danger"></i> Notice! Please check all the information you've entered before proceeding, once it was added, it cannot be edited.</div>
+                                            <div class="warning-notice f-d mt-3 my-2"> <i class="fas fa-exclamation-triangle text-danger"></i> Notice! Please check all the information you've entered before proceeding, once it was added, it cannot be edited.</div>
                                             
                                         </div>
                                         </div>
@@ -174,7 +174,7 @@
                                     <td><div class="p-1"><?php echo $d_row['designation'] ?></td></div>
                                     <td>
                                         <!-- <button data-id="<?php //echo $d_row['id'] ?>" class="btn btn-sm btn-success rounded btnsm edit-btn">Edit</button> -->
-                                        <button data-id="<?php echo $d_row['id']?>" class="btn btn-delete btn-sm small-btn btn-success rounded" data-bs-toggle="modal" data-bs-target="#deleteModal"> <i class="fas fa-trash"></i> <span class="btn-text">Delete</span></button>
+                                        <button data-id="<?php echo $d_row['id']?>" class="btn btn-delete btn-sm small-btn btn-danger rounded" data-bs-toggle="modal" data-bs-target="#deleteModal"> <i class="fas fa-trash"></i> <span class="btn-text">Delete</span></button>
                                     </td>
                                 </tr>
                             <?php endwhile; ?>

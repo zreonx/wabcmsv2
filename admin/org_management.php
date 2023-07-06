@@ -71,8 +71,8 @@
                                     <th><?php echo $org_row['organization_code']; ?></th>
                                     <td class="long-word"><?php echo $org_row['organization_name']; ?></td>
                                     <td>
-                                        <button data-id="<?php echo $org_row['id']?>" class="btn btn-sm btn-success rounded small-btn edit-btn "><i class="fas fa-edit"></i> <span class="btn-text">Edit</span></button>
-                                        <button data-id="<?php echo $org_row['id']?>" class="btn btn-delete btn-sm btn-success rounded small-btn " data-bs-toggle="modal" data-bs-target="#deleteModal"><i class="fas fa-trash"></i> <span class="btn-text">Delete</span></button>
+                                        <button data-id="<?php echo $org_row['id']?>" class="btn btn-sm btn-primary rounded small-btn edit-btn "><i class="fas fa-edit"></i> <span class="btn-text">Edit</span></button>
+                                        <button data-id="<?php echo $org_row['id']?>" class="btn btn-delete btn-sm btn-danger rounded small-btn " data-bs-toggle="modal" data-bs-target="#deleteModal"><i class="fas fa-trash"></i> <span class="btn-text">Delete</span></button>
                                     </td>
                                 </tr>
                             <?php $count++; endwhile; ?>

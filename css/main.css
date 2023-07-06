@@ -259,6 +259,12 @@ button[disabled]{
     background-color: #f5d3d397;
 }
 
+.warning-notice {
+    border-radius:  0 8px 8px 0;
+    padding: 10px 20px;
+    background-color: #f5fadd97;
+}
+
 .success-notice {
     border-left: 3px solid var(--color-success);
     border-radius:  0 8px 8px 0;
@@ -305,6 +311,11 @@ body {
     /* background-color: #e5e5e5; */
     font-family: 'Roboto', sans-serif;
 }
+
+tbody tr{
+    cursor: pointer;
+}
+
 
 /* Header Profile */
 .profile, .notif {
