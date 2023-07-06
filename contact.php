@@ -11,18 +11,18 @@
         <h5> City College of Calapan Web and Android-Based Clearance Management System </h5>
         <p>A platform that streamlines the clearance signing procedure with ease.</p>
         <div class="contacts">
-            <div class="d-flex align-items-center icons">
+            <div class="d-flex align-items-center icons mt-2">
                 <img class="img-fluid" src="images/location.webp" alt="">
                 <p>Guinobatan, Calapan City, Oriental Mindoro</p>
             </div>
-            <div class="d-flex align-items-center icons">
+            <div class="d-flex align-items-center icons mt-2">
                 <img class="img-fluid" src="images/telephone.webp" alt="">
-                <p>0966-2631-704 | zrodayrit@gmail.com</p>
+                <p>(043) 288 1483</p>
             </div>
         </div>
     </div>
     <div class="right-card contact-card">
-        <img src="images/contact.webp" class="img-fluid rounded contact-photo" alt="">
+        <!-- <img src="images/contact.webp" class="img-fluid rounded contact-photo" alt=""> -->
     </div>
 </div>
 

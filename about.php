@@ -5,7 +5,7 @@
     <div class="content animated fadeInDown">
         <div class="left-card">
             <h1>About Us</h1>
-            <h2>CCCWABCMS</h2>
+            <!-- <h2>CCCWABCMS</h2> -->
             <h5> City College of Calapan Web and Android-Based Clearance Management System </h5>
             <p>A platform that streamlines the clearance signing procedure with ease.</p>
 
@@ -14,7 +14,7 @@
                 Free Quality Tertiary Education.</p>
         </div>
         <div class="right-card">
-            <img src="images/about.webp" class="img-fluid rounded d-block about-photo" alt="">
+            <!-- <img src="images/about.webp" class="img-fluid rounded d-block about-photo" alt=""> -->
         </div>
     </div>
 <?php

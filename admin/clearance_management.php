@@ -5,7 +5,6 @@
     $clearances = $clearance->getAllClearance();
     $beneficiaries = $clearance->getBeneficiaries();
     $user_data = $_SESSION['user_data'];
-    print_r($user_data);
     $current_year = date('Y');
     $prev_year = $current_year - 1;
     $next_year = date('Y', strtotime($current_year . ' +1 year'));

@@ -111,7 +111,7 @@
             </div>  
             <div>
                 <div class="custom-table px-3 pb-3">
-                    <table class="table display w-100 mb-2 table-hover" id="my-datable">
+                    <table class="table display w-100 mb-2 table-hover text-center" id="my-datable">
                         <thead>
                             <tr>
                                 <th>Name</th>
@@ -171,6 +171,11 @@
                                             <span data-bs-toggle="tooltip" title="Clear Student">
                                                 <button data-id="<?php echo $des_student['student_id'] ?>" data-cl-id="<?php echo $_GET['clearance_id'] ?>" data-cl-table="<?php echo $_GET['designation_workplace'] ?>" data-cl-workplace="<?php echo $_GET['workplace'] ?>" class="btn btn-sm btn-success rounded btnsm clear-btn" <?php echo ($des_student['student_clearance_status'] == "1") ? 'disabled' : '' ; ?> ><i class="fas fa-thumbs-up"></i></button>
                                             </span>
+                                            <span class="" data-bs-toggle="tooltip" title="View Clearance">
+                                                <button data-id="<?php echo $des_student['student_id'] ?>" data-value="<?php echo $_GET['clearance_id'] ?>" class="btn btn-view btn-sm btn-success rounded view-clearance" data-bs-toggle="modal" data-bs-target="#viewClearanceModal"><i class="fas fa-folder-open"></i></button>
+                                            </span>
+
+                                            
                                        
                                     </td>
                                 </tr>
@@ -184,6 +189,24 @@
                         <button id="printReport" class="btn btn-success rounded dis-btn" data-bs-toggle="tooltip" title="Print Student Clearance"><i class="fas fa-print me-1"></i> Print Report</button>
                         <button id="printDeficientReport" class="btn btn-success rounded dis-btn" data-bs-toggle="tooltip" title="Print Deficient Student"><i class="fas fa-print me-1"></i> Print Deficient</button>
                    </div>
+
+                   <div class="modal fade" id="viewClearanceModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered modal-fullscreen">
+                            <div class="modal-content">
+                                <div class="modal-header x-border py-1 pt-3">
+                                    <h1 class="px-1 display-6 fs-6">Student Clearance</h1>
+                                </div>
+                                <div id="studentClearanceData" class="h-100">
+
+                                </div>
+                                <div class="p-3 d-flex justify-content-end">
+                                    <button type="button" class="btn btn-secondary rounded" data-bs-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                            
+                            
+                        </div>
+                    </div>
 
                     <div class="modal fade custom-modal" id="singleDeficiency" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                         <div class="modal-dialog">
@@ -383,6 +406,23 @@
                         
                     });
 
+                    $('#my-datable tbody').on('click', '.view-clearance', function(){
+                        let student_id = $(this).attr('data-id');
+                        let claerance_id = $(this).attr('data-value');
+                        $.ajax({
+                            type: "POST",
+                            url: "../controller/clearance_admin_view.php",
+                            data: {
+                                student_id : student_id,
+                                clearance_id : claerance_id,
+                            },
+                            success: function(result) {
+                                console.log(result);
+                                $('#studentClearanceData').html(result);
+                            }
+                        })
+                    });
+
                     $('#submitDeficiencyBtn').on('click', function(){
                         let clearance_id =$(this).attr('data-id');
                         let designation_table = $(this).attr('data-value');
@@ -574,6 +614,7 @@
                             }
                         });
                     });
+
                 })
                
             </script>

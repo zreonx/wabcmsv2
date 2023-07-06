@@ -14,7 +14,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="wow/animate.css">
-    <link rel="stylesheet" href="css/style.css?v1.1">
+    <link rel="stylesheet" href="css/style.css?v<?php echo date('Y-m-d H:i:s'); ?>">
 </head>
 <!-- <div class="loader">
     <div></div>
@@ -25,7 +25,7 @@
             <a class="navbar-brand" href="#">
                 <img src="images/ccc_logo.webp" alt="Logo" style="width:80px;" class="rounded-pill"> 
             </a>
-            <div class="site-title">CCCWABCMS</div>
+            <div class="site-title">CCC-WABCMS</div>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar">
                 <span class="navbar-toggler-icon"></span>
             </button>

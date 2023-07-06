@@ -81,10 +81,11 @@
                                     ?>
                                 </td>
                                 <td>
+                                    -
                                     <?php
-                                        $timestamp = strtotime($studClearance['date_cleared']);
-                                        $formatted_date = date('Y/m/d', $timestamp);
-                                        echo $formatted_date; 
+                                        // $timestamp = strtotime($studClearance['date_cleared']);
+                                        // $formatted_date = date('Y/m/d', $timestamp);
+                                        // echo $formatted_date; 
                                     ?>
                                 </td>
                             </tr>

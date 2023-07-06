@@ -24,7 +24,8 @@
 
 body {
     font-family: var(--fonts) !important;
-    background: url("../images/bg_overlay.png");
+    background: url("../images/cccbgoverlay.webp");
+    /* background: url("../images/bg_overlay.png"); */
     height: 100vh;
     background-size: cover;
     background-position: center;
